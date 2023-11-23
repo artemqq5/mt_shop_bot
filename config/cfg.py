@@ -1,0 +1,13 @@
+from config.private_cfg import *
+
+is_debug = True
+
+if is_debug:
+    BOT_TOKEN = BOT_TOKEN_TEST
+    DB_PASSWORD = DB_PASSWORD_TEST
+    PAYMENT_TOKEN = PAYMENT_TOKEN_TEST
+else:
+    BOT_TOKEN = BOT_TOKEN_PROD
+    DB_PASSWORD = DB_PASSWORD_PROD
+    PAYMENT_TOKEN = PAYMENT_TOKEN_PROD
+

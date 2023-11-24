@@ -7,9 +7,11 @@ from aiogram.types import ParseMode, ReplyKeyboardRemove
 from aiogram.utils import executor
 
 from data.repository import MyRepository
-from handlers.design.creo_handlers import *
-from handlers.design.creo_video import register_creo_video_handlers
-from keyboard.base_keyboard import main_keyboard, buy_keyboard
+from handlers.creo.app_handler import register_creo_app_handlers
+from handlers.creo.creo_base_handler import *
+from handlers.creo.default_handler import register_creo_default_handlers
+from handlers.creo.other_handler import register_creo_other_handlers
+from keyboard.menu.menu_keyboard import main_keyboard, buy_keyboard
 
 logging.basicConfig(level=logging.INFO)
 
@@ -37,9 +39,15 @@ async def cancel_handler(message: types.Message, state: FSMContext):
     await message.reply(CANCEL_OK, reply_markup=main_keyboard())
 
 
+# menu
+@dispatcher.message_handler(lambda m: m.text == MENU)
+async def menu_handler(message: types.Message):
+    await message.reply(MENU, reply_markup=main_keyboard())
+
+
 # menu handler
 @dispatcher.message_handler(lambda message: message.text in (BUY, RULES, SUPPORT, ABOUT))
-async def main_handler_message(message: types.Message):
+async def main_handler(message: types.Message):
     if MyRepository().get_user(telegram_id=message.chat.id) is not None:
         if message.text == BUY:
             await message.answer(CATEGORIES, reply_markup=buy_keyboard())
@@ -53,10 +61,11 @@ async def main_handler_message(message: types.Message):
         await message.answer(ERROR_REGISTER_MESSAGE, reply_markup=ReplyKeyboardRemove())
 
 
-# design handler
+# creo handler
 register_handlers_creo(dispatcher)  # base handlers
-register_creo_video_handlers(dispatcher)  # for video adaptive\new
-
+register_creo_default_handlers(dispatcher)  # for all creo category besides (APP Design, Other (Custom creo))
+register_creo_other_handlers(dispatcher)  # for Other (Custom creo)
+register_creo_app_handlers(dispatcher)  # for App Design creo
 
 if __name__ == '__main__':
     executor.start_polling(dispatcher=dispatcher, skip_updates=True)

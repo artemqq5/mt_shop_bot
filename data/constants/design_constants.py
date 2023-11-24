@@ -1,4 +1,5 @@
 DESIGN = "Креатив"  #
+MENU = "Меню"  #
 # ---------------------------------------------------------------------------
 DESIGN_FORMAT = "Выберите формат кретива"
 
@@ -43,3 +44,22 @@ NEW_CREATIVE = "С нуля (New)"
 ADAPTIVE_CREATIVE = "Адаптив (Adaptive)"
 
 TYPE_CREO_LIST = (NEW_CREATIVE, ADAPTIVE_CREATIVE)
+
+# ---------------------------------------------------------------------------
+# Creative Default
+GEO_MESSAGE = "Изменить ГЕО (Change country):"
+LANGUAGE_MESSAGE = "Язык (Language):"
+CURRENCY_MESSAGE = "Валюта (Currency):"
+FORMAT_MESSAGE = ("Формат креатива: разрешение (например 1000х1000px), формат файла"
+                  " (например, mp4), размер файла (например до 10mb), длительность в секундах:")
+OFFER_MESSAGE = "Оффер(Offer), слоган/бонусы/текст для призыва к действию (CTA):"
+VOICE_MESSAGE = "Озвучка(VoiceOver):"
+SOURCE_MESSAGE = "Вложения/исходники: ссылка на файл через \",\" (видео/фото) например: https://fex.net/******"
+DESCRIPTION_MESSAGE = "Описание задачи(подробно распишите ваши требования к креативу, например покадрово):"
+DEADLINE_MESSAGE = "Ориентировочный дедлайн:\n\nГОД-МЕСЯЦ-ЧИСЛО ЧАСЫ:МИНУТЫ\nНапример 2023-02-24 05:00"
+#
+# Creative APP
+PLATFORM_MESSAGE = "Выберите платформу или введите вручную:"
+# type
+APP_STORE_TYPE = "AppStore"
+GOOGLE_PLEY_TYPE = "Google Play"

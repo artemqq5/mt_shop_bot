@@ -1,10 +1,13 @@
 from aiogram import types
 from aiogram.dispatcher import FSMContext
 
-from keyboard.base_keyboard import main_keyboard
-from keyboard.design_keyboard import *
-from states.design.creo_video import CreoVideoAdaptiveState, CreoVideoNewState
-from states.design.order_creative_state import OrderCreativeState
+from keyboard.base_keyboard import cancel_keyboard, skip_keyboard
+from keyboard.menu.menu_keyboard import main_keyboard
+from keyboard.creo.design_keyboard import *
+from states.creo.creo_app_state import CreoAppState
+from states.creo.creo_default_state import CreoDefaultState
+from states.creo.creo_other_state import CreoOtherState
+from states.creo.order_creative_state import OrderCreativeState
 
 
 def register_handlers_creo(dispatcher):
@@ -73,29 +76,33 @@ async def type_creative_handler(callback: types.CallbackQuery, state: FSMContext
         type_creo = start_data_order['type']
         category_creo = start_data_order['category']
 
+        # ======== TEST ================================= todo remove this in prodaction version
         await callback.message.answer(
             text=f"Формат: {format_creo}\nТип: {type_creo}\nКатегория: {category_creo}",
             reply_markup=main_keyboard()
         )
+        # ================================================
 
-        if format_creo == VIDEO_FORMAT:
-            if type_creo == ADAPTIVE_CREATIVE:
-                await CreoVideoAdaptiveState.general.set()
-                await state.update_data(general=start_data_order)
-                await CreoVideoAdaptiveState.next()
-            elif type_creo == NEW_CREATIVE:
-                await CreoVideoNewState.general.set()
-                await state.update_data(general=start_data_order)
-                await CreoVideoNewState.next()
+        # APP Creo
+        if category_creo == APP_DESIGN:
+            await CreoAppState.general.set()
+            await state.update_data(general=start_data_order)
+            await CreoAppState.next()
 
-        elif format_creo == STATIC_FORMAT:
-            if type_creo == ADAPTIVE_CREATIVE:
-                pass
-            elif type_creo == NEW_CREATIVE:
-                pass
+            await callback.message.answer(PLATFORM_MESSAGE, reply_markup=design_app_platform_keyboard())
 
-        elif format_creo == GIF_ANIM_FORMAT:
-            if type_creo == ADAPTIVE_CREATIVE:
-                pass
-            elif type_creo == NEW_CREATIVE:
-                pass
+        # Custom Creo (Other)
+        elif category_creo == OTHER:
+            await CreoOtherState.general.set()
+            await state.update_data(general=start_data_order)
+            await CreoOtherState.next()
+
+            await callback.message.answer(FORMAT_MESSAGE, reply_markup=skip_keyboard())
+
+        # all default categories of Creo
+        else:
+            await CreoDefaultState.general.set()
+            await state.update_data(general=start_data_order)
+            await CreoDefaultState.next()
+
+            await callback.message.answer(GEO_MESSAGE, reply_markup=skip_keyboard())

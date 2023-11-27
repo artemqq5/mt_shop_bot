@@ -7,6 +7,9 @@ from aiogram.types import ParseMode, ReplyKeyboardRemove
 from aiogram.utils import executor
 
 from data.repository import MyRepository
+from handlers.accounts.account_base_handler import register_accounts_handlers
+from handlers.admin.admin_add_items import register_add_item_handlers
+from handlers.admin.admin_orders_handler import register_orders_handler
 from handlers.creo.app_handler import register_creo_app_handlers
 from handlers.creo.creo_base_handler import *
 from handlers.creo.default_handler import register_creo_default_handlers
@@ -26,7 +29,7 @@ async def start_cmd(message: types.Message):
     if MyRepository().get_user(telegram_id=message.chat.id) is None:
         MyRepository().add_user(telegram_id=message.chat.id, name=message.chat.username)
 
-    await message.answer(HELLO_MESSAGE, reply_markup=main_keyboard())
+    await message.answer(HELLO_MESSAGE, reply_markup=main_keyboard(message))
 
 
 # cancel states
@@ -34,15 +37,17 @@ async def start_cmd(message: types.Message):
 async def cancel_handler(message: types.Message, state: FSMContext):
     current_state = await state.get_state()
     if current_state is None:
+        print("null")
         return
     await state.reset_state()
-    await message.reply(CANCEL_OK, reply_markup=main_keyboard())
+
+    await message.reply(CANCEL_OK, reply_markup=main_keyboard(message))
 
 
 # menu
 @dispatcher.message_handler(lambda m: m.text == MENU)
 async def menu_handler(message: types.Message):
-    await message.reply(MENU, reply_markup=main_keyboard())
+    await message.reply(MENU, reply_markup=main_keyboard(message))
 
 
 # menu handler
@@ -61,11 +66,18 @@ async def main_handler(message: types.Message):
         await message.answer(ERROR_REGISTER_MESSAGE, reply_markup=ReplyKeyboardRemove())
 
 
+# accounts handler
+register_accounts_handlers(dispatcher)
+
 # creo handler
 register_handlers_creo(dispatcher)  # base handlers
 register_creo_default_handlers(dispatcher)  # for all creo category besides (APP Design, Other (Custom creo))
 register_creo_other_handlers(dispatcher)  # for Other (Custom creo)
 register_creo_app_handlers(dispatcher)  # for App Design creo
+
+# admin handler
+register_orders_handler(dispatcher)
+register_add_item_handlers(dispatcher)
 
 if __name__ == '__main__':
     executor.start_polling(dispatcher=dispatcher, skip_updates=True)

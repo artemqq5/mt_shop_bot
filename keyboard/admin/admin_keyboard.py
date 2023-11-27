@@ -1,11 +1,16 @@
-from aiogram.types import ReplyKeyboardMarkup, KeyboardButton
+from aiogram.types import ReplyKeyboardMarkup, KeyboardButton, InlineKeyboardMarkup, InlineKeyboardButton
 
-from data.constants.base_constants import *
+from data.constants.admin_constants import *
+from data.constants.base_constants import MENU
 
 
 def admin_panel_keyboard() -> ReplyKeyboardMarkup:
     keyboard = ReplyKeyboardMarkup(row_width=1, resize_keyboard=True)
 
-    KeyboardButton(CANCEL)
+    keyboard.add(KeyboardButton(text=ALL_ORDERS))
+    keyboard.add(KeyboardButton(text=ADD_ITEMS))
 
     return keyboard
+
+
+

@@ -12,6 +12,5 @@ class CreoDefaultState(StatesGroup):
     source = State()
     description = State()
     deadline = State()
-    send = State()
 
 

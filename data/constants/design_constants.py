@@ -1,5 +1,4 @@
 DESIGN = "Креатив"  #
-MENU = "Меню"  #
 # ---------------------------------------------------------------------------
 DESIGN_FORMAT = "Выберите формат кретива"
 
@@ -63,3 +62,4 @@ PLATFORM_MESSAGE = "Выберите платформу или введите в
 # type
 APP_STORE_TYPE = "AppStore"
 GOOGLE_PLEY_TYPE = "Google Play"
+

@@ -1,6 +1,7 @@
 from aiogram import types
 from aiogram.dispatcher import FSMContext
 
+from data.repository import MyRepository
 from keyboard.base_keyboard import cancel_keyboard, skip_keyboard
 from keyboard.menu.menu_keyboard import main_keyboard
 from keyboard.creo.design_keyboard import *
@@ -77,10 +78,10 @@ async def type_creative_handler(callback: types.CallbackQuery, state: FSMContext
         category_creo = start_data_order['category']
 
         # ======== TEST ================================= todo remove this in prodaction version
-        await callback.message.answer(
-            text=f"Формат: {format_creo}\nТип: {type_creo}\nКатегория: {category_creo}",
-            reply_markup=main_keyboard()
-        )
+        # await callback.message.answer(
+        #     text=f"Формат: {format_creo}\nТип: {type_creo}\nКатегория: {category_creo}",
+        #     reply_markup=main_keyboard(callback.message)
+        # )
         # ================================================
 
         # APP Creo

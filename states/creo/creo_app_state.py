@@ -9,4 +9,3 @@ class CreoAppState(StatesGroup):
     source = State()
     description = State()
     deadline = State()
-    send = State()

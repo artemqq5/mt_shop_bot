@@ -7,14 +7,17 @@ from data.constants.admin_constants import *
 from data.constants.base_constants import *
 from data.repository import MyRepository
 from handlers.admin.db_use_case.add_account import add_item_case
-from keyboard.admin.admin_add_items import choice_type_account_keyboard
+from keyboard.admin.admin_items_keyboard import choice_type_account_keyboard, choice_type_item_keyboard
 from keyboard.base_keyboard import cancel_keyboard
 from keyboard.menu.menu_keyboard import main_keyboard
 from states.admin.add_account_state import AddAccountState
+from states.admin.add_item_state import AddItemState
 
 
 def register_add_item_handlers(dispatcher):
-    dispatcher.register_message_handler(add_items_handler, lambda message: message.text == ADD_ITEMS)
+    dispatcher.register_message_handler(type_of_add_item, lambda message: message.text == ADD_ITEMS)
+    dispatcher.register_message_handler(add_items_handler, lambda message: message.text in LIST_OF_ITEMS_TYPE,
+                                        state=AddItemState.add_item)
     dispatcher.register_message_handler(choice_type_account, lambda message: message.text in LIST_OF_ACCOUNTS_TYPE,
                                         state=AddAccountState.type)
     dispatcher.register_message_handler(choice_geo_account, state=AddAccountState.geo)
@@ -24,9 +27,27 @@ def register_add_item_handlers(dispatcher):
     dispatcher.register_message_handler(choice_count_account, state=AddAccountState.count)
 
 
-async def add_items_handler(message: types.Message):
-    await AddAccountState().type.set()
-    await message.answer(CHOICE_TYPE_OF_ACCOUNT, reply_markup=choice_type_account_keyboard())
+async def type_of_add_item(message: types.Message):
+    current_user = MyRepository().get_user(message.chat.id)
+    if current_user is not None:
+        if current_user['position'] == ADMIN:
+            # main ====================
+            await AddItemState.add_item.set()  # set state to add item
+            await message.answer(CHOICE_TYPE_OF_ADD, reply_markup=choice_type_item_keyboard())
+            # ==========================
+        else:
+            await message.answer(NO_ACCESS, reply_markup=main_keyboard(message))
+    else:
+        await message.answer(ERROR_REGISTER_MESSAGE, reply_markup=ReplyKeyboardRemove())
+
+
+async def add_items_handler(message: types.Message, state: FSMContext):
+    await state.finish()  # cancel state add item
+    if message.text == ACCOUNT_ITEM:
+        await AddAccountState.type.set()
+        await message.answer(CHOICE_TYPE_OF_ACCOUNT, reply_markup=choice_type_account_keyboard())
+    else:
+        await message.answer(NOT_IMPLEMENTED)
 
 
 async def choice_type_account(message: types.Message, state: FSMContext):
@@ -65,13 +86,14 @@ async def choice_count_account(message: types.Message, state: FSMContext):
         current_user = MyRepository().get_user(message.chat.id)
         if current_user is not None:
             if current_user['position'] == ADMIN:
+                # main ====================
                 # add item to db
                 await state.update_data(count=count)
                 data = await state.get_data()
                 await state.finish()
 
                 await add_item_case(data, message)
-
+                # ===========================
             else:
                 await message.answer(NO_ACCESS, reply_markup=main_keyboard(message))
         else:
@@ -79,6 +101,3 @@ async def choice_count_account(message: types.Message, state: FSMContext):
     except Exception as e:
         print(f"choice_count_account: {e}")
         await message.answer(INPUT_INEGER, reply_markup=cancel_keyboard())
-
-
-

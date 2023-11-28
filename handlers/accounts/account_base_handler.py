@@ -19,9 +19,13 @@ def register_accounts_handlers(dispatcher):
 
 
 async def choice_account(message: types.Message):
-    accounts = MyRepository().get_accounts()
+    accounts = MyRepository().get_accounts()  # todo very bad code -> NEED TO EXCHANGE!!!!!!!!!!!!!!!!!!
+    open_accounts = []  # todo very bad code -> NEED TO EXCHANGE!!!!!!!!!!!!!!!!!!
+    for i in accounts:  # todo very bad code -> NEED TO EXCHANGE!!!!!!!!!!!!!!!!!!
+        if i['visibility'] == OPEN_STATE:  # todo very bad code -> NEED TO EXCHANGE!!!!!!!!!!!!!!!!!!
+            open_accounts.append(i)  # todo very bad code -> NEED TO EXCHANGE!!!!!!!!!!!!!!!!!!
 
-    if len(accounts) > 0:
+    if len(open_accounts) > 0:
         await message.answer(ACCOUNTS, reply_markup=available_accounts_keyboard(accounts))
     else:
         await message.answer(ITEMS_IS_EMPTY)

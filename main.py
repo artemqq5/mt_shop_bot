@@ -10,6 +10,7 @@ from data.repository import MyRepository
 from handlers.accounts.account_base_handler import register_accounts_handlers
 from handlers.admin.admin_add_items import register_add_item_handlers
 from handlers.admin.admin_orders_handler import register_orders_handler
+from handlers.admin.admin_show_items import register_show_item_handlers
 from handlers.creo.app_handler import register_creo_app_handlers
 from handlers.creo.creo_base_handler import *
 from handlers.creo.default_handler import register_creo_default_handlers
@@ -82,6 +83,7 @@ register_about_us_handlers(dispatcher)
 # admin handler
 register_orders_handler(dispatcher)
 register_add_item_handlers(dispatcher)
+register_show_item_handlers(dispatcher)
 
 if __name__ == '__main__':
     executor.start_polling(dispatcher=dispatcher, skip_updates=True)

@@ -1,5 +1,7 @@
+from data.constants.admin_constants import ACCOUNT_TYPE
 from data.constants.base_constants import TASK_SEND, TASK_SEND_ERROR
 from data.repository import MyRepository
+from handlers.notify.notify_push_task import notify_new_task
 from keyboard.menu.menu_keyboard import main_keyboard
 
 
@@ -22,5 +24,6 @@ async def send_order_account(data, message):
 
         if result:
             await message.answer(TASK_SEND, reply_markup=main_keyboard(message))
+            await notify_new_task(message, ACCOUNT_TYPE)
         else:
             await message.answer(TASK_SEND_ERROR, reply_markup=main_keyboard(message))

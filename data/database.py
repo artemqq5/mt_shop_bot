@@ -189,3 +189,31 @@ class MyDataBase:
         except Exception as e:
             print(f"get_account_order_sql: {e}")
             return None
+
+    def get_users_sql(self, position=None):
+        try:
+            with self.connection as connection:
+                with connection.cursor() as cursor:
+                    if position is not None:
+                        _command = f'''SELECT * FROM `users` WHERE `position` = %s;'''
+                        cursor.execute(_command, (position,))
+                    else:
+                        _command = f'''SELECT * FROM `users`;'''
+                        cursor.execute(_command)
+                connection.commit()
+            return cursor.fetchall()
+        except Exception as e:
+            print(f"get_users_sql: {e}")
+            return None
+
+    def exchange_visibility_account_sql(self, visibility, id_account):
+        try:
+            with self.connection as connection:
+                with connection.cursor() as cursor:
+                    _command = f'''UPDATE `accounts` SET `visibility` = %s WHERE `id` = %s;'''
+                    cursor.execute(_command, (visibility, id_account))
+                connection.commit()
+            return True
+        except Exception as e:
+            print(f"exchange_visibility_account_sql: {e}")
+            return None

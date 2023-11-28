@@ -21,6 +21,10 @@ ACTIVE = "active"
 COMPLETED = "completed"
 CANCELED = "canceled"
 
+# status_item
+HIDE_STATE = "hide"
+OPEN_STATE = "open"
+
 # table type orders
 CREO_TYPE = "creo"
 ACCOUNT_TYPE = "account"
@@ -45,4 +49,18 @@ TASK_FAIL_SEND = "Не удалось отправить заказ"
 ADD_ITEMS = "Добавить товары"
 SUCCSESFULL_ADDED = "Товар добавлен"
 FAIL_ADDED = "Не вышло добавить товар"
+CHOICE_TYPE_OF_ADD = "Выберите что хотите добавить"
 
+# SHOW ITEMS =========================
+SHOW_ITEMS = "Список товаров"
+CHOICE_TYPE_OF_SHOW = "Выберите категорию товаров для просмотра"
+
+# Manage Items ========
+HIDE_ITEM = "Скрыть позицию"
+OPEN_ITEM = "Показать позицию"
+SUCCESULL_UPDATE_VISIBILITY = "Видимость товара обновлена"
+FAIL_UPDATE_VISIBILITY = "Не вышло обновить видимость товара"
+
+# ITEMS TYPE ============================
+ACCOUNT_ITEM = "Аккаунты"
+LIST_OF_ITEMS_TYPE = (ACCOUNT_ITEM, )

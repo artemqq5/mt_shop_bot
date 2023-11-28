@@ -9,12 +9,12 @@ ADMIN = "admin"
 # CATEGORIES -----------------------------------------------------
 # ABOUT
 ABOUT = "О нас"  #
-# MT_MEDIA = "MT MEDIA"
-# MASONS_TRAFFIC = "Masons Traffic"
+from data.constants.about_us_constants import *
 
 # BUY -------
 BUY = "Купить"  #
 CATEGORIES = "Категории"
+WHAT_INTERESTED = "Выбери что тебя интересует"
 # buy categories --------
 # creo -------- #1
 from data.constants.design_constants import *

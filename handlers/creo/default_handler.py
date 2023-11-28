@@ -97,7 +97,7 @@ async def set_description_default_creative(message: types.Message, state: FSMCon
 async def set_deadline_default_creative(message: types.Message, state: FSMContext):
     if message.text != SKIP:
         try:
-            date_time = datetime.datetime.strptime(message.text + " +0300", '%Y-%m-%d %H:%M %z')
+            date_time = datetime.datetime.strptime(message.text + " +0400", '%Y-%m-%d %H:%M %z')
             # await message.answer(str(date_time)) todo output time for test
 
             await state.update_data(deadline=str(date_time))

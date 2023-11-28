@@ -14,7 +14,8 @@ from handlers.creo.app_handler import register_creo_app_handlers
 from handlers.creo.creo_base_handler import *
 from handlers.creo.default_handler import register_creo_default_handlers
 from handlers.creo.other_handler import register_creo_other_handlers
-from keyboard.menu.menu_keyboard import main_keyboard, buy_keyboard
+from handlers.info.about_us_handler import register_about_us_handlers
+from keyboard.menu.menu_keyboard import main_keyboard, buy_keyboard, about_keyboard
 
 logging.basicConfig(level=logging.INFO)
 
@@ -61,7 +62,7 @@ async def main_handler(message: types.Message):
         elif message.text == SUPPORT:
             await message.answer(text=NOT_IMPLEMENTED)
         elif message.text == ABOUT:
-            await message.answer(text=NOT_IMPLEMENTED)
+            await message.answer(text=WHAT_INTERESTED, reply_markup=about_keyboard())
     else:
         await message.answer(ERROR_REGISTER_MESSAGE, reply_markup=ReplyKeyboardRemove())
 
@@ -74,6 +75,9 @@ register_handlers_creo(dispatcher)  # base handlers
 register_creo_default_handlers(dispatcher)  # for all creo category besides (APP Design, Other (Custom creo))
 register_creo_other_handlers(dispatcher)  # for Other (Custom creo)
 register_creo_app_handlers(dispatcher)  # for App Design creo
+
+# about as handler
+register_about_us_handlers(dispatcher)
 
 # admin handler
 register_orders_handler(dispatcher)

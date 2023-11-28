@@ -31,3 +31,15 @@ def buy_keyboard() -> ReplyKeyboardMarkup:
 
     return keyboard
 
+
+def about_keyboard() -> ReplyKeyboardMarkup:
+    keyboard = ReplyKeyboardMarkup(row_width=1, resize_keyboard=True)
+
+    keyboard.add(KeyboardButton(MENU))
+
+    for i in ABOUT_US_LIST:
+        keyboard.add(KeyboardButton(i))
+
+    return keyboard
+
+

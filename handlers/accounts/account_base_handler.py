@@ -7,6 +7,8 @@ from handlers.accounts.account_use_case.output_account import formatted_output_a
 from handlers.accounts.account_use_case.send_order_account import send_order_account
 from keyboard.accounts.accounts_keyboard import *
 from keyboard.base_keyboard import cancel_keyboard, skip_keyboard
+
+from keyboard.accounts.accounts_keyboard import buy_account_keyboard
 from states.account.order_account_state import OrderAccountState
 
 

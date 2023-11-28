@@ -16,6 +16,9 @@ from handlers.creo.creo_base_handler import *
 from handlers.creo.default_handler import register_creo_default_handlers
 from handlers.creo.other_handler import register_creo_other_handlers
 from handlers.info.about_us_handler import register_about_us_handlers
+from handlers.info.rules_handler import register_rules_handlers
+from handlers.info.support_handler import register_support_handlers
+from keyboard.info.support_keyboard import support_contacts_keyboard
 from keyboard.menu.menu_keyboard import main_keyboard, buy_keyboard, about_keyboard
 
 logging.basicConfig(level=logging.INFO)
@@ -31,7 +34,12 @@ async def start_cmd(message: types.Message):
     if MyRepository().get_user(telegram_id=message.chat.id) is None:
         MyRepository().add_user(telegram_id=message.chat.id, name=message.chat.username)
 
-    await message.answer(HELLO_MESSAGE, reply_markup=main_keyboard(message))
+    with open("source/bot_video_start.gif.mp4", 'rb') as video_file:
+        await message.answer_animation(
+            video_file,
+            caption=HELLO_MESSAGE,
+            reply_markup=main_keyboard(message)
+        )
 
 
 # cancel states
@@ -59,9 +67,9 @@ async def main_handler(message: types.Message):
         if message.text == BUY:
             await message.answer(CATEGORIES, reply_markup=buy_keyboard())
         elif message.text == RULES:
-            await message.answer(text=NOT_IMPLEMENTED)
+            await message.answer(RULES_TEXT)
         elif message.text == SUPPORT:
-            await message.answer(text=NOT_IMPLEMENTED)
+            await message.answer(CONTACTS_OUR_SUPPORTS, reply_markup=support_contacts_keyboard())  # have sub handler
         elif message.text == ABOUT:
             await message.answer(text=WHAT_INTERESTED, reply_markup=about_keyboard())
     else:
@@ -77,8 +85,10 @@ register_creo_default_handlers(dispatcher)  # for all creo category besides (APP
 register_creo_other_handlers(dispatcher)  # for Other (Custom creo)
 register_creo_app_handlers(dispatcher)  # for App Design creo
 
-# about as handler
+# info handler
 register_about_us_handlers(dispatcher)
+# register_support_handlers(dispatcher) the same realization as main SUPPORT
+# register_rules_handlers(dispatcher) the same realization as main RULES
 
 # admin handler
 register_orders_handler(dispatcher)

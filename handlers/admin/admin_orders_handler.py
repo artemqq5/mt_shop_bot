@@ -3,6 +3,7 @@ from aiogram.types import ReplyKeyboardRemove
 
 from data.constants.base_constants import *
 from handlers.admin.parse_data_db.orders_parse import *
+from handlers.admin.trello_use_case.card_format import parse_to_trello_card_format
 from handlers.admin.trello_use_case.send_task import MyTrelloManager, TrelloCard
 from keyboard.admin.admin_keyboard import *
 from keyboard.admin.admin_orders_keyboard import admin_orders_keyboard, inline_orders_keyboard, managment_order_keyboard
@@ -84,18 +85,19 @@ async def details_orders_callback(callback: types.CallbackQuery):
         if current_user['position'] == ADMIN:
 
             order = MyRepository().get_order(callback.data)
+            client = MyRepository().get_user(order['id_user'])
 
             if order is not None:
                 if order['type'] == CREO_TYPE:
                     order_creo = MyRepository().get_creo(callback.data)
                     await callback.message.answer(
-                        format_view_order(order_creo),
+                        format_view_order(order_creo, client),
                         reply_markup=managment_order_keyboard(order)
                     )
                 elif order['type'] == ACCOUNT_TYPE:
                     order_account = MyRepository().get_account_order(callback.data)
                     await callback.message.answer(
-                        format_view_order(order_account),
+                        format_view_order(order_account, client),
                         reply_markup=managment_order_keyboard(order)
                     )
                 else:
@@ -136,15 +138,11 @@ async def send_to_trello_callback(callback: types.CallbackQuery):
             order_id = callback.data.split("_")[1]
             task = MyRepository().get_order(order_id)
             task_creo = MyRepository().get_creo(order_id)
+            client = MyRepository().get_user(task['id_user'])
 
             if task['status'] == REVIEW:
-                trello_card = TrelloCard(
-                    name=f"#{task_creo['id']} {task_creo['category']}",
-                    desc=task_creo['description'],
-                    date=task_creo['deadline']
-                )
 
-                result = MyTrelloManager().generate_task(trello_card)
+                result = MyTrelloManager().generate_task(parse_to_trello_card_format(task_creo, client))
 
                 if result is not None:
                     MyRepository().exchange_status_order(order_id, ACTIVE)

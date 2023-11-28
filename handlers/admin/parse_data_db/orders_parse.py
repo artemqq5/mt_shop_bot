@@ -2,10 +2,14 @@ from data.constants.admin_constants import ORDER_STATUS_LIST, TRELLO_, REVIEW, C
 from data.repository import MyRepository
 
 
-def format_view_order(order_params: dict[str, str]) -> str:
+def format_view_order(order_params: dict[str, str], user_contact) -> str:
     formated_order = ""
     for param in order_params:
         formated_order += f"<b>{param}:</b> {order_params[param]}\n"
+
+    formated_order += "\n"
+    formated_order += f"<b>username:</b> @{user_contact['name']}\n"
+    formated_order += f"<b>telegram id:</b> {user_contact['id']}\n"
 
     return formated_order
 

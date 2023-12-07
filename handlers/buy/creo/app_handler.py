@@ -3,12 +3,10 @@ import datetime
 from aiogram import types
 from aiogram.dispatcher import FSMContext
 
-from data.constants.base_constants import WRONG_FORRMAT_DATE, SKIP, ADMIN
+from data.constants.base_constants import WRONG_FORRMAT_DATE, SKIP
 from data.constants.design_constants import *
-from data.repository import MyRepository
-from handlers.creo.creo_use_case.send_order_creo import send_order_creo
+from handlers.buy.creo.creo_use_case.send_order_creo import send_order_creo
 from keyboard.base_keyboard import cancel_keyboard, skip_keyboard
-from keyboard.menu.menu_keyboard import main_keyboard
 from states.creo.creo_app_state import CreoAppState
 
 

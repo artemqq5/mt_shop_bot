@@ -14,4 +14,3 @@ def admin_panel_keyboard() -> ReplyKeyboardMarkup:
     return keyboard
 
 
-

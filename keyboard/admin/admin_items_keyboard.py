@@ -28,13 +28,22 @@ def choice_type_account_keyboard() -> ReplyKeyboardMarkup:
     return keyboard
 
 
-def show_item_accounts_keyboard() -> InlineKeyboardMarkup:
+def show_item_accounts_keyboard(source) -> InlineKeyboardMarkup:
     keyboard = InlineKeyboardMarkup()
 
-    for i in MyRepository().get_accounts():
-        keyboard.add(InlineKeyboardButton(text=i['name'], callback_data=i['id']))
+    for i in MyRepository().get_accounts(source):
+        keyboard.add(InlineKeyboardButton(text=i['name'], callback_data=str(i['id'])))
 
     return keyboard
+
+
+def list_of_callback_show_item() -> list[str]:
+    list_callbacks = []
+
+    for i in MyRepository().get_accounts():
+        list_callbacks.append(str(i['id']))
+
+    return list_callbacks
 
 
 def manag_item_keyboard(id_account) -> InlineKeyboardMarkup:

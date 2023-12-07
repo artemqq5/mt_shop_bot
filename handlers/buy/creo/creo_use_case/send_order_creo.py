@@ -1,7 +1,7 @@
 from data.constants.admin_constants import CREO_TYPE
 from data.constants.base_constants import TASK_SEND, TASK_SEND_ERROR
 from data.repository import MyRepository
-from handlers.notify.notify_push_task import notify_new_task
+from notify.notify_push_task import notify_new_task
 from keyboard.menu.menu_keyboard import main_keyboard
 
 

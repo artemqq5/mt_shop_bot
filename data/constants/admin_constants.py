@@ -1,7 +1,10 @@
 # admin menu ----------------------------------------
 # orders
+from data.constants.accounts_constants import ACCOUNTS
+from data.constants.design_constants import DESIGN
+
 ALL_ORDERS = "Посмотреть заказы"
-ALL_ORDERS_LABEL = "Заказы"
+STATUS_OF_ORDERS = "Статус заказов"
 # sub category orders
 REVIEW_ORDERS = "Заказы на рассмотрении"
 ACTIVE_ORDERS = "Активные заказы"
@@ -9,6 +12,9 @@ COMPLETED_ORDERS = "Выполненные заказы"
 CANCELED_ORDERS = "Отмененные заказы"
 
 ORDERS_IS_EMPTY = "Нет заказов"
+
+TYPE_OF_ORDERS = (ACCOUNTS, DESIGN)
+CHOICE_TYPE_OF_ORDERS = "Выбирите тип заказов"
 
 ORDER_TYPES_LIST = (REVIEW_ORDERS, ACTIVE_ORDERS, COMPLETED_ORDERS, CANCELED_ORDERS)
 # for orders

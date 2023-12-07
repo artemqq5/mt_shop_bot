@@ -1,8 +1,20 @@
-from aiogram.types import InlineKeyboardMarkup, InlineKeyboardButton
+from aiogram.types import InlineKeyboardMarkup, InlineKeyboardButton, ReplyKeyboardMarkup, KeyboardButton
 
+from data.constants.accounts_constants import LIST_OF_ACCOUNTS_TYPE
 from data.constants.admin_constants import OPEN_STATE
-from data.constants.base_constants import BUY
+from data.constants.base_constants import BUY, CANCEL
 from data.repository import MyRepository
+
+
+def source_account_keyboard() -> ReplyKeyboardMarkup:
+    keyboard = ReplyKeyboardMarkup(row_width=1, resize_keyboard=True)
+
+    for i in LIST_OF_ACCOUNTS_TYPE:
+        keyboard.add(KeyboardButton(i))
+
+    keyboard.add(KeyboardButton(CANCEL))  # cancel button
+
+    return keyboard
 
 
 def available_accounts_keyboard(list_accounts) -> InlineKeyboardMarkup:

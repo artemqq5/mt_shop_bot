@@ -1,6 +1,8 @@
 from aiogram.types import ReplyKeyboardMarkup, KeyboardButton
 
 from data.constants.accounts_constants import ACCOUNTS
+from data.constants.agency_accounts_constants import AGENCY_ACCOUNTS
+from data.constants.apps_constants import APPS
 from data.constants.base_constants import *
 from data.repository import MyRepository
 from keyboard.admin.admin_keyboard import admin_panel_keyboard
@@ -27,6 +29,8 @@ def buy_keyboard() -> ReplyKeyboardMarkup:
 
     keyboard.add(KeyboardButton(DESIGN))
     keyboard.add(KeyboardButton(ACCOUNTS))
+    keyboard.add(KeyboardButton(APPS))
+    keyboard.add(KeyboardButton(AGENCY_ACCOUNTS))
     keyboard.add(KeyboardButton(MENU))
 
     return keyboard

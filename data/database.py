@@ -39,16 +39,17 @@ class MyDataBase:
             print(f"get_user_sql: {e}")
             return None
 
-    def get_orders_sql(self, status):
+    def get_orders_sql(self, status, type_account=(CREO_TYPE, ACCOUNT_TYPE)):
         try:
             with self.connection as connection:
                 with connection.cursor() as cursor:
+                    placeholders = ', '.join(['%s'] * len(type_account))
                     if status is not None:
-                        _command = f'''SELECT * FROM `orders` WHERE `status` = %s;'''
-                        cursor.execute(_command, (status,))
+                        _command = f'''SELECT * FROM `orders` WHERE `status` = %s AND `type` IN ({placeholders});'''
+                        cursor.execute(_command, (status, *type_account))
                     else:
-                        _command = f'''SELECT * FROM `orders`;'''
-                        cursor.execute(_command)
+                        _command = f'''SELECT * FROM `orders` WHERE `type` IN ({placeholders});'''
+                        cursor.execute(_command, type_account)
                 connection.commit()
                 return cursor.fetchall()
         except Exception as e:
@@ -131,12 +132,16 @@ class MyDataBase:
             print(f"add_account_sql: {e}")
             return None
 
-    def get_accounts_sql(self):
+    def get_accounts_sql(self, source=None):
         try:
             with self.connection as connection:
                 with connection.cursor() as cursor:
-                    _command = f'''SELECT * FROM `accounts`;'''
-                    cursor.execute(_command)
+                    if source is None:
+                        _command = f'''SELECT * FROM `accounts`;'''
+                        cursor.execute(_command)
+                    else:
+                        _command = f'''SELECT * FROM `accounts` WHERE `type` = %s;'''
+                        cursor.execute(_command, source)
                 connection.commit()
             return cursor.fetchall()
         except Exception as e:

@@ -2,21 +2,23 @@ from aiogram import types
 from aiogram.dispatcher import FSMContext
 from aiogram.types import ReplyKeyboardRemove
 
-from data.constants.admin_constants import *
 from data.constants.base_constants import *
-from data.repository import MyRepository
-from handlers.accounts.account_use_case.output_account import formatted_output_account
-from keyboard.admin.admin_items_keyboard import choice_type_item_keyboard, show_item_accounts_keyboard, \
-    manag_item_keyboard
-from keyboard.base_keyboard import cancel_keyboard
+from handlers.buy.accounts.account_use_case.output_account import formatted_output_account
+from keyboard.accounts.accounts_keyboard import source_account_keyboard
+from keyboard.admin.admin_items_keyboard import *
 from keyboard.menu.menu_keyboard import main_keyboard
-from states.admin.show_item_state import ShowItemState
+from states.admin.show_item_state import ShowItemState, ShowAccountState
 
 
 def register_show_item_handlers(dispatcher):
     dispatcher.register_message_handler(type_of_show_item, lambda message: message.text == SHOW_ITEMS)
-    dispatcher.register_message_handler(show_items_handler, state=ShowItemState.show_item)
-    dispatcher.register_callback_query_handler(account_detail_handler, state=ShowItemState.account_details)
+    dispatcher.register_message_handler(choice_account_type, lambda message: message.text in LIST_OF_ITEMS_TYPE,
+                                        state=ShowItemState.type)
+    dispatcher.register_message_handler(source_account_item, lambda message: message.text in LIST_OF_ACCOUNTS_TYPE,
+                                        state=ShowAccountState.source)
+    dispatcher.register_callback_query_handler(account_detail_handler,
+                                               lambda call: call.data in list_of_callback_show_item(),
+                                               state=ShowAccountState.source)
 
 
 async def type_of_show_item(message: types.Message, state: FSMContext):
@@ -24,7 +26,7 @@ async def type_of_show_item(message: types.Message, state: FSMContext):
     if current_user is not None:
         if current_user['position'] == ADMIN:
             # main ====================
-            await ShowItemState.show_item.set()  # set state to show item
+            await ShowItemState.type.set()  # set state to show item
             await message.answer(CHOICE_TYPE_OF_SHOW, reply_markup=choice_type_item_keyboard())
             # ==========================
         else:
@@ -33,13 +35,18 @@ async def type_of_show_item(message: types.Message, state: FSMContext):
         await message.answer(ERROR_REGISTER_MESSAGE, reply_markup=ReplyKeyboardRemove())
 
 
-async def show_items_handler(message: types.Message, state: FSMContext):
+async def choice_account_type(message: types.Message, state: FSMContext):
     await state.finish()
+
     if message.text == ACCOUNT_ITEM:
-        await ShowItemState.account_details.set()
-        await message.answer(ACCOUNT_ITEM, reply_markup=show_item_accounts_keyboard())
+        await ShowAccountState.source.set()
+        await message.answer(CHOICE_TYPE_OF_ACCOUNT, reply_markup=source_account_keyboard())
     else:
         await message.answer(NOT_IMPLEMENTED)
+
+
+async def source_account_item(message: types.Message):
+    await message.answer(ACCOUNT_ITEM, reply_markup=show_item_accounts_keyboard(message.text))
 
 
 async def account_detail_handler(callback: types.CallbackQuery, state: FSMContext):
@@ -61,7 +68,8 @@ async def account_detail_handler(callback: types.CallbackQuery, state: FSMContex
                     await callback.message.answer(FAIL_UPDATE_VISIBILITY)
             else:
                 account_info = MyRepository().get_account(callback.data)
-                await callback.message.answer(formatted_output_account(account_info), reply_markup=manag_item_keyboard(callback.data))
+                await callback.message.answer(formatted_output_account(account_info),
+                                              reply_markup=manag_item_keyboard(callback.data))
             # ============================
         else:
             await callback.message.answer(NO_ACCESS, reply_markup=main_keyboard(callback.message))

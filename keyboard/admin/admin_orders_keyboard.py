@@ -1,7 +1,18 @@
 from aiogram.types import ReplyKeyboardMarkup, KeyboardButton, InlineKeyboardMarkup, InlineKeyboardButton
 
 from data.constants.admin_constants import *
-from data.constants.base_constants import MENU
+from data.constants.base_constants import MENU, CANCEL
+
+
+def type_of_orders_admin() -> ReplyKeyboardMarkup:
+    keyboard = ReplyKeyboardMarkup(row_width=1, resize_keyboard=True)
+
+    for i in TYPE_OF_ORDERS:
+        keyboard.add(i)
+
+    keyboard.add(KeyboardButton(CANCEL))  # cancel button
+
+    return keyboard
 
 
 def admin_orders_keyboard() -> ReplyKeyboardMarkup:
@@ -10,7 +21,7 @@ def admin_orders_keyboard() -> ReplyKeyboardMarkup:
     for i in ORDER_TYPES_LIST:
         keyboard.add(KeyboardButton(text=i))
 
-    keyboard.add(KeyboardButton(text=MENU))
+    keyboard.add(KeyboardButton(CANCEL))  # cancel button
 
     return keyboard
 

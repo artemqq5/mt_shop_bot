@@ -1,10 +1,11 @@
 from aiogram import types
 from aiogram.dispatcher import FSMContext
+from aiogram.types import ReplyKeyboardRemove
 
 from data.constants.accounts_constants import *
-from data.constants.base_constants import NOT_IMPLEMENTED, INPUT_INEGER, SKIP
-from handlers.accounts.account_use_case.output_account import formatted_output_account
-from handlers.accounts.account_use_case.send_order_account import send_order_account
+from data.constants.base_constants import INPUT_INEGER, SKIP, CLIENT, ERROR_REGISTER_MESSAGE
+from handlers.buy.accounts.account_use_case.output_account import formatted_output_account
+from handlers.buy.accounts.account_use_case.send_order_account import send_order_account
 from keyboard.accounts.accounts_keyboard import *
 from keyboard.base_keyboard import cancel_keyboard, skip_keyboard
 
@@ -13,18 +14,32 @@ from states.account.order_account_state import OrderAccountState
 
 
 def register_accounts_handlers(dispatcher):
-    dispatcher.register_message_handler(choice_account, lambda message: message.text == ACCOUNTS)
+    dispatcher.register_message_handler(source_account, lambda message: message.text == ACCOUNTS)
+    dispatcher.register_message_handler(choice_account, lambda message: message.text in LIST_OF_ACCOUNTS_TYPE,
+                                        state=OrderAccountState.source)
+    dispatcher.register_callback_query_handler(details_account_handler,
+                                               lambda call: call.data in list_of_callback_accounts(), state=OrderAccountState.source)
     dispatcher.register_message_handler(desc_account_order, state=OrderAccountState.desc)
     dispatcher.register_message_handler(count_account_order, state=OrderAccountState.count)
-    dispatcher.register_callback_query_handler(details_account_handler,
-                                               lambda call: call.data in list_of_callback_accounts())
+
+
+async def source_account(message: types.Message):
+    current_user = MyRepository().get_user(message.chat.id)
+    if current_user is not None:
+        if current_user['position'] == CLIENT:
+            # main ====================
+            await OrderAccountState.source.set()
+            await message.answer(CHOICE_TYPE_OF_ACCOUNT, reply_markup=source_account_keyboard())
+            # =========================
+    else:
+        await message.answer(ERROR_REGISTER_MESSAGE, reply_markup=ReplyKeyboardRemove())
 
 
 async def choice_account(message: types.Message):
     accounts = MyRepository().get_accounts()  # todo very bad code -> NEED TO EXCHANGE!!!!!!!!!!!!!!!!!!
     open_accounts = []  # todo very bad code -> NEED TO EXCHANGE!!!!!!!!!!!!!!!!!!
     for i in accounts:  # todo very bad code -> NEED TO EXCHANGE!!!!!!!!!!!!!!!!!!
-        if i['visibility'] == OPEN_STATE:  # todo very bad code -> NEED TO EXCHANGE!!!!!!!!!!!!!!!!!!
+        if i['visibility'] == OPEN_STATE and i['type'] == message.text:  # todo very bad code -> NEED TO EXCHANGE!!!!!!!!!!!!!!!!!!
             open_accounts.append(i)  # todo very bad code -> NEED TO EXCHANGE!!!!!!!!!!!!!!!!!!
 
     if len(open_accounts) > 0:
@@ -34,7 +49,6 @@ async def choice_account(message: types.Message):
 
 
 async def details_account_handler(callback: types.CallbackQuery, state: FSMContext):
-
     account_type = MyRepository().get_account(callback.data.split("_")[1])
 
     if account_type is not None:
@@ -44,7 +58,7 @@ async def details_account_handler(callback: types.CallbackQuery, state: FSMConte
                 reply_markup=buy_account_keyboard(account_type['id'])
             )
         else:
-            await OrderAccountState().account.set()
+            await OrderAccountState().next()
             await state.update_data(account=account_type)
             await OrderAccountState.next()
             await callback.message.answer(PARAM_DESC_ACCOUNT, reply_markup=skip_keyboard())
@@ -69,5 +83,3 @@ async def count_account_order(message: types.Message, state: FSMContext):
     except Exception as e:
         print(f"count_account_order: {e}")
         await message.answer(INPUT_INEGER, reply_markup=cancel_keyboard())
-
-

@@ -1,3 +1,4 @@
+from data.constants.admin_constants import ACCOUNT_TYPE, CREO_TYPE
 from data.database import MyDataBase
 
 
@@ -12,8 +13,8 @@ class MyRepository(MyDataBase):
     def get_users(self, position):
         return self.get_users_sql(position)
 
-    def get_orders(self, status):
-        return self.get_orders_sql(status)
+    def get_orders(self, status, type_account=(CREO_TYPE, ACCOUNT_TYPE)):
+        return self.get_orders_sql(status, type_account)
 
     def get_order(self, id_order):
         return self.get_order_sql(id_order)
@@ -36,8 +37,8 @@ class MyRepository(MyDataBase):
     def add_account(self, type_account, name, desc, geo, count, price):
         return self.add_account_sql(type_account, name, desc, geo, count, price)
 
-    def get_accounts(self):
-        return self.get_accounts_sql()
+    def get_accounts(self, source=None):
+        return self.get_accounts_sql(source)
 
     def get_account(self, id_account):
         return self.get_account_sql(id_account)

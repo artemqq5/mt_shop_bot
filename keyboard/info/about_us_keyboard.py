@@ -25,8 +25,8 @@ def masons_partners_keyboard() -> InlineKeyboardMarkup:
     keyboard = InlineKeyboardMarkup()
 
     keyboard.add(InlineKeyboardButton(text=MASONS_PARTNERS_LINK_LABEL, url=MASONS_PARTNERS_LINK))
-    keyboard.add(InlineKeyboardButton(text=SUPPORT_MANAGER, url=CHAT_SUPPORT_PARTNERS_1))
-    keyboard.add(InlineKeyboardButton(text=SUPPORT_MANAGER, url=CHAT_SUPPORT_PARTNERS_2))
+    keyboard.add(InlineKeyboardButton(text=f"{SUPPORT_MANAGER} #1", url=CHAT_SUPPORT_PARTNERS_1))
+    keyboard.add(InlineKeyboardButton(text=f"{SUPPORT_MANAGER} #2", url=CHAT_SUPPORT_PARTNERS_2))
 
     return keyboard
 

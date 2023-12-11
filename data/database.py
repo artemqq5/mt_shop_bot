@@ -60,7 +60,7 @@ class MyDataBase:
         try:
             with self.connection as connection:
                 with connection.cursor() as cursor:
-                    _command = f'''SELECT * FROM `orders` WHERE `id_order` = %s;'''
+                    _command = "SELECT * FROM `orders` WHERE `id_order` = %s;"
                     cursor.execute(_command, (id_order,))
                 connection.commit()
                 return cursor.fetchall()[0]
@@ -72,7 +72,7 @@ class MyDataBase:
         try:
             with self.connection as connection:
                 with connection.cursor() as cursor:
-                    _command = f'''SELECT * FROM `creo_orders` WHERE `id_order` = %s;'''
+                    _command = "SELECT * FROM `creo_orders` WHERE `id_order` = %s;"
                     cursor.execute(_command, (id_order,))
                 connection.commit()
                 return cursor.fetchall()[0]
@@ -112,12 +112,12 @@ class MyDataBase:
         try:
             with self.connection as connection:
                 with connection.cursor() as cursor:
-                    _command = f'''UPDATE `orders` SET `status` = %s WHERE `id_order` = %s;'''
+                    _command = "UPDATE `orders` SET `status` = %s WHERE `id_order` = %s;"
                     cursor.execute(_command, (new_status, id_order))
                 connection.commit()
             return True
         except Exception as e:
-            print(f"get_creo_sql: {e}")
+            print(f"exchange_status_order_sql: {e}")
             return None
 
     def add_account_sql(self, type_account, name, desc, geo, count, price):
@@ -221,4 +221,16 @@ class MyDataBase:
             return True
         except Exception as e:
             print(f"exchange_visibility_account_sql: {e}")
+            return None
+
+    def update_creo_order_trello_sql(self, trello_id, trello_url, id_order):
+        try:
+            with self.connection as connection:
+                with connection.cursor() as cursor:
+                    _command = f'''UPDATE `creo_orders` SET `trello_id` = %s, `trello_url` = %s WHERE `id_order` = %s;'''
+                    cursor.execute(_command, (trello_id, trello_url, id_order))
+                connection.commit()
+            return True
+        except Exception as e:
+            print(f"update_creo_order_trello: {e}")
             return None

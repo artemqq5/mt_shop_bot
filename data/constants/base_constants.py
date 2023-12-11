@@ -8,6 +8,8 @@ NO_ACCESS = "Недостаточно прав"
 # POSOTIONS -----------------------------------------------------
 CLIENT = "client"
 ADMIN = "admin"
+SUB_POSITION_CREO = "creo"
+SUB_POSITION_ACCOUNT = "account"
 
 # CATEGORIES -----------------------------------------------------
 # ABOUT

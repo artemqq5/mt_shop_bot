@@ -10,6 +10,7 @@ def admin_panel_keyboard() -> ReplyKeyboardMarkup:
     keyboard.add(KeyboardButton(text=ALL_ORDERS))
     keyboard.add(KeyboardButton(text=ADD_ITEMS))
     keyboard.add(KeyboardButton(text=SHOW_ITEMS))
+    keyboard.add(KeyboardButton(text=PUSH_NOTIFICATION))
 
     return keyboard
 

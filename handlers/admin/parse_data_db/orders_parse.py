@@ -1,4 +1,4 @@
-from data.constants.admin_constants import ORDER_STATUS_LIST, TRELLO_, REVIEW, CREO_TYPE
+from data.constants.admin_constants import ORDER_STATUS_LIST, TRELLO_, REVIEW, CREO_TYPE, ON_APPROVE, REFINEMENT_
 from data.repository import MyRepository
 
 
@@ -39,5 +39,15 @@ def order_send_trello_list() -> list[str]:
     for list_order in MyRepository().get_orders(status=REVIEW):
         if list_order['type'] == CREO_TYPE:
             list_id.append(f"{TRELLO_}_{list_order['id_order']}")
+
+    return list_id
+
+
+def order_refinement_list() -> list[str]:
+    list_id = []
+
+    for list_order in MyRepository().get_orders(status=ON_APPROVE):
+        if list_order['type'] == CREO_TYPE:
+            list_id.append(f"{REFINEMENT_}_{list_order['id_order']}")
 
     return list_id

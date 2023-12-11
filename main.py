@@ -1,11 +1,16 @@
 import logging
-from config.cfg import BOT_TOKEN
+
+import requests
+
+from config.cfg import BOT_TOKEN, TRELLO_STATUS_FIELD, TRELLO_KEY, TRELLO_TOKEN
 
 from aiogram import Bot, Dispatcher
 from aiogram.contrib.fsm_storage.memory import MemoryStorage
 from aiogram.types import ParseMode, ReplyKeyboardRemove
 from aiogram.utils import executor
 
+from handlers.admin.admin_push_notify import register_push_handlers
+from handlers.admin.trello_use_case.send_task import MyTrelloManager
 from handlers.buy.accounts.account_base_handler import register_accounts_handlers
 from handlers.admin.admin_add_items import register_add_item_handlers
 from handlers.admin.admin_orders_handler import register_orders_handler
@@ -66,18 +71,23 @@ async def menu_handler(message: types.Message):
 # menu handler
 @dispatcher.message_handler(lambda message: message.text in (BUY, RULES, SUPPORT, ABOUT))
 async def main_handler(message: types.Message):
-    if MyRepository().get_user(telegram_id=message.chat.id) is not None:
-        if message.text == BUY:
-            await message.answer(CATEGORIES, reply_markup=buy_keyboard())
-        elif message.text == RULES:
-            await message.answer(RULES_TEXT)
-        elif message.text == SUPPORT:
-            await message.answer(CONTACTS_OUR_SUPPORTS, reply_markup=support_contacts_keyboard())  # have sub handler
-        elif message.text == ABOUT:
-            await message.answer(text=WHAT_INTERESTED, reply_markup=about_keyboard())
+    current_user = MyRepository().get_user(telegram_id=message.chat.id)
+    if current_user is not None:
+        if current_user['position'] == CLIENT:
+            if message.text == BUY:
+                await message.answer(CATEGORIES, reply_markup=buy_keyboard())
+            elif message.text == RULES:
+                await message.answer(RULES_TEXT)
+            elif message.text == SUPPORT:
+                await message.answer(CONTACTS_OUR_SUPPORTS, reply_markup=support_contacts_keyboard())  # have sub handler
+            elif message.text == ABOUT:
+                await message.answer(text=WHAT_INTERESTED, reply_markup=about_keyboard())
     else:
         await message.answer(ERROR_REGISTER_MESSAGE, reply_markup=ReplyKeyboardRemove())
 
+
+# push
+register_push_handlers(dispatcher)
 
 # agency accounts
 register_agency_handlers(dispatcher)

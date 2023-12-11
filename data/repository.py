@@ -34,6 +34,9 @@ class MyRepository(MyDataBase):
     def exchange_status_order(self, id_order, new_status):
         return self.exchange_status_order_sql(id_order, new_status)
 
+    def update_creo_order_trello(self, trello_id, trello_url, id_order):
+        return self.update_creo_order_trello_sql(trello_id, trello_url, id_order)
+
     def add_account(self, type_account, name, desc, geo, count, price):
         return self.add_account_sql(type_account, name, desc, geo, count, price)
 

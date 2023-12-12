@@ -63,3 +63,7 @@ PLATFORM_MESSAGE = "Выберите платформу или введите в
 APP_STORE_TYPE = "AppStore"
 GOOGLE_PLEY_TYPE = "Google Play"
 
+# Check task view -----------------------------
+ALL_TASK_GOOD = "Все правильно"
+ORDER_AGAIN_RETURN = "Заполнить сначала"
+

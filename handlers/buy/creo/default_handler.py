@@ -5,9 +5,12 @@ from aiogram.dispatcher import FSMContext
 
 from data.constants.base_constants import WRONG_FORRMAT_DATE, SKIP
 from data.constants.design_constants import *
+from handlers.buy.creo.creo_use_case.format_task_view import check_view_order
 from handlers.buy.creo.creo_use_case.send_order_creo import send_order_creo
 from keyboard.base_keyboard import cancel_keyboard, skip_keyboard
+from keyboard.creo.design_keyboard import check_task_view_keyboard, design_format_keyboard
 from states.creo.creo_default_state import CreoDefaultState
+from states.creo.order_creative_state import OrderCreativeState
 
 
 def register_creo_default_handlers(dispatcher):
@@ -19,6 +22,8 @@ def register_creo_default_handlers(dispatcher):
     dispatcher.register_message_handler(callback=set_voice_default_creative, state=CreoDefaultState.voice)
     dispatcher.register_message_handler(callback=set_source_default_creative, state=CreoDefaultState.source)
     dispatcher.register_message_handler(callback=set_description_default_creative, state=CreoDefaultState.description)
+    dispatcher.register_message_handler(check_order_task, lambda m: m.text in (ALL_TASK_GOOD, ORDER_AGAIN_RETURN),
+                                        state=CreoDefaultState.check)
     dispatcher.register_message_handler(callback=set_deadline_default_creative, state=CreoDefaultState.deadline)
 
 
@@ -117,7 +122,18 @@ async def set_source_default_creative(message: types.Message, state: FSMContext)
 async def set_description_default_creative(message: types.Message, state: FSMContext):
     await CreoDefaultState.next()
     await state.update_data(description=message.text)
-    await message.answer(DEADLINE_MESSAGE, reply_markup=skip_keyboard())
+    task_data = await state.get_data()
+    await message.answer(check_view_order(task_data), reply_markup=check_task_view_keyboard())
+
+
+async def check_order_task(message: types.Message, state: FSMContext):
+    if message.text == ALL_TASK_GOOD:
+        await CreoDefaultState.next()
+        await message.answer(DEADLINE_MESSAGE, reply_markup=skip_keyboard())
+    else:
+        await state.finish()
+        await OrderCreativeState.format.set()
+        await message.answer(DESIGN_FORMAT, reply_markup=design_format_keyboard())
 
 
 # set deadline ->
@@ -125,7 +141,6 @@ async def set_deadline_default_creative(message: types.Message, state: FSMContex
     if message.text != SKIP:
         try:
             date_time = datetime.datetime.strptime(message.text + " +0400", '%Y-%m-%d %H:%M %z')
-            # await message.answer(str(date_time)) todo output time for test
 
             await state.update_data(deadline=str(date_time))
             data = await state.get_data()
@@ -143,5 +158,3 @@ async def set_deadline_default_creative(message: types.Message, state: FSMContex
         await state.finish()
 
         await send_order_creo(data, message)
-
-

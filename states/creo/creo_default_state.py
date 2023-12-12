@@ -11,6 +11,7 @@ class CreoDefaultState(StatesGroup):
     voice = State()
     source = State()
     description = State()
+    check = State()
     deadline = State()
 
 

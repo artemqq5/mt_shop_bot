@@ -51,3 +51,13 @@ def design_app_platform_keyboard() -> ReplyKeyboardMarkup:
     keyboard.add(KeyboardButton(CANCEL))  # cancel button
 
     return keyboard
+
+
+def check_task_view_keyboard() -> ReplyKeyboardMarkup:
+    keyboard = ReplyKeyboardMarkup(row_width=1, resize_keyboard=True)
+
+    keyboard.add(KeyboardButton(ALL_TASK_GOOD))
+    keyboard.add(KeyboardButton(ORDER_AGAIN_RETURN))
+    keyboard.add(KeyboardButton(CANCEL))  # cancel button
+
+    return keyboard

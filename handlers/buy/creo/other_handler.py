@@ -21,15 +21,24 @@ def register_creo_other_handlers(dispatcher):
 # set format -> request offer
 async def set_format_other_creative(message: types.Message, state: FSMContext):
     await CreoOtherState.next()
-    if message.text != SKIP:
+    type_creo = await state.get_data()
+    if type_creo['general']['type'] == ADAPTIVE_CREATIVE:
+        if message.text != SKIP:
+            await state.update_data(format=message.text)
+        await message.answer(OFFER_MESSAGE, reply_markup=skip_keyboard())
+    else:
         await state.update_data(format=message.text)
-    await message.answer(OFFER_MESSAGE, reply_markup=skip_keyboard())
+        await message.answer(OFFER_MESSAGE, reply_markup=cancel_keyboard())
 
 
 # set offer -> request source
 async def set_offer_other_creative(message: types.Message, state: FSMContext):
     await CreoOtherState.next()
-    if message.text != SKIP:
+    type_creo = await state.get_data()
+    if type_creo['general']['type'] == ADAPTIVE_CREATIVE:
+        if message.text != SKIP:
+            await state.update_data(offer=message.text)
+    else:
         await state.update_data(offer=message.text)
 
     await message.answer(SOURCE_MESSAGE, reply_markup=cancel_keyboard())

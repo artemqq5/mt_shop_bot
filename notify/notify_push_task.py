@@ -17,6 +17,8 @@ async def notify_new_task(message, category):
             await message.bot.send_message(chat_id=admin['id'], text=info_task)
         elif category == ACCOUNT_TYPE and admin['sub_position'] == SUB_POSITION_ACCOUNT:
             await message.bot.send_message(chat_id=admin['id'], text=info_task)
+        elif admin['sub_position'] is None:
+            await message.bot.send_message(chat_id=admin['id'], text=info_task)
 
 
 async def push_users(message, text, user_id=None):

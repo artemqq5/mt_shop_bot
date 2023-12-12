@@ -98,7 +98,10 @@ async def type_creative_handler(callback: types.CallbackQuery, state: FSMContext
             await state.update_data(general=start_data_order)
             await CreoOtherState.next()
 
-            await callback.message.answer(FORMAT_MESSAGE, reply_markup=skip_keyboard())
+            if type_creo == NEW_CREATIVE:
+                await callback.message.answer(FORMAT_MESSAGE, reply_markup=cancel_keyboard())
+            else:
+                await callback.message.answer(FORMAT_MESSAGE, reply_markup=skip_keyboard())
 
         # all default categories of Creo
         else:
@@ -106,4 +109,7 @@ async def type_creative_handler(callback: types.CallbackQuery, state: FSMContext
             await state.update_data(general=start_data_order)
             await CreoDefaultState.next()
 
-            await callback.message.answer(GEO_MESSAGE, reply_markup=skip_keyboard())
+            if type_creo == NEW_CREATIVE:
+                await callback.message.answer(GEO_MESSAGE, reply_markup=cancel_keyboard())
+            else:
+                await callback.message.answer(GEO_MESSAGE, reply_markup=skip_keyboard())

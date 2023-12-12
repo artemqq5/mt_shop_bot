@@ -25,62 +25,91 @@ def register_creo_default_handlers(dispatcher):
 # set geo -> request language
 async def set_geo_default_creative(message: types.Message, state: FSMContext):
     await CreoDefaultState.next()
-    if message.text != SKIP:
-        await state.update_data(geo=message.text)
+    type_creo = await state.get_data()
+    if type_creo['general']['type'] == ADAPTIVE_CREATIVE:
+        if message.text != SKIP:
+            await state.update_data(geo=message.text)
+        await message.answer(LANGUAGE_MESSAGE, reply_markup=skip_keyboard())
     else:
-        await state.update_data(geo=None)
-    await message.answer(LANGUAGE_MESSAGE, reply_markup=skip_keyboard())
+        await state.update_data(geo=message.text)
+        await message.answer(LANGUAGE_MESSAGE, reply_markup=cancel_keyboard())
 
 
 # set language -> request currency
 async def set_language_default_creative(message: types.Message, state: FSMContext):
     await CreoDefaultState.next()
-    if message.text != SKIP:
-        await state.update_data(language=message.text)
+    type_creo = await state.get_data()
+    if type_creo['general']['type'] == ADAPTIVE_CREATIVE:
+        if message.text != SKIP:
+            await state.update_data(language=message.text)
+        await message.answer(CURRENCY_MESSAGE, reply_markup=skip_keyboard())
     else:
-        await state.update_data(language=None)
-    await message.answer(CURRENCY_MESSAGE, reply_markup=skip_keyboard())
+        await state.update_data(language=message.text)
+        await message.answer(CURRENCY_MESSAGE, reply_markup=cancel_keyboard())
 
 
 # set currency -> request format
 async def set_currency_default_creative(message: types.Message, state: FSMContext):
     await CreoDefaultState.next()
-    if message.text != SKIP:
-        await state.update_data(currency=message.text)
+    type_creo = await state.get_data()
+    if type_creo['general']['type'] == ADAPTIVE_CREATIVE:
+        if message.text != SKIP:
+            await state.update_data(currency=message.text)
+        await message.answer(FORMAT_MESSAGE, reply_markup=skip_keyboard())
     else:
-        await state.update_data(currency=None)
-    await message.answer(FORMAT_MESSAGE, reply_markup=skip_keyboard())
+        await state.update_data(currency=message.text)
+        await message.answer(FORMAT_MESSAGE, reply_markup=cancel_keyboard())
 
 
 # set format -> request offer
 async def set_format_default_creative(message: types.Message, state: FSMContext):
     await CreoDefaultState.next()
-    if message.text != SKIP:
+    type_creo = await state.get_data()
+    if type_creo['general']['type'] == ADAPTIVE_CREATIVE:
+        if message.text != SKIP:
+            await state.update_data(format=message.text)
+        await message.answer(OFFER_MESSAGE, reply_markup=skip_keyboard())
+    else:
         await state.update_data(format=message.text)
-    await message.answer(OFFER_MESSAGE, reply_markup=skip_keyboard())
+        await message.answer(OFFER_MESSAGE, reply_markup=cancel_keyboard())
 
 
 # set offer -> request voice
 async def set_offer_default_creative(message: types.Message, state: FSMContext):
     await CreoDefaultState.next()
-    if message.text != SKIP:
+    type_creo = await state.get_data()
+    if type_creo['general']['type'] == ADAPTIVE_CREATIVE:
+        if message.text != SKIP:
+            await state.update_data(offer=message.text)
+        await message.answer(VOICE_MESSAGE, reply_markup=skip_keyboard())
+    else:
         await state.update_data(offer=message.text)
-    await message.answer(VOICE_MESSAGE, reply_markup=skip_keyboard())
+        await message.answer(VOICE_MESSAGE, reply_markup=cancel_keyboard())
 
 
 # set voice -> request source
 async def set_voice_default_creative(message: types.Message, state: FSMContext):
     await CreoDefaultState.next()
-    if message.text != SKIP:
+    type_creo = await state.get_data()
+    if type_creo['general']['type'] == ADAPTIVE_CREATIVE:
+        if message.text != SKIP:
+            await state.update_data(voice=message.text)
+        await message.answer(SOURCE_MESSAGE, reply_markup=skip_keyboard())
+    else:
         await state.update_data(voice=message.text)
-    await message.answer(SOURCE_MESSAGE, reply_markup=skip_keyboard())
+        await message.answer(SOURCE_MESSAGE, reply_markup=cancel_keyboard())
 
 
 # set source -> request description
 async def set_source_default_creative(message: types.Message, state: FSMContext):
     await CreoDefaultState.next()
-    if message.text != SKIP:
+    type_creo = await state.get_data()
+    if type_creo['general']['type'] == ADAPTIVE_CREATIVE:
+        if message.text != SKIP:
+            await state.update_data(source=message.text)
+    else:
         await state.update_data(source=message.text)
+
     await message.answer(DESCRIPTION_MESSAGE, reply_markup=cancel_keyboard())
 
 

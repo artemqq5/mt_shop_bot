@@ -23,23 +23,36 @@ def register_creo_app_handlers(dispatcher):
 async def set_plarform_app_creative(message: types.Message, state: FSMContext):
     await CreoAppState.next()
     await state.update_data(plarform=message.text)
-    await message.answer(FORMAT_MESSAGE, reply_markup=skip_keyboard())
+    type_creo = await state.get_data()
+    if type_creo['general']['type'] == ADAPTIVE_CREATIVE:
+        await message.answer(FORMAT_MESSAGE, reply_markup=skip_keyboard())
+    else:
+        await message.answer(FORMAT_MESSAGE, reply_markup=cancel_keyboard())
 
 
 # set format -> request offer
 async def set_format_app_creative(message: types.Message, state: FSMContext):
     await CreoAppState.next()
-    if message.text != SKIP:
+    type_creo = await state.get_data()
+    if type_creo['general']['type'] == ADAPTIVE_CREATIVE:
+        if message.text != SKIP:
+            await state.update_data(format=message.text)
+        await message.answer(OFFER_MESSAGE, reply_markup=skip_keyboard())
+    else:
         await state.update_data(format=message.text)
-
-    await message.answer(OFFER_MESSAGE, reply_markup=skip_keyboard())
+        await message.answer(OFFER_MESSAGE, reply_markup=cancel_keyboard())
 
 
 # set offer -> request source
 async def set_offer_app_creative(message: types.Message, state: FSMContext):
     await CreoAppState.next()
-    if message.text != SKIP:
+    type_creo = await state.get_data()
+    if type_creo['general']['type'] == ADAPTIVE_CREATIVE:
+        if message.text != SKIP:
+            await state.update_data(offer=message.text)
+    else:
         await state.update_data(offer=message.text)
+
     await message.answer(SOURCE_MESSAGE, reply_markup=cancel_keyboard())
 
 

@@ -79,7 +79,7 @@ async def main_handler(message: types.Message):
             elif message.text == RULES:
                 await message.answer(RULES_TEXT)
             elif message.text == SUPPORT:
-                await message.answer(CONTACTS_OUR_SUPPORTS, reply_markup=support_contacts_keyboard())  # have sub handler
+                await message.answer(CONTACTS_OUR_SUPPORTS, reply_markup=support_contacts_keyboard())
             elif message.text == ABOUT:
                 await message.answer(text=WHAT_INTERESTED, reply_markup=about_keyboard())
     else:

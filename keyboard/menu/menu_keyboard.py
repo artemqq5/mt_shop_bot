@@ -11,7 +11,10 @@ from keyboard.admin.admin_keyboard import admin_panel_keyboard
 def main_keyboard(message) -> ReplyKeyboardMarkup:
     keyboard = ReplyKeyboardMarkup(row_width=1, resize_keyboard=True)
 
-    is_admin = MyRepository().get_user(message.chat.id)['position'] == ADMIN  # check if user admin set admin command
+    if MyRepository().get_user(message.chat.id)['position'] is not None:  # check if user admin set admin command
+        is_admin = MyRepository().get_user(message.chat.id)['position'] == ADMIN
+    else:
+        is_admin = False
 
     if is_admin:
         return admin_panel_keyboard()

@@ -8,4 +8,5 @@ class CreoAppState(StatesGroup):
     offer = State()
     source = State()
     description = State()
+    check = State()
     deadline = State()

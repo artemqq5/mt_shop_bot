@@ -22,8 +22,6 @@ def register_creo_default_handlers(dispatcher):
     dispatcher.register_message_handler(callback=set_voice_default_creative, state=CreoDefaultState.voice)
     dispatcher.register_message_handler(callback=set_source_default_creative, state=CreoDefaultState.source)
     dispatcher.register_message_handler(callback=set_description_default_creative, state=CreoDefaultState.description)
-    dispatcher.register_message_handler(check_order_task, lambda m: m.text in (ALL_TASK_GOOD, ORDER_AGAIN_RETURN),
-                                        state=CreoDefaultState.check)
     dispatcher.register_message_handler(callback=set_deadline_default_creative, state=CreoDefaultState.deadline)
 
 
@@ -124,16 +122,6 @@ async def set_description_default_creative(message: types.Message, state: FSMCon
     await state.update_data(description=message.text)
     task_data = await state.get_data()
     await message.answer(check_view_order(task_data), reply_markup=check_task_view_keyboard())
-
-
-async def check_order_task(message: types.Message, state: FSMContext):
-    if message.text == ALL_TASK_GOOD:
-        await CreoDefaultState.next()
-        await message.answer(DEADLINE_MESSAGE, reply_markup=skip_keyboard())
-    else:
-        await state.finish()
-        await OrderCreativeState.format.set()
-        await message.answer(DESIGN_FORMAT, reply_markup=design_format_keyboard())
 
 
 # set deadline ->

@@ -34,6 +34,11 @@ def register_handlers_creo(dispatcher):
         ),
         state=OrderCreativeState.category
     )
+    # for preview final task ( CREO )
+    dispatcher.register_message_handler(
+        check_order_task, lambda m: m.text in (ALL_TASK_GOOD, ORDER_AGAIN_RETURN),
+        state=[CreoDefaultState.check, CreoOtherState.check, CreoAppState.check]
+    )
 
 
 # format ("Видео", "Статика", "GIF-анимация")
@@ -113,3 +118,24 @@ async def type_creative_handler(callback: types.CallbackQuery, state: FSMContext
                 await callback.message.answer(GEO_MESSAGE, reply_markup=cancel_keyboard())
             else:
                 await callback.message.answer(GEO_MESSAGE, reply_markup=skip_keyboard())
+
+
+async def check_order_task(message: types.Message, state: FSMContext):
+    state_type = await state.get_state()
+
+    if message.text == ALL_TASK_GOOD:
+        match state_type:
+            case CreoDefaultState.check.state:
+                await CreoDefaultState.next()
+                await message.answer(DEADLINE_MESSAGE, reply_markup=skip_keyboard())
+            case CreoAppState.check.state:
+                await CreoAppState.next()
+                await message.answer(DEADLINE_MESSAGE, reply_markup=skip_keyboard())
+            case CreoOtherState.check.state:
+                await CreoOtherState.next()
+                await message.answer(DEADLINE_MESSAGE, reply_markup=skip_keyboard())
+    else:
+        await state.finish()
+        await OrderCreativeState.format.set()
+        await message.answer(DESIGN_FORMAT, reply_markup=design_format_keyboard())
+

@@ -5,11 +5,10 @@ from aiogram.types import ReplyKeyboardRemove
 from config.cfg import ACTIVE_STATUS_TRELLO
 from data.constants.base_constants import *
 from data.repository.creos import CreosRepository
-from data.repository.orders import OrdersRepository
 from data.repository.users import UsersRepository
 from handlers.admin.parse_data_db.orders_parse import *
-from handlers.admin.trello_use_case.card_format import parse_to_trello_card_format
-from handlers.admin.trello_use_case.send_task import MyTrelloManager
+from trello_mng.card_format import parse_to_trello_card_format
+from trello_mng.send_task import MyTrelloManager
 from keyboard.admin.admin_keyboard import *
 from keyboard.admin.admin_orders_keyboard import admin_orders_keyboard, inline_orders_keyboard, \
     managment_order_keyboard, type_of_orders_admin
@@ -183,8 +182,8 @@ async def send_to_trello_callback(callback: types.CallbackQuery):
 
                 if result is not None:
                     OrdersRepository().exchange_status_order(order_id, ACTIVE)  # change status to active
-                    OrdersRepository().update_creo_order_trello(result['id'], result['url'], order_id)  # add trello data to database
-                    MyTrelloManager().set_status_field(result['id'])  # set status in trello
+                    OrdersRepository().update_creo_order_trello(result['id'], result['url'], order_id)  # add trello_mng data to database
+                    MyTrelloManager().set_status_field(result['id'])  # set status in trello_mng
                     await callback.message.answer(TASK_SUCCESFUL_SEND)
 
                     result_webhook = MyTrelloManager().set_webhook_card(result['id'])

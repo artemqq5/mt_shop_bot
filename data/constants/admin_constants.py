@@ -49,7 +49,7 @@ ORDER_STATUS_LIST = {SET_ACTIVE_STATUS: ACTIVE, SET_REVIEW_STATUS: REVIEW, SET_C
 
 # TRELLO ========================================
 SEND_TASK_TO_TRELLO = "Отправить таск в трелло"
-TRELLO_ = "trello"
+TRELLO_ = "trello_mng"
 
 SEND_COMMENT_TO_TRELLO = "Отправить прави в трелло"
 COMMENT_TO_REFINEMENT = "Напишите что необходимо изменить"

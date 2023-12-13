@@ -1,4 +1,4 @@
-from handlers.admin.trello_use_case.send_task import TrelloCard
+from trello_mng.send_task import TrelloCard
 
 
 def parse_to_trello_card_format(task_creo, user):

@@ -1,6 +1,6 @@
 from data.constants.admin_constants import CREO_TYPE
 from data.constants.base_constants import TASK_SEND, TASK_SEND_ERROR
-from data.repository import MyRepository
+from data.repository.creos import CreosRepository
 from notify.notify_push_task import notify_new_task
 from keyboard.menu.menu_keyboard import main_keyboard
 
@@ -8,7 +8,7 @@ from keyboard.menu.menu_keyboard import main_keyboard
 async def send_order_creo(data, message):
     if data is not None:
         try:
-            result = MyRepository().add_creo(
+            result = CreosRepository().add_creo(
                 format_creo=data['general']['format'],
                 type_creo=data['general']['type'],
                 category=data['general']['category'],

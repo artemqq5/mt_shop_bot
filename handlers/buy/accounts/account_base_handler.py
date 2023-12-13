@@ -4,6 +4,7 @@ from aiogram.types import ReplyKeyboardRemove
 
 from data.constants.accounts_constants import *
 from data.constants.base_constants import INPUT_INEGER, SKIP, CLIENT, ERROR_REGISTER_MESSAGE
+from data.repository.users import UsersRepository
 from handlers.buy.accounts.account_use_case.output_account import formatted_output_account
 from handlers.buy.accounts.account_use_case.send_order_account import send_order_account
 from keyboard.accounts.accounts_keyboard import *
@@ -24,7 +25,7 @@ def register_accounts_handlers(dispatcher):
 
 
 async def source_account(message: types.Message):
-    current_user = MyRepository().get_user(message.chat.id)
+    current_user = UsersRepository().get_user(message.chat.id)
     if current_user is not None:
         if current_user['position'] == CLIENT:
             # main ====================
@@ -36,7 +37,7 @@ async def source_account(message: types.Message):
 
 
 async def choice_account(message: types.Message):
-    accounts = MyRepository().get_accounts()  # todo very bad code -> NEED TO EXCHANGE!!!!!!!!!!!!!!!!!!
+    accounts = AccountsRepository().get_accounts()  # todo very bad code -> NEED TO EXCHANGE!!!!!!!!!!!!!!!!!!
     open_accounts = []  # todo very bad code -> NEED TO EXCHANGE!!!!!!!!!!!!!!!!!!
     for i in accounts:  # todo very bad code -> NEED TO EXCHANGE!!!!!!!!!!!!!!!!!!
         if i['visibility'] == OPEN_STATE and i['type'] == message.text:  # todo very bad code -> NEED TO EXCHANGE!!!!!!!!!!!!!!!!!!
@@ -49,7 +50,7 @@ async def choice_account(message: types.Message):
 
 
 async def details_account_handler(callback: types.CallbackQuery, state: FSMContext):
-    account_type = MyRepository().get_account(callback.data.split("_")[1])
+    account_type = AccountsRepository().get_account(callback.data.split("_")[1])
 
     if account_type is not None:
         if callback.data.split("_")[0] == "account":

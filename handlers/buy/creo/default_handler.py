@@ -8,9 +8,8 @@ from data.constants.design_constants import *
 from handlers.buy.creo.creo_use_case.format_task_view import check_view_order
 from handlers.buy.creo.creo_use_case.send_order_creo import send_order_creo
 from keyboard.base_keyboard import cancel_keyboard, skip_keyboard
-from keyboard.creo.design_keyboard import check_task_view_keyboard, design_format_keyboard
+from keyboard.creo.design_keyboard import check_task_view_keyboard
 from states.creo.creo_default_state import CreoDefaultState
-from states.creo.order_creative_state import OrderCreativeState
 
 
 def register_creo_default_handlers(dispatcher):

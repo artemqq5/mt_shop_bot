@@ -3,6 +3,7 @@ from aiogram.dispatcher import FSMContext
 from aiogram.types import ReplyKeyboardRemove
 
 from data.constants.base_constants import *
+from data.repository.users import UsersRepository
 from handlers.buy.accounts.account_use_case.output_account import formatted_output_account
 from keyboard.accounts.accounts_keyboard import source_account_keyboard
 from keyboard.admin.admin_items_keyboard import *
@@ -22,7 +23,7 @@ def register_show_item_handlers(dispatcher):
 
 
 async def type_of_show_item(message: types.Message, state: FSMContext):
-    current_user = MyRepository().get_user(message.chat.id)
+    current_user = UsersRepository().get_user(message.chat.id)
     if current_user is not None:
         if current_user['position'] == ADMIN:
             # main ====================
@@ -50,24 +51,24 @@ async def source_account_item(message: types.Message):
 
 
 async def account_detail_handler(callback: types.CallbackQuery, state: FSMContext):
-    current_user = MyRepository().get_user(callback.message.chat.id)
+    current_user = UsersRepository().get_user(callback.message.chat.id)
     if current_user is not None:
         if current_user['position'] == ADMIN:
             # main ======================
             if HIDE_STATE in callback.data:
-                result = MyRepository().exchange_visibility_account(HIDE_STATE, callback.data.split("_")[1])
+                result = AccountsRepository().exchange_visibility_account(HIDE_STATE, callback.data.split("_")[1])
                 if result is not None:
                     await callback.message.answer(SUCCESULL_UPDATE_VISIBILITY)
                 else:
                     await callback.message.answer(FAIL_UPDATE_VISIBILITY)
             elif OPEN_STATE in callback.data:
-                result = MyRepository().exchange_visibility_account(OPEN_STATE, callback.data.split("_")[1])
+                result = AccountsRepository().exchange_visibility_account(OPEN_STATE, callback.data.split("_")[1])
                 if result is not None:
                     await callback.message.answer(SUCCESULL_UPDATE_VISIBILITY)
                 else:
                     await callback.message.answer(FAIL_UPDATE_VISIBILITY)
             else:
-                account_info = MyRepository().get_account(callback.data)
+                account_info = AccountsRepository().get_account(callback.data)
                 await callback.message.answer(formatted_output_account(account_info),
                                               reply_markup=manag_item_keyboard(callback.data))
             # ============================

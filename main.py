@@ -1,16 +1,14 @@
 import logging
 
-import requests
-
-from config.cfg import BOT_TOKEN, TRELLO_STATUS_FIELD, TRELLO_KEY, TRELLO_TOKEN
+from config.cfg import BOT_TOKEN
 
 from aiogram import Bot, Dispatcher
 from aiogram.contrib.fsm_storage.memory import MemoryStorage
 from aiogram.types import ParseMode, ReplyKeyboardRemove
 from aiogram.utils import executor
 
+from data.repository.users import UsersRepository
 from handlers.admin.admin_push_notify import register_push_handlers
-from handlers.admin.trello_use_case.send_task import MyTrelloManager
 from handlers.buy.accounts.account_base_handler import register_accounts_handlers
 from handlers.admin.admin_add_items import register_add_item_handlers
 from handlers.admin.admin_orders_handler import register_orders_handler
@@ -41,8 +39,8 @@ async def start_cmd(message: types.Message, state: FSMContext):
         await state.reset_state()
     # ===========================
 
-    if MyRepository().get_user(telegram_id=message.chat.id) is None:
-        MyRepository().add_user(telegram_id=message.chat.id, name=message.chat.username)
+    if UsersRepository().get_user(telegram_id=message.chat.id) is None:
+        UsersRepository().add_user(telegram_id=message.chat.id, name=message.chat.username)
 
     with open("source/bot_video_start.gif.mp4", 'rb') as video_file:
         await message.answer_animation(
@@ -71,7 +69,7 @@ async def menu_handler(message: types.Message):
 # menu handler
 @dispatcher.message_handler(lambda message: message.text in (BUY, RULES, SUPPORT, ABOUT))
 async def main_handler(message: types.Message):
-    current_user = MyRepository().get_user(telegram_id=message.chat.id)
+    current_user = UsersRepository().get_user(telegram_id=message.chat.id)
     if current_user is not None:
         if current_user['position'] == CLIENT:
             if message.text == BUY:

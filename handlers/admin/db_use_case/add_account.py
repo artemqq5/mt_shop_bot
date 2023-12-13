@@ -1,13 +1,12 @@
 from data.constants.admin_constants import SUCCSESFULL_ADDED, FAIL_ADDED
-from data.constants.base_constants import TASK_SEND, TASK_SEND_ERROR
-from data.repository import MyRepository
+from data.repository.accounts import AccountsRepository
 from keyboard.menu.menu_keyboard import main_keyboard
 
 
 async def add_item_case(data, message):
     if data is not None:
         try:
-            result = MyRepository().add_account(
+            result = AccountsRepository().add_account(
                 name=data['name'],
                 desc=data['desc'],
                 geo=data['geo'],

@@ -4,7 +4,7 @@ from aiogram.types import ReplyKeyboardRemove
 
 from data.constants.admin_constants import *
 from data.constants.base_constants import ADMIN, NO_ACCESS, ERROR_REGISTER_MESSAGE, NOT_IMPLEMENTED
-from data.repository import MyRepository
+from data.repository.users import UsersRepository
 from keyboard.admin.admin_push_keyboard import *
 from keyboard.base_keyboard import cancel_keyboard
 from keyboard.menu.menu_keyboard import main_keyboard
@@ -20,7 +20,7 @@ def register_push_handlers(dispatcher):
 
 
 async def push_menu(message: types.Message):
-    current_user = MyRepository().get_user(message.chat.id)
+    current_user = UsersRepository().get_user(message.chat.id)
     if current_user is not None:
         if current_user['position'] == ADMIN:
             # main ========================

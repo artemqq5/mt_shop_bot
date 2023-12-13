@@ -4,15 +4,15 @@ from data.constants.accounts_constants import ACCOUNTS
 from data.constants.agency_accounts_constants import AGENCY_ACCOUNTS
 from data.constants.apps_constants import APPS
 from data.constants.base_constants import *
-from data.repository import MyRepository
+from data.repository.users import UsersRepository
 from keyboard.admin.admin_keyboard import admin_panel_keyboard
 
 
 def main_keyboard(message) -> ReplyKeyboardMarkup:
     keyboard = ReplyKeyboardMarkup(row_width=1, resize_keyboard=True)
 
-    if MyRepository().get_user(message.chat.id)['position'] is not None:  # check if user admin set admin command
-        is_admin = MyRepository().get_user(message.chat.id)['position'] == ADMIN
+    if UsersRepository().get_user(message.chat.id)['position'] is not None:  # check if user admin set admin command
+        is_admin = UsersRepository().get_user(message.chat.id)['position'] == ADMIN
     else:
         is_admin = False
 

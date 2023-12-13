@@ -17,7 +17,7 @@ class MyDataBase:
             cursorclass=pymysql.cursors.DictCursor
         )
 
-    def add_user_sql(self, telegram_id, name):
+    def _add_user_sql(self, telegram_id, name):
         try:
             with self.connection as connection:
                 with connection.cursor() as cursor:
@@ -27,7 +27,7 @@ class MyDataBase:
         except Exception as e:
             print(f"add_user_sql: {e}")
 
-    def get_user_sql(self, telegram_id):
+    def _get_user_sql(self, telegram_id):
         try:
             with self.connection as connection:
                 with connection.cursor() as cursor:
@@ -195,7 +195,7 @@ class MyDataBase:
             print(f"get_account_order_sql: {e}")
             return None
 
-    def get_users_sql(self, position=None):
+    def _get_users_sql(self, position=None):
         try:
             with self.connection as connection:
                 with connection.cursor() as cursor:

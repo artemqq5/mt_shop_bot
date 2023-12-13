@@ -1,8 +1,9 @@
 from aiogram.types import ReplyKeyboardMarkup, KeyboardButton, InlineKeyboardMarkup, InlineKeyboardButton
 
 from data.constants.admin_constants import *
-from data.constants.base_constants import MENU, CANCEL
-from data.repository import MyRepository
+from data.constants.base_constants import CANCEL
+from data.repository.creos import CreosRepository
+from data.repository.orders import OrdersRepository
 
 
 def type_of_orders_admin() -> ReplyKeyboardMarkup:
@@ -32,9 +33,9 @@ def inline_orders_keyboard(list_of_orders, type_oder) -> InlineKeyboardMarkup:
 
     for i in list_of_orders:
         if type_oder == CREO_TYPE:
-            task_id = MyRepository().get_creo(i['id_order'])['id']
+            task_id = CreosRepository().get_creo(i['id_order'])['id']
         elif type_oder == ACCOUNT_TYPE:
-            task_id = MyRepository().get_account_order(i['id_order'])['id']
+            task_id = OrdersRepository().get_account_order(i['id_order'])['id']
         else:
             task_id = i['id']
 

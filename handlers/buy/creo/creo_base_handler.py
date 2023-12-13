@@ -1,9 +1,7 @@
 from aiogram import types
 from aiogram.dispatcher import FSMContext
 
-from data.repository import MyRepository
 from keyboard.base_keyboard import cancel_keyboard, skip_keyboard
-from keyboard.menu.menu_keyboard import main_keyboard
 from keyboard.creo.design_keyboard import *
 from states.creo.creo_app_state import CreoAppState
 from states.creo.creo_default_state import CreoDefaultState
@@ -138,4 +136,3 @@ async def check_order_task(message: types.Message, state: FSMContext):
         await state.finish()
         await OrderCreativeState.format.set()
         await message.answer(DESIGN_FORMAT, reply_markup=design_format_keyboard())
-

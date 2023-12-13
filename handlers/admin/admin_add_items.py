@@ -5,7 +5,7 @@ from aiogram.types import ReplyKeyboardRemove
 from data.constants.accounts_constants import *
 from data.constants.admin_constants import *
 from data.constants.base_constants import *
-from data.repository import MyRepository
+from data.repository.users import UsersRepository
 from handlers.admin.db_use_case.add_account import add_item_case
 from keyboard.admin.admin_items_keyboard import choice_type_account_keyboard, choice_type_item_keyboard
 from keyboard.base_keyboard import cancel_keyboard
@@ -28,7 +28,7 @@ def register_add_item_handlers(dispatcher):
 
 
 async def type_of_add_item(message: types.Message):
-    current_user = MyRepository().get_user(message.chat.id)
+    current_user = UsersRepository().get_user(message.chat.id)
     if current_user is not None:
         if current_user['position'] == ADMIN:
             # main ====================
@@ -83,7 +83,7 @@ async def choice_price_account(message: types.Message, state: FSMContext):
 async def choice_count_account(message: types.Message, state: FSMContext):
     try:
         count = int(message.text)
-        current_user = MyRepository().get_user(message.chat.id)
+        current_user = UsersRepository().get_user(message.chat.id)
         if current_user is not None:
             if current_user['position'] == ADMIN:
                 # main ====================

@@ -3,7 +3,7 @@ from aiogram.types import InlineKeyboardMarkup, InlineKeyboardButton, ReplyKeybo
 from data.constants.accounts_constants import LIST_OF_ACCOUNTS_TYPE
 from data.constants.admin_constants import OPEN_STATE
 from data.constants.base_constants import BUY, CANCEL
-from data.repository import MyRepository
+from data.repository.accounts import AccountsRepository
 
 
 def source_account_keyboard() -> ReplyKeyboardMarkup:
@@ -30,11 +30,11 @@ def available_accounts_keyboard(list_accounts) -> InlineKeyboardMarkup:
 def list_of_callback_accounts() -> list[str]:
     list_callbacks = []
 
-    for i in MyRepository().get_accounts():
+    for i in AccountsRepository().get_accounts():
         if i['visibility'] == OPEN_STATE:
             list_callbacks.append(f"account_{i['id']}")
 
-    for i in MyRepository().get_accounts():
+    for i in AccountsRepository().get_accounts():
         if i['visibility'] == OPEN_STATE:
             list_callbacks.append(f"buy_{i['id']}")
 

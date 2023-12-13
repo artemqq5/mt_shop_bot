@@ -2,12 +2,12 @@ from aiogram.utils.exceptions import ChatNotFound, BotBlocked
 
 from data.constants.admin_constants import *
 from data.constants.base_constants import ADMIN, CLIENT, SUB_POSITION_CREO, SUB_POSITION_ACCOUNT
-from data.repository import MyRepository
+from data.repository.users import UsersRepository
 from keyboard.menu.menu_keyboard import main_keyboard
 
 
 async def notify_new_task(message, category):
-    admins = MyRepository().get_users(position=ADMIN)
+    admins = UsersRepository().get_users(position=ADMIN)
 
     name_user = f"from @{message.chat.username}" if message.chat.username is not None else ""
     info_task = f"New task ({category}) {name_user}"
@@ -27,7 +27,7 @@ async def push_users(message, text, user_id=None):
             await message.bot.send_message(chat_id=user_id, text=text)
             await message.answer(PUSH_HAVE_SENT, reply_markup=main_keyboard(message))
         else:
-            users = MyRepository().get_users(CLIENT)
+            users = UsersRepository().get_users(CLIENT)
             counter = 0
             for user in users:
                 try:

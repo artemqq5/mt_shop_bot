@@ -9,5 +9,5 @@ class UsersRepository(MyDataBase):
     def get_user(self, telegram_id):
         return self._get_user_sql(telegram_id)
 
-    def get_users(self, position):
+    def get_users(self, position):  # get users by position or All by default
         return self._get_users_sql(position)

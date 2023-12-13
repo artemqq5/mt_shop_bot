@@ -5,7 +5,7 @@ from data.database import MyDataBase
 class OrdersRepository(MyDataBase):
 
     def get_orders(self, status, type_account=(CREO_TYPE, ACCOUNT_TYPE)):
-        return self.get_orders_sql(status, type_account)
+        return self.get_orders_sql(status, type_account)  # get orders by type and status, by default all types
 
     def get_order(self, id_order):
         return self.get_order_sql(id_order)
@@ -16,9 +16,8 @@ class OrdersRepository(MyDataBase):
     def update_creo_order_trello(self, trello_id, trello_url, id_order):
         return self.update_creo_order_trello_sql(trello_id, trello_url, id_order)
 
-    def add_order_account(self, name, desc, type_account, geo, count, price, id_user, desc_from_user):
-        return self.add_order_account_sql(name, desc, type_account, geo, count, price, id_user, desc_from_user)
+    def add_account_order(self, name, desc, type_account, geo, count, price, id_user, desc_from_user):
+        return self.add_account_order_sql(name, desc, type_account, geo, count, price, id_user, desc_from_user)
 
     def get_account_order(self, id_order):
         return self.get_account_order_sql(id_order)
-    

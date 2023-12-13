@@ -8,7 +8,7 @@ from keyboard.menu.menu_keyboard import main_keyboard
 async def send_order_account(data, message):
     if data is not None:
         try:
-            result = OrdersRepository().add_order_account(
+            result = OrdersRepository().add_account_order(
                 id_user=message.chat.id,
                 name=data['account']['name'],
                 desc=data['account']['desc'],

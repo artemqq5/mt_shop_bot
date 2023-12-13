@@ -21,7 +21,7 @@ class MyDataBase:
         try:
             with self.connection as connection:
                 with connection.cursor() as cursor:
-                    _command = f'''INSERT INTO `users` (`id`, `name`) VALUES (%s, %s);'''
+                    _command = '''INSERT INTO `users` (`id`, `name`) VALUES (%s, %s);'''
                     cursor.execute(_command, (telegram_id, name))
                 connection.commit()
         except Exception as e:
@@ -31,10 +31,9 @@ class MyDataBase:
         try:
             with self.connection as connection:
                 with connection.cursor() as cursor:
-                    _command = f'''SELECT * FROM `users` WHERE `id` = %s;'''
+                    _command = '''SELECT * FROM `users` WHERE `id` = %s;'''
                     cursor.execute(_command, (telegram_id,))
-                connection.commit()
-                return cursor.fetchall()[0]
+                return cursor.fetchone()
         except Exception as e:
             print(f"get_user_sql: {e}")
             return None
@@ -50,7 +49,6 @@ class MyDataBase:
                     else:
                         _command = f'''SELECT * FROM `orders` WHERE `type` IN ({placeholders});'''
                         cursor.execute(_command, type_account)
-                connection.commit()
                 return cursor.fetchall()
         except Exception as e:
             print(f"get_orders_sql({status}): {e}")
@@ -60,10 +58,9 @@ class MyDataBase:
         try:
             with self.connection as connection:
                 with connection.cursor() as cursor:
-                    _command = "SELECT * FROM `orders` WHERE `id_order` = %s;"
+                    _command = '''SELECT * FROM `orders` WHERE `id_order` = %s;'''
                     cursor.execute(_command, (id_order,))
-                connection.commit()
-                return cursor.fetchall()[0]
+                return cursor.fetchone()
         except Exception as e:
             print(f"get_order_sql: {e}")
             return None
@@ -72,10 +69,9 @@ class MyDataBase:
         try:
             with self.connection as connection:
                 with connection.cursor() as cursor:
-                    _command = "SELECT * FROM `creo_orders` WHERE `id_order` = %s;"
+                    _command = '''SELECT * FROM `creo_orders` WHERE `id_order` = %s;'''
                     cursor.execute(_command, (id_order,))
-                connection.commit()
-                return cursor.fetchall()[0]
+                return cursor.fetchone()
         except Exception as e:
             print(f"get_creo_sql: {e}")
             return None
@@ -87,7 +83,7 @@ class MyDataBase:
 
             with self.connection as connection:
                 with connection.cursor() as cursor:
-                    _command = f'''INSERT INTO `creo_orders` (
+                    _command = '''INSERT INTO `creo_orders` (
                         `id_order`, `format`, `type`, `category`, `geo`,  `language`, `currency`, `format_res`,
                          `offer`, `voice`, `source`, `description`, `deadline`
                      ) VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s);'''
@@ -98,7 +94,7 @@ class MyDataBase:
                 connection.commit()
 
                 with connection.cursor() as cursor:
-                    _command = f'''INSERT INTO `orders` (`id_user`, `type`, `id_order`) VALUES (%s, %s, %s);'''
+                    _command = '''INSERT INTO `orders` (`id_user`, `type`, `id_order`) VALUES (%s, %s, %s);'''
                     cursor.execute(_command, (id_user, CREO_TYPE, id_order))
                 connection.commit()
 
@@ -124,7 +120,7 @@ class MyDataBase:
         try:
             with self.connection as connection:
                 with connection.cursor() as cursor:
-                    _command = f'''INSERT INTO `accounts` (`name`, `desc`, `geo`, `type`, `count`, `price`) VALUES (%s, %s, %s, %s, %s, %s);'''
+                    _command = '''INSERT INTO `accounts` (`name`, `desc`, `geo`, `type`, `count`, `price`) VALUES (%s, %s, %s, %s, %s, %s);'''
                     cursor.execute(_command, (name, desc, geo, type_account, count, price))
                 connection.commit()
             return True
@@ -137,12 +133,11 @@ class MyDataBase:
             with self.connection as connection:
                 with connection.cursor() as cursor:
                     if source is None:
-                        _command = f'''SELECT * FROM `accounts`;'''
+                        _command = '''SELECT * FROM `accounts`;'''
                         cursor.execute(_command)
                     else:
-                        _command = f'''SELECT * FROM `accounts` WHERE `type` = %s;'''
+                        _command = '''SELECT * FROM `accounts` WHERE `type` = %s;'''
                         cursor.execute(_command, source)
-                connection.commit()
             return cursor.fetchall()
         except Exception as e:
             print(f"get_accounts_sql: {e}")
@@ -152,28 +147,27 @@ class MyDataBase:
         try:
             with self.connection as connection:
                 with connection.cursor() as cursor:
-                    _command = f'''SELECT * FROM `accounts` WHERE `id` = %s;'''
+                    _command = '''SELECT * FROM `accounts` WHERE `id` = %s;'''
                     cursor.execute(_command, id_account)
-                connection.commit()
-            return cursor.fetchall()[0]
+            return cursor.fetchone()
         except Exception as e:
             print(f"get_account_sql: {e}")
             return None
 
-    def add_order_account_sql(self, name, desc, type_account, geo, count, price, id_user, desc_from_user):
+    def add_account_order_sql(self, name, desc, type_account, geo, count, price, id_user, desc_from_user):
         try:
             id_order = str(uuid.uuid4())
 
             with self.connection as connection:
                 with connection.cursor() as cursor:
-                    _command = f'''INSERT INTO `account_orders` (
+                    _command = '''INSERT INTO `account_orders` (
                                `id_order`, `name`, `desc`, `type`, `geo`, `count`, `price`, `desc_from_user`
                             ) VALUES (%s, %s, %s, %s, %s, %s, %s, %s);'''
                     cursor.execute(_command, (id_order, name, desc, type_account, geo, count, price, desc_from_user))
                 connection.commit()
 
                 with connection.cursor() as cursor:
-                    _command = f'''INSERT INTO `orders` (`id_user`, `type`, `id_order`) VALUES (%s, %s, %s);'''
+                    _command = '''INSERT INTO `orders` (`id_user`, `type`, `id_order`) VALUES (%s, %s, %s);'''
                     cursor.execute(_command, (id_user, ACCOUNT_TYPE, id_order))
                 connection.commit()
 
@@ -187,10 +181,9 @@ class MyDataBase:
         try:
             with self.connection as connection:
                 with connection.cursor() as cursor:
-                    _command = f'''SELECT * FROM `account_orders` WHERE `id_order` = %s;'''
+                    _command = '''SELECT * FROM `account_orders` WHERE `id_order` = %s;'''
                     cursor.execute(_command, id_order)
-                connection.commit()
-            return cursor.fetchall()[0]
+            return cursor.fetchone()
         except Exception as e:
             print(f"get_account_order_sql: {e}")
             return None
@@ -200,12 +193,11 @@ class MyDataBase:
             with self.connection as connection:
                 with connection.cursor() as cursor:
                     if position is not None:
-                        _command = f'''SELECT * FROM `users` WHERE `position` = %s;'''
+                        _command = '''SELECT * FROM `users` WHERE `position` = %s;'''
                         cursor.execute(_command, (position,))
                     else:
-                        _command = f'''SELECT * FROM `users`;'''
+                        _command = '''SELECT * FROM `users`;'''
                         cursor.execute(_command)
-                connection.commit()
             return cursor.fetchall()
         except Exception as e:
             print(f"get_users_sql: {e}")
@@ -215,7 +207,7 @@ class MyDataBase:
         try:
             with self.connection as connection:
                 with connection.cursor() as cursor:
-                    _command = f'''UPDATE `accounts` SET `visibility` = %s WHERE `id` = %s;'''
+                    _command = '''UPDATE `accounts` SET `visibility` = %s WHERE `id` = %s;'''
                     cursor.execute(_command, (visibility, id_account))
                 connection.commit()
             return True
@@ -227,7 +219,7 @@ class MyDataBase:
         try:
             with self.connection as connection:
                 with connection.cursor() as cursor:
-                    _command = f'''UPDATE `creo_orders` SET `trello_id` = %s, `trello_url` = %s WHERE `id_order` = %s;'''
+                    _command = '''UPDATE `creo_orders` SET `trello_id` = %s, `trello_url` = %s WHERE `id_order` = %s;'''
                     cursor.execute(_command, (trello_id, trello_url, id_order))
                 connection.commit()
             return True

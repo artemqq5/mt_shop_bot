@@ -54,14 +54,15 @@ async def account_detail_handler(callback: types.CallbackQuery, state: FSMContex
     current_user = UsersRepository().get_user(callback.message.chat.id)
     if current_user is not None:
         if current_user['position'] == ADMIN:
+            print(callback.data)
             # main ======================
-            if HIDE_STATE in callback.data:
+            if HIDE_STATE in callback.data and current_user['sub_position'] != SUB_POSITION_CREO:
                 result = AccountsRepository().exchange_visibility_account(HIDE_STATE, callback.data.split("_")[1])
                 if result is not None:
                     await callback.message.answer(SUCCESULL_UPDATE_VISIBILITY)
                 else:
                     await callback.message.answer(FAIL_UPDATE_VISIBILITY)
-            elif OPEN_STATE in callback.data:
+            elif OPEN_STATE in callback.data and current_user['sub_position'] != SUB_POSITION_CREO:
                 result = AccountsRepository().exchange_visibility_account(OPEN_STATE, callback.data.split("_")[1])
                 if result is not None:
                     await callback.message.answer(SUCCESULL_UPDATE_VISIBILITY)

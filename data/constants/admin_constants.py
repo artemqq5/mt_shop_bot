@@ -22,7 +22,7 @@ ORDER_TYPES_LIST = (REVIEW_ORDERS, ACTIVE_ORDERS, ON_APPROVE_ORDERS, COMPLETED_O
 CHANGE_STATUS_ORDER = "Изменить статус заказа"
 STATUS_NOT_EXCHANGE = "Не удалось изменить статус заказа"
 STATUS_SUCCESFULY_EXCHANGE = "Статус заказа успешно изменен"
-REFINEMENT_SUCCESFULY_SEND = "Правки успішно надіслані"
+REFINEMENT_SUCCESFULY_SEND = "Правки успешно отправлены"
 # status
 REVIEW = "review"
 ACTIVE = "active"
@@ -49,7 +49,7 @@ ORDER_STATUS_LIST = {SET_ACTIVE_STATUS: ACTIVE, SET_REVIEW_STATUS: REVIEW, SET_C
 
 # TRELLO ========================================
 SEND_TASK_TO_TRELLO = "Отправить таск в трелло"
-TRELLO_ = "trello_mng"
+TRELLO_ = "trellomng"
 
 SEND_COMMENT_TO_TRELLO = "Отправить прави в трелло"
 COMMENT_TO_REFINEMENT = "Напишите что необходимо изменить"

@@ -38,7 +38,7 @@ class MyDataBase:
             print(f"get_user_sql: {e}")
             return None
 
-    def get_orders_sql(self, status, type_account=(CREO_TYPE, ACCOUNT_TYPE)):
+    def _get_orders_sql(self, status, type_account=(CREO_TYPE, ACCOUNT_TYPE)):
         try:
             with self.connection as connection:
                 with connection.cursor() as cursor:
@@ -54,7 +54,7 @@ class MyDataBase:
             print(f"get_orders_sql({status}): {e}")
             return None
 
-    def get_order_sql(self, id_order):
+    def _get_order_sql(self, id_order):
         try:
             with self.connection as connection:
                 with connection.cursor() as cursor:
@@ -65,7 +65,7 @@ class MyDataBase:
             print(f"get_order_sql: {e}")
             return None
 
-    def get_creo_sql(self, id_order):
+    def _get_creo_sql(self, id_order):
         try:
             with self.connection as connection:
                 with connection.cursor() as cursor:
@@ -76,8 +76,8 @@ class MyDataBase:
             print(f"get_creo_sql: {e}")
             return None
 
-    def add_creo_sql(self, format_creo, type_creo, category, description, id_user, geo=None, language=None,
-                     currency=None, format_res=None, offer=None, voice=None, source=None, deadline=None):
+    def _add_creo_sql(self, format_creo, type_creo, category, description, id_user, geo=None, language=None,
+                      currency=None, format_res=None, offer=None, voice=None, source=None, deadline=None):
         try:
             id_order = str(uuid.uuid4())
 
@@ -104,7 +104,7 @@ class MyDataBase:
             print(f"add_creo_sql: {e}")
             return None
 
-    def exchange_status_order_sql(self, id_order, new_status):
+    def _exchange_status_order_sql(self, id_order, new_status):
         try:
             with self.connection as connection:
                 with connection.cursor() as cursor:
@@ -116,7 +116,7 @@ class MyDataBase:
             print(f"exchange_status_order_sql: {e}")
             return None
 
-    def add_account_sql(self, type_account, name, desc, geo, count, price):
+    def _add_account_sql(self, type_account, name, desc, geo, count, price):
         try:
             with self.connection as connection:
                 with connection.cursor() as cursor:
@@ -128,7 +128,7 @@ class MyDataBase:
             print(f"add_account_sql: {e}")
             return None
 
-    def get_accounts_sql(self, source=None):
+    def _get_accounts_sql(self, source=None):
         try:
             with self.connection as connection:
                 with connection.cursor() as cursor:
@@ -143,7 +143,7 @@ class MyDataBase:
             print(f"get_accounts_sql: {e}")
             return None
 
-    def get_account_sql(self, id_account):
+    def _get_account_sql(self, id_account):
         try:
             with self.connection as connection:
                 with connection.cursor() as cursor:
@@ -154,7 +154,7 @@ class MyDataBase:
             print(f"get_account_sql: {e}")
             return None
 
-    def add_account_order_sql(self, name, desc, type_account, geo, count, price, id_user, desc_from_user):
+    def _add_account_order_sql(self, name, desc, type_account, geo, count, price, id_user, desc_from_user):
         try:
             id_order = str(uuid.uuid4())
 
@@ -177,7 +177,7 @@ class MyDataBase:
             print(f"add_order_account_sql: {e}")
             return None
 
-    def get_account_order_sql(self, id_order):
+    def _get_account_order_sql(self, id_order):
         try:
             with self.connection as connection:
                 with connection.cursor() as cursor:
@@ -203,7 +203,7 @@ class MyDataBase:
             print(f"get_users_sql: {e}")
             return None
 
-    def exchange_visibility_account_sql(self, visibility, id_account):
+    def _exchange_visibility_account_sql(self, visibility, id_account):
         try:
             with self.connection as connection:
                 with connection.cursor() as cursor:
@@ -215,7 +215,7 @@ class MyDataBase:
             print(f"exchange_visibility_account_sql: {e}")
             return None
 
-    def update_creo_order_trello_sql(self, trello_id, trello_url, id_order):
+    def _update_creo_order_trello_sql(self, trello_id, trello_url, id_order):
         try:
             with self.connection as connection:
                 with connection.cursor() as cursor:

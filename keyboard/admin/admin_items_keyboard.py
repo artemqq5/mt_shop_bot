@@ -42,6 +42,8 @@ def list_of_callback_show_item() -> list[str]:
 
     for i in AccountsRepository().get_accounts():
         list_callbacks.append(str(i['id']))
+        list_callbacks.append(f"{HIDE_STATE}_{i['id']}")
+        list_callbacks.append(f"{OPEN_STATE}_{i['id']}")
 
     return list_callbacks
 

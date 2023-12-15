@@ -2,7 +2,7 @@ import uuid
 
 import pymysql
 from config.cfg import *
-from data.constants.admin_constants import CREO_TYPE, ACCOUNT_TYPE
+from data.constants.admin_constants import *
 
 
 class MyDataBase:
@@ -38,20 +38,42 @@ class MyDataBase:
             print(f"get_user_sql: {e}")
             return None
 
-    def _get_orders_sql(self, status, type_account=(CREO_TYPE, ACCOUNT_TYPE)):
+    def _get_orders_sql(self, status=None, type_account=None):
         try:
             with self.connection as connection:
                 with connection.cursor() as cursor:
-                    placeholders = ', '.join(['%s'] * len(type_account))
-                    if status is not None:
-                        _command = f'''SELECT * FROM `orders` WHERE `status` = %s AND `type` IN ({placeholders});'''
-                        cursor.execute(_command, (status, *type_account))
+                    if type_account is None:
+                        if status is None:
+                            _command = '''SELECT * FROM `orders` WHERE `type` IN (%s, %s);'''
+                            cursor.execute(_command, (CREO_TYPE, ACCOUNT_TYPE))
+                        else:
+                            _command = '''SELECT * FROM `orders` WHERE `status` = %s AND `type` IN (%s, %s);'''
+                            cursor.execute(_command, (status, CREO_TYPE, ACCOUNT_TYPE))
                     else:
-                        _command = f'''SELECT * FROM `orders` WHERE `type` IN ({placeholders});'''
-                        cursor.execute(_command, type_account)
+                        if status is None:
+                            _command = '''SELECT * FROM `orders` WHERE `type` = %s;'''
+                            cursor.execute(_command, type_account)
+                        else:
+                            _command = '''SELECT * FROM `orders` WHERE `status` = %s AND `type` = %s;'''
+                            cursor.execute(_command, (status, type_account))
                 return cursor.fetchall()
         except Exception as e:
             print(f"get_orders_sql({status}): {e}")
+            return None
+
+    def _get_user_orders_sql(self, status, user_id, type_account):
+        try:
+            with self.connection as connection:
+                with connection.cursor() as cursor:
+                    if status == ACTIVE:
+                        _command = '''SELECT * FROM `orders` WHERE `status` IN (%s, %s, %s) AND `type` = %s AND `id_user` = %s;'''
+                        cursor.execute(_command, (ACTIVE, REVIEW, ON_APPROVE, type_account, user_id))
+                    else:
+                        _command = '''SELECT * FROM `orders` WHERE `status` IN (%s, %s) AND `type` = %s AND `id_user` = %s;'''
+                        cursor.execute(_command, (COMPLETED, CANCELED, type_account, user_id))
+                return cursor.fetchall()
+        except Exception as e:
+            print(f"_get_user_orders_sql({status}): {e}")
             return None
 
     def _get_order_sql(self, id_order):
@@ -225,4 +247,15 @@ class MyDataBase:
             return True
         except Exception as e:
             print(f"update_creo_order_trello: {e}")
+            return None
+
+    def _get_orders_by_user_id_sql(self, user_id):
+        try:
+            with self.connection as connection:
+                with connection.cursor() as cursor:
+                    _command = '''SELECT * FROM `orders` WHERE `id_user` = %s;'''
+                    cursor.execute(_command, user_id)
+            return cursor.fetchall()
+        except Exception as e:
+            print(f"_get_orders_by_user_id_sql: {e}")
             return None

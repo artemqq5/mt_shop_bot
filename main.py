@@ -20,8 +20,11 @@ from handlers.buy.creo.creo_base_handler import *
 from handlers.buy.creo.default_handler import register_creo_default_handlers
 from handlers.buy.creo.other_handler import register_creo_other_handlers
 from handlers.info.about_us_handler import register_about_us_handlers
+from handlers.my_orders.my_orders_handler import register_my_order_handlers
 from keyboard.info.support_keyboard import support_contacts_keyboard
 from keyboard.menu.menu_keyboard import main_keyboard, buy_keyboard, about_keyboard
+from keyboard.my_orders.my_orders_keyboard import user_view_choice_keyboard
+from states.user_orders.user_orders_state import UserOrdersState
 
 logging.basicConfig(level=logging.INFO)
 
@@ -67,7 +70,7 @@ async def menu_handler(message: types.Message):
 
 
 # menu handler
-@dispatcher.message_handler(lambda message: message.text in (BUY, RULES, SUPPORT, ABOUT))
+@dispatcher.message_handler(lambda message: message.text in (BUY, RULES, SUPPORT, ABOUT, MY_ORDERS))
 async def main_handler(message: types.Message):
     current_user = UsersRepository().get_user(telegram_id=message.chat.id)
     if current_user is not None:
@@ -80,9 +83,15 @@ async def main_handler(message: types.Message):
                 await message.answer(CONTACTS_OUR_SUPPORTS, reply_markup=support_contacts_keyboard())
             elif message.text == ABOUT:
                 await message.answer(text=WHAT_INTERESTED, reply_markup=about_keyboard())
+            elif message.text == MY_ORDERS:
+                await UserOrdersState.view.set()
+                await message.answer(text=TYPE_OF_ORDER_VIEW, reply_markup=user_view_choice_keyboard())
     else:
         await message.answer(ERROR_REGISTER_MESSAGE, reply_markup=ReplyKeyboardRemove())
 
+
+# my orders
+register_my_order_handlers(dispatcher)
 
 # push
 register_push_handlers(dispatcher)

@@ -92,6 +92,7 @@ SET_USER_TO_PUSH = "Укажите telegram id пользователя:"
 SET_MESSAGE_TO_PUSH = "Ваше сообщение:"
 
 PUSH_HAVE_SENT = "Сообщение доставлено"
+PUSH_HAVE_NOT_SENT = "Сообщение не доставлено"
 PUSH_HAVE_SENT_ALL = lambda total, succesful: "Сообщение доставлено {0} из {1}".format(succesful, total)
 PUSH_ERROR_SENT_USER_NOT_EXIST = "Пользователя не существует"
 PUSH_ERROR_SENT_USER_NOT_START_BOT = "Пользователь не запустил бота или заблокировал его"

@@ -21,6 +21,7 @@ def main_keyboard(message) -> ReplyKeyboardMarkup:
 
     keyboard.add(KeyboardButton(ABOUT))
     keyboard.add(KeyboardButton(BUY))
+    keyboard.add(KeyboardButton(MY_ORDERS))
     keyboard.add(KeyboardButton(RULES))
     keyboard.add(KeyboardButton(SUPPORT))
 

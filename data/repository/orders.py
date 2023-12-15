@@ -4,8 +4,11 @@ from data.database import MyDataBase
 
 class OrdersRepository(MyDataBase):
 
-    def get_orders(self, status, type_account=(CREO_TYPE, ACCOUNT_TYPE)):
-        return self._get_orders_sql(status, type_account)  # get orders by type and status, by default all types
+    def get_orders(self, status=None, type_account=None):
+        return self._get_orders_sql(status, type_account)  # get orders by type and status, by default all types of orders
+
+    def get_user_orders(self, status, user_id, type_account):
+        return self._get_user_orders_sql(status, user_id, type_account)  # get orders by type, status and user id, by default all types of orders
 
     def get_order(self, id_order):
         return self._get_order_sql(id_order)
@@ -21,3 +24,7 @@ class OrdersRepository(MyDataBase):
 
     def get_account_order(self, id_order):
         return self._get_account_order_sql(id_order)
+
+    def get_orders_by_user_id(self, user_id):
+        return self._get_orders_by_user_id_sql(user_id)
+

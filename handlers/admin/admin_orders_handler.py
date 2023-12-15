@@ -72,7 +72,7 @@ async def list_status_orders_handler(message: types.Message, state: FSMContext):
     # show all order with status: review -------------------------------------------------
     type_account = await state.get_data()
     if message.text == REVIEW_ORDERS:
-        orders = OrdersRepository().get_orders(REVIEW, type_account=(type_account['type'], ))
+        orders = OrdersRepository().get_orders(status=REVIEW, type_account=type_account['type'])
         if len(orders) > 0:
             await message.answer(REVIEW_ORDERS, reply_markup=inline_orders_keyboard(orders, type_account['type']))
         else:
@@ -80,7 +80,7 @@ async def list_status_orders_handler(message: types.Message, state: FSMContext):
 
     # show all order with status: active -------------------------------------------------
     elif message.text == ACTIVE_ORDERS:
-        orders = OrdersRepository().get_orders(ACTIVE, type_account=(type_account['type'], ))
+        orders = OrdersRepository().get_orders(status=ACTIVE, type_account=type_account['type'])
         if len(orders) > 0:
             await message.answer(ACTIVE_ORDERS, reply_markup=inline_orders_keyboard(orders, type_account['type']))
         else:
@@ -88,7 +88,7 @@ async def list_status_orders_handler(message: types.Message, state: FSMContext):
 
     # show all order with status: on_approve -------------------------------------------------
     elif message.text == ON_APPROVE_ORDERS:
-        orders = OrdersRepository().get_orders(ON_APPROVE, type_account=(type_account['type'],))
+        orders = OrdersRepository().get_orders(status=ON_APPROVE, type_account=type_account['type'])
         if len(orders) > 0:
             await message.answer(ON_APPROVE_ORDERS, reply_markup=inline_orders_keyboard(orders, type_account['type']))
         else:
@@ -96,7 +96,7 @@ async def list_status_orders_handler(message: types.Message, state: FSMContext):
 
     # show all order with status: completed -------------------------------------------------
     elif message.text == COMPLETED_ORDERS:
-        orders = OrdersRepository().get_orders(COMPLETED, type_account=(type_account['type'], ))
+        orders = OrdersRepository().get_orders(status=COMPLETED, type_account=type_account['type'])
         if len(orders) > 0:
             await message.answer(COMPLETED_ORDERS, reply_markup=inline_orders_keyboard(orders, type_account['type']))
         else:
@@ -104,7 +104,7 @@ async def list_status_orders_handler(message: types.Message, state: FSMContext):
 
     # show all order with status: cancel -------------------------------------------------
     elif message.text == CANCELED_ORDERS:
-        orders = OrdersRepository().get_orders(CANCELED, type_account=(type_account['type'], ))
+        orders = OrdersRepository().get_orders(status=CANCELED, type_account=type_account['type'])
         if len(orders) > 0:
             await message.answer(CANCELED_ORDERS, reply_markup=inline_orders_keyboard(orders, type_account['type']))
         else:
@@ -116,6 +116,7 @@ async def list_status_orders_handler(message: types.Message, state: FSMContext):
 
 
 async def details_orders_callback(callback: types.CallbackQuery):
+    print(callback.data)
     current_user = UsersRepository().get_user(callback.message.chat.id)
     if current_user is not None:
         if current_user['position'] == ADMIN:

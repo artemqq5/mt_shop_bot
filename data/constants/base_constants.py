@@ -1,3 +1,7 @@
+from data.constants.accounts_constants import ACCOUNTS
+from data.constants.agency_accounts_constants import AGENCY_ACCOUNTS
+from data.constants.apps_constants import APPS
+
 HELLO_MESSAGE = '''Приветствуем в <b>MT SHOP</b> – платформа где можно закрыть все вопросы по расходникам!\n
 🌐 Самые трастовые FB/Google аккаунты на рынке.\n
 ✨ Уникальные крео под любую вертикаль с зашкаливающим CTR.'''
@@ -24,13 +28,20 @@ WHAT_INTERESTED = "Выбери что тебя интересует"
 # creo -------- #1
 from data.constants.design_constants import *
 
-
 # RULES
 RULES = "Правила"  #
 
 # SUPPORT
 SUPPORT = "Поддержка"  #
 
+# MY ORDERS
+MY_ORDERS = "Мои заказы"
+TYPE_OF_ORDER_VIEW = "Выберите что хотите посмотреть"
+GENERAL_STATISTICS = "Общая статистика"
+LIST_OF_USER_VIEW = (GENERAL_STATISTICS, DESIGN, ACCOUNTS, )  # APPS, AGENCY_ACCOUNTS
+STATUS_OF_ORDERS_USER = "Выберите статус заказов"
+CALL_ADMIN_ABOUT_ORDER = "Задать вопрос по заказу"
+MESSAGE_ = "message"
 
 # OTHER -----------------------------------------------------
 NOT_IMPLEMENTED = "Еще не реализовано"

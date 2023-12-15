@@ -92,11 +92,7 @@ async def user_task_question(callback: types.CallbackQuery, state: FSMContext):
 
 async def task_question_message(message: types.Message, state: FSMContext):
     data = await state.get_data()
-    result = await message_to_admin_from_client(message, message.text, data['message'])
-    if result:
-        await UserOrdersState.view.set()
-        await message.answer(text=PUSH_HAVE_SENT, reply_markup=user_view_choice_keyboard())
-    else:
-        await UserOrdersState.view.set()
-        await message.answer(text=PUSH_HAVE_NOT_SENT, reply_markup=user_view_choice_keyboard())
+    await message_to_admin_from_client(message, message.text, data['message'])
+    await UserOrdersState.view.set()
+    await message.answer(text=PUSH_HAVE_SENT, reply_markup=user_view_choice_keyboard())
 

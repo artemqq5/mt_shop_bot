@@ -9,19 +9,35 @@ from handlers.my_orders.message_format.task_for_notification import creo_notify_
 from keyboard.menu.menu_keyboard import main_keyboard
 
 
-async def notify_new_task(message, category):
+async def notify_new_task(message, category, data):
     admins = UsersRepository().get_users(position=ADMIN)
 
-    name_user = f"from @{message.chat.username}" if message.chat.username is not None else ""
-    info_task = f"New task ({category}) {name_user}"
+    name_user = f"@{message.chat.username}" if message.chat.username is not None else ""
 
-    for admin in admins:
-        if category == CREO_TYPE and admin['sub_position'] == SUB_POSITION_CREO:
-            await message.bot.send_message(chat_id=admin['id'], text=info_task)
-        elif category == ACCOUNT_TYPE and admin['sub_position'] == SUB_POSITION_ACCOUNT:
-            await message.bot.send_message(chat_id=admin['id'], text=info_task)
-        elif admin['sub_position'] is None:
-            await message.bot.send_message(chat_id=admin['id'], text=info_task)
+    if category == CREO_TYPE:
+        info_task = f"<b>Новый заказ | {DESIGN} | {data['general']['type']}</b>\n\n"
+        info_task += f"{data['general']['format']} | {data['general']['category']}\n\n"
+        info_task += f"{data['description']}\n\n"
+        info_task += f"<b>Контакт:</b> {name_user}"
+    elif category == ACCOUNT_TYPE:
+        info_task = f"<b>Новый заказ | {data['account']['name']}</b>\n\n"
+        info_task += f"geo: {data['account']['geo']} | кол-во: {data['count']} | {data['account']['type']}\n\n"
+        info_task += f"{data['account']['desc']}\n\n"
+        info_task += f"дополнтительно: {data.get('desc', None)}\n\n"
+        info_task += f"<b>Контакт:</b> {name_user}"
+    else:
+        info_task = "Невідоме сповіщення"  # todo optional
+
+    try:
+        for admin in admins:
+            if category == CREO_TYPE and admin['sub_position'] == SUB_POSITION_CREO:
+                await message.bot.send_message(chat_id=admin['id'], text=info_task)
+            elif category == ACCOUNT_TYPE and admin['sub_position'] == SUB_POSITION_ACCOUNT:
+                await message.bot.send_message(chat_id=admin['id'], text=info_task)
+            elif admin['sub_position'] is None:
+                await message.bot.send_message(chat_id=admin['id'], text=info_task)
+    except Exception as e:
+        print(f"notify_new_task: {e}")
 
 
 async def push_users(message, text, user_id=None):
@@ -59,18 +75,13 @@ async def message_to_admin_from_client(message, text, order_id):
                 creo_task = CreosRepository().get_creo(order_id)
                 for admin in admins:
                     if admin['sub_position'] != SUB_POSITION_ACCOUNT:
-                        await message.bot.send_message(chat_id=admin['id'], text=creo_notify_formatted(creo_task, text, user))
+                        await message.bot.send_message(chat_id=admin['id'],
+                                                       text=creo_notify_formatted(creo_task, text, user))
             elif task['type'] == ACCOUNT_TYPE:
                 account_task = OrdersRepository().get_account_order(order_id)
                 for admin in admins:
                     if admin['sub_position'] != SUB_POSITION_CREO:
-                        await message.bot.send_message(chat_id=admin['id'], text=account_notify_formatted(account_task, text, user))
-            else:
-                return False
-
-            return True
+                        await message.bot.send_message(chat_id=admin['id'],
+                                                       text=account_notify_formatted(account_task, text, user))
         except Exception as e:
             print(f"message_to_admin_from_client: {e}")
-            return False
-    else:
-        return False

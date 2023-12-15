@@ -24,6 +24,6 @@ async def send_order_account(data, message):
 
         if result:
             await message.answer(TASK_SEND, reply_markup=main_keyboard(message))
-            await notify_new_task(message, ACCOUNT_TYPE)
+            await notify_new_task(message, ACCOUNT_TYPE, data)
         else:
             await message.answer(TASK_SEND_ERROR, reply_markup=main_keyboard(message))

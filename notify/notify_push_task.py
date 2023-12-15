@@ -2,6 +2,7 @@ from aiogram.utils.exceptions import ChatNotFound, BotBlocked
 
 from data.constants.admin_constants import *
 from data.constants.base_constants import ADMIN, CLIENT, SUB_POSITION_CREO, SUB_POSITION_ACCOUNT
+from data.repository.accounts import AccountsRepository
 from data.repository.creos import CreosRepository
 from data.repository.orders import OrdersRepository
 from data.repository.users import UsersRepository
@@ -9,21 +10,24 @@ from handlers.my_orders.message_format.task_for_notification import creo_notify_
 from keyboard.menu.menu_keyboard import main_keyboard
 
 
-async def notify_new_task(message, category, data):
+async def notify_new_task(message, category, id_order):
     admins = UsersRepository().get_users(position=ADMIN)
 
     name_user = f"@{message.chat.username}" if message.chat.username is not None else ""
 
     if category == CREO_TYPE:
-        info_task = f"<b>Новый заказ | {DESIGN} | {data['general']['type']}</b>\n\n"
-        info_task += f"{data['general']['format']} | {data['general']['category']}\n\n"
+        data = CreosRepository().get_creo(id_order)
+        info_task = f"<b>#{data['id']} Новый заказ | {DESIGN} | {data['type']}</b>\n\n"
+        info_task += f"{data['format']} | {data['category']}\n\n"
         info_task += f"{data['description']}\n\n"
+        info_task += f"дедлайн: {data['deadline']}\n\n"
         info_task += f"<b>Контакт:</b> {name_user}"
     elif category == ACCOUNT_TYPE:
-        info_task = f"<b>Новый заказ | {data['account']['name']}</b>\n\n"
-        info_task += f"geo: {data['account']['geo']} | кол-во: {data['count']} | {data['account']['type']}\n\n"
-        info_task += f"{data['account']['desc']}\n\n"
-        info_task += f"дополнтительно: {data.get('desc', None)}\n\n"
+        data = OrdersRepository().get_account_order(id_order)
+        info_task = f"<b>#{data['id']} Новый заказ | {data['name']}</b>\n\n"
+        info_task += f"geo: {data['geo']} | кол-во: {data['count']} | {data['type']}\n\n"
+        info_task += f"{data['desc']}\n\n"
+        info_task += f"дополнтительно: {data['desc_from_user']}\n\n"
         info_task += f"<b>Контакт:</b> {name_user}"
     else:
         info_task = "Невідоме сповіщення"  # todo optional

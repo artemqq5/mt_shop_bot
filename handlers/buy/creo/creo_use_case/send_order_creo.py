@@ -27,8 +27,8 @@ async def send_order_creo(data, message):
             print(f"send_order_creo: {e}")
             result = None
 
-        if result:
+        if result is not None:
             await message.answer(TASK_SEND, reply_markup=main_keyboard(message))
-            await notify_new_task(message, CREO_TYPE, data)
+            await notify_new_task(message, CREO_TYPE, result)
         else:
             await message.answer(TASK_SEND_ERROR, reply_markup=main_keyboard(message))

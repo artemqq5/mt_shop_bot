@@ -120,7 +120,7 @@ class MyDataBase:
                     cursor.execute(_command, (id_user, CREO_TYPE, id_order))
                 connection.commit()
 
-            return True
+            return id_order
 
         except Exception as e:
             print(f"add_creo_sql: {e}")
@@ -193,7 +193,7 @@ class MyDataBase:
                     cursor.execute(_command, (id_user, ACCOUNT_TYPE, id_order))
                 connection.commit()
 
-            return True
+            return id_order
 
         except Exception as e:
             print(f"add_order_account_sql: {e}")

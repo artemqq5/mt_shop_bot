@@ -52,7 +52,7 @@ async def user_status_view(message: types.Message, state: FSMContext):
         await message.answer(ACTIVE_ORDERS, reply_markup=user_task_keyboard(orders))
     elif message.text == COMPLETED_ORDERS:
         orders = OrdersRepository().get_user_orders(COMPLETED, message.chat.id, type_order['view'])
-        await message.answer(ACTIVE_ORDERS, reply_markup=user_task_keyboard(orders))
+        await message.answer(COMPLETED_ORDERS, reply_markup=user_task_keyboard(orders))
 
 
 async def user_task_active_view_query(callback: types.CallbackQuery):

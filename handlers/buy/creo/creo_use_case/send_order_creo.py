@@ -21,7 +21,9 @@ async def send_order_creo(data, message):
                 offer=data.get('offer', None),
                 voice=data.get('voice', None),
                 source=data.get('source', None),
-                deadline=data.get('deadline', None)
+                deadline=data.get('deadline', None),
+                count=data['count'],
+                sub_desc=data.get('sub_description', None)
             )
         except Exception as e:
             print(f"send_order_creo: {e}")

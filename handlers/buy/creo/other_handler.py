@@ -17,6 +17,7 @@ def register_creo_other_handlers(dispatcher):
     dispatcher.register_message_handler(callback=set_offer_other_creative, state=CreoOtherState.offer)
     dispatcher.register_message_handler(callback=set_source_other_creative, state=CreoOtherState.source)
     dispatcher.register_message_handler(callback=set_description_other_creative, state=CreoOtherState.description)
+    dispatcher.register_message_handler(callback=set_count_other_creative, state=[CreoOtherState.count, CreoOtherState.sub_description])
     dispatcher.register_message_handler(callback=set_deadline_other_creative, state=CreoOtherState.deadline)
 
 
@@ -53,12 +54,42 @@ async def set_source_other_creative(message: types.Message, state: FSMContext):
     await message.answer(DESCRIPTION_MESSAGE, reply_markup=cancel_keyboard())
 
 
-# set description -> request deadline
+# set description -> request count\sub_desc
 async def set_description_other_creative(message: types.Message, state: FSMContext):
-    await CreoOtherState.next()
+    await CreoOtherState.count.set()
     await state.update_data(description=message.text)
-    task_data = await state.get_data()
-    await message.answer(check_view_order(task_data), reply_markup=check_task_view_keyboard())
+    await message.answer(COUNT_OF_CREO, reply_markup=skip_keyboard())
+
+
+async def set_count_other_creative(message: types.Message, state: FSMContext):
+    state_type = await state.get_state()
+    if state_type == CreoOtherState.count.state:
+        if message.text == SKIP:
+            await state.update_data(count=1)
+            await CreoOtherState.check.set()
+            task_data = await state.get_data()
+            await message.answer(check_view_order(task_data), reply_markup=check_task_view_keyboard())
+        else:
+            try:
+                count = int(message.text)
+                await state.update_data(count=count)
+                if count > 1:
+                    await CreoOtherState.sub_description.set()
+                    await message.answer(SUB_DESC_FOR_OTHER_CREO, reply_markup=cancel_keyboard())
+                elif count == 1:
+                    await CreoOtherState.check.set()
+                    task_data = await state.get_data()
+                    await message.answer(check_view_order(task_data), reply_markup=check_task_view_keyboard())
+                else:
+                    await message.answer(WRONG_FORMAT_INPUT_CREO, reply_markup=skip_keyboard())
+            except Exception as e:
+                print(f"set_count_other_creative: {e}")
+                await message.answer(WRONG_FORMAT_INPUT_CREO, reply_markup=skip_keyboard())
+    else:
+        await state.update_data(sub_description=message.text)
+        await CreoOtherState.check.set()
+        task_data = await state.get_data()
+        await message.answer(check_view_order(task_data), reply_markup=check_task_view_keyboard())
 
 
 # set deadline ->

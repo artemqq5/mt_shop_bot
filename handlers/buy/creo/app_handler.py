@@ -18,6 +18,7 @@ def register_creo_app_handlers(dispatcher):
     dispatcher.register_message_handler(callback=set_offer_app_creative, state=CreoAppState.offer)
     dispatcher.register_message_handler(callback=set_source_app_creative, state=CreoAppState.source)
     dispatcher.register_message_handler(callback=set_description_app_creative, state=CreoAppState.description)
+    dispatcher.register_message_handler(callback=set_count_app_creative, state=[CreoAppState.count, CreoAppState.sub_description])
     dispatcher.register_message_handler(callback=set_deadline_app_creative, state=CreoAppState.deadline)
 
 
@@ -65,12 +66,42 @@ async def set_source_app_creative(message: types.Message, state: FSMContext):
     await message.answer(DESCRIPTION_MESSAGE, reply_markup=cancel_keyboard())
 
 
-# set description -> request deadline
+# set description -> request count\sub_desc
 async def set_description_app_creative(message: types.Message, state: FSMContext):
-    await CreoAppState.next()
+    await CreoAppState.count.set()
     await state.update_data(description=message.text)
-    task_data = await state.get_data()
-    await message.answer(check_view_order(task_data), reply_markup=check_task_view_keyboard())
+    await message.answer(COUNT_OF_CREO, reply_markup=skip_keyboard())
+
+
+async def set_count_app_creative(message: types.Message, state: FSMContext):
+    state_type = await state.get_state()
+    if state_type == CreoAppState.count.state:
+        if message.text == SKIP:
+            await state.update_data(count=1)
+            await CreoAppState.check.set()
+            task_data = await state.get_data()
+            await message.answer(check_view_order(task_data), reply_markup=check_task_view_keyboard())
+        else:
+            try:
+                count = int(message.text)
+                await state.update_data(count=count)
+                if count > 1:
+                    await CreoAppState.sub_description.set()
+                    await message.answer(SUB_DESC_FOR_OTHER_CREO, reply_markup=cancel_keyboard())
+                elif count == 1:
+                    await CreoAppState.check.set()
+                    task_data = await state.get_data()
+                    await message.answer(check_view_order(task_data), reply_markup=check_task_view_keyboard())
+                else:
+                    await message.answer(WRONG_FORMAT_INPUT_CREO, reply_markup=skip_keyboard())
+            except Exception as e:
+                print(f"set_count_app_creative: {e}")
+                await message.answer(WRONG_FORMAT_INPUT_CREO, reply_markup=skip_keyboard())
+    else:
+        await state.update_data(sub_description=message.text)
+        await CreoAppState.check.set()
+        task_data = await state.get_data()
+        await message.answer(check_view_order(task_data), reply_markup=check_task_view_keyboard())
 
 
 # set deadline ->

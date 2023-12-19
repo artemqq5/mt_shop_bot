@@ -67,3 +67,7 @@ GOOGLE_PLEY_TYPE = "Google Play"
 ALL_TASK_GOOD = "Все правильно"
 ORDER_AGAIN_RETURN = "Заполнить сначала"
 
+# foramt
+WRONG_FORMAT_INPUT_CREO = "Неправильный формат ввода для количества крео"
+COUNT_OF_CREO = "Укажите количество креативов, по умолчанию 1"
+SUB_DESC_FOR_OTHER_CREO = "Укажите дополнительное описание для следующих крео"

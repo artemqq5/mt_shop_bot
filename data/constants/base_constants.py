@@ -2,7 +2,7 @@ from data.constants.accounts_constants import ACCOUNTS
 from data.constants.agency_accounts_constants import AGENCY_ACCOUNTS
 from data.constants.apps_constants import APPS
 
-HELLO_MESSAGE = '''Приветствуем в <b>MT SHOP</b> – платформа где можно закрыть все вопросы по расходникам!\n
+HELLO_MESSAGE = '''Приветствуем в <b>MT SHOP</b> – платформа где можно закрыть все потребности!\n
 🌐 Самые трастовые FB/Google аккаунты на рынке.\n
 ✨ Уникальные крео под любую вертикаль с зашкаливающим CTR.'''
 

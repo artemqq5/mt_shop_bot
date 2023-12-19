@@ -8,9 +8,13 @@ class CreosRepository(MyDataBase):
 
     def add_creo(
             self, format_creo, type_creo, category, description, id_user, geo, language, currency, format_res,
-            offer, voice, source, deadline
+            offer, voice, source, deadline, count, sub_desc
     ):
         return self._add_creo_sql(
             format_creo, type_creo, category, description, id_user, geo, language, currency, format_res, offer,
-            voice, source, deadline
+            voice, source, deadline, count, sub_desc
         )
+
+    def update_dropbox_link(self, id_order, link):
+        return self._update_dropbox_link(id_order, link)
+

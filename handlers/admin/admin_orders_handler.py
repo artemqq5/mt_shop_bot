@@ -7,12 +7,13 @@ from data.constants.base_constants import *
 from data.repository.creos import CreosRepository
 from data.repository.users import UsersRepository
 from handlers.admin.parse_data_db.orders_parse import *
+from notify.notify_push_task import push_users
 from trello_mng.card_format import parse_to_trello_card_format
 from trello_mng.send_task import MyTrelloManager
 from keyboard.admin.admin_keyboard import *
 from keyboard.admin.admin_orders_keyboard import admin_orders_keyboard, inline_orders_keyboard, \
     managment_order_keyboard, type_of_orders_admin
-from keyboard.base_keyboard import cancel_keyboard
+from keyboard.base_keyboard import cancel_keyboard, skip_keyboard
 from keyboard.menu.menu_keyboard import main_keyboard
 from states.admin.manage_orders_state import ManageOrderState
 
@@ -28,6 +29,7 @@ def register_orders_handler(dispatcher):
     dispatcher.register_callback_query_handler(managment_order_callback,
                                                lambda call: call.data in all_order_status_change(),
                                                state=ManageOrderState.managment)
+    dispatcher.register_message_handler(set_dropbox_link, state=ManageOrderState.dropbox)
     dispatcher.register_callback_query_handler(send_to_trello_callback,
                                                lambda call: call.data in order_send_trello_list(),
                                                state=ManageOrderState.managment)
@@ -54,13 +56,13 @@ async def status_handler(message: types.Message, state: FSMContext):
     if message.text == ACCOUNTS:
         await state.update_data(type=ACCOUNT_TYPE)
 
-        await ManageOrderState.next()
+        await ManageOrderState.managment.set()
         await message.answer(STATUS_OF_ORDERS, reply_markup=admin_orders_keyboard())
 
     elif message.text == DESIGN:
         await state.update_data(type=CREO_TYPE)
 
-        await ManageOrderState.next()
+        await ManageOrderState.managment.set()
         await message.answer(STATUS_OF_ORDERS, reply_markup=admin_orders_keyboard())
 
     else:
@@ -148,24 +150,65 @@ async def details_orders_callback(callback: types.CallbackQuery):
         await callback.message.answer(ERROR_REGISTER_MESSAGE, reply_markup=ReplyKeyboardRemove())
 
 
-async def managment_order_callback(callback: types.CallbackQuery):
+async def managment_order_callback(callback: types.CallbackQuery, state: FSMContext):
     current_user = UsersRepository().get_user(callback.message.chat.id)
     if current_user is not None:
         if current_user['position'] == ADMIN:
             order_set_status = callback.data.split("_")[0]
             order_id = callback.data.split("_")[1]
+            task = OrdersRepository().get_order(order_id)
 
-            result = OrdersRepository().exchange_status_order(order_id, order_set_status)
-
-            if result is not None:
-                await callback.message.answer(STATUS_SUCCESFULY_EXCHANGE)
+            if task['type'] == CREO_TYPE and order_set_status == COMPLETED:
+                await ManageOrderState.dropbox.set()
+                await state.update_data(task_creo=CreosRepository().get_creo(order_id), id_user=task['id_user'])
+                await callback.message.answer(SET_LINK_TO_DROPBOX, reply_markup=skip_keyboard())
             else:
-                await callback.message.answer(STATUS_NOT_EXCHANGE)
+                result = OrdersRepository().exchange_status_order(order_id, order_set_status)
+
+                if result is not None:
+                    await callback.message.answer(STATUS_SUCCESFULY_EXCHANGE)
+                else:
+                    await callback.message.answer(STATUS_NOT_EXCHANGE)
 
         else:
             await callback.message.answer(NO_ACCESS, reply_markup=main_keyboard(callback.message))
     else:
         await callback.message.answer(ERROR_REGISTER_MESSAGE, reply_markup=ReplyKeyboardRemove())
+
+
+async def set_dropbox_link(message: types.Message, state: FSMContext):
+    data = await state.get_data()
+    if message.text == SKIP:
+        if data['task_creo']['dropbox'] is None:
+            await message.answer(CANT_SEND_WITHOUT_LINK)
+        else:
+            result = OrdersRepository().exchange_status_order(data['task_creo']['id_order'], COMPLETED)
+
+            if result is not None:
+                await message.answer(STATUS_SUCCESFULY_EXCHANGE, reply_markup=admin_orders_keyboard())
+            else:
+                await message.answer(STATUS_NOT_EXCHANGE, reply_markup=admin_orders_keyboard())
+
+            await ManageOrderState.managment.set()
+    else:
+        if message.text.startswith("https://"):
+            result_dropbox = CreosRepository().update_dropbox_link(data['task_creo']['id_order'], message.text)
+            result_status = OrdersRepository().exchange_status_order(data['task_creo']['id_order'], COMPLETED)
+
+            if result_dropbox is not None:
+                if result_status is not None:
+                    await message.answer(STATUS_SUCCESFULY_EXCHANGE, reply_markup=admin_orders_keyboard())
+                    name = f"{data['task_creo']['format']} | {data['task_creo']['type']} | {data['task_creo']['category']}"
+                    text = MESSAGE_UPDATE_DROPBOX(message.text, name)
+                    await push_users(message, text, data['id_user'])
+                else:
+                    await message.answer(STATUS_NOT_EXCHANGE, reply_markup=admin_orders_keyboard())
+            else:
+                await message.answer(STATUS_NOT_EXCHANGE, reply_markup=admin_orders_keyboard())
+
+            await ManageOrderState.managment.set()
+        else:
+            await message.answer(WRONG_LINK_FORMAT)
 
 
 async def send_to_trello_callback(callback: types.CallbackQuery):
@@ -183,7 +226,8 @@ async def send_to_trello_callback(callback: types.CallbackQuery):
 
                 if result is not None:
                     OrdersRepository().exchange_status_order(order_id, ACTIVE)  # change status to active
-                    OrdersRepository().update_creo_order_trello(result['id'], result['url'], order_id)  # add trello_mng data to database
+                    OrdersRepository().update_creo_order_trello(result['id'], result['url'],
+                                                                order_id)  # add trello_mng data to database
                     MyTrelloManager().set_status_field(result['id'])  # set status in trello_mng
                     await callback.message.answer(TASK_SUCCESFUL_SEND)
 
@@ -204,7 +248,7 @@ async def refinement_callback(callback: types.CallbackQuery, state: FSMContext):
         if current_user['position'] == ADMIN and current_user['sub_position'] != SUB_POSITION_ACCOUNT:
             order_id = callback.data.split("_")[1]
 
-            await ManageOrderState.next()
+            await ManageOrderState.refinement().set()
             await state.update_data(refinement=order_id)
             await callback.message.answer(COMMENT_TO_REFINEMENT, reply_markup=cancel_keyboard())
 

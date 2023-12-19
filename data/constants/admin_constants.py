@@ -97,3 +97,8 @@ PUSH_HAVE_SENT_ALL = lambda total, succesful: "Сообщение доставл
 PUSH_ERROR_SENT_USER_NOT_EXIST = "Пользователя не существует"
 PUSH_ERROR_SENT_USER_NOT_START_BOT = "Пользователь не запустил бота или заблокировал его"
 
+SET_LINK_TO_DROPBOX = "Установите ссылку на DropBox"
+CANT_SEND_WITHOUT_LINK = "Невозможно отметить готовым таском без имеющейся ссылки на DropBox"
+WRONG_LINK_FORMAT = "Неправильный формат, ссылка должна начинаться с https://"
+MESSAGE_UPDATE_DROPBOX = lambda dropbox, task_name: "В вашем заказе\n<b>{0}</b>\nбыла обновленна ссылка на dropbox!\n\n{1}".format(task_name, dropbox)
+

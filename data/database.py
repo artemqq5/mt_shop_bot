@@ -99,7 +99,8 @@ class MyDataBase:
             return None
 
     def _add_creo_sql(self, format_creo, type_creo, category, description, id_user, geo=None, language=None,
-                      currency=None, format_res=None, offer=None, voice=None, source=None, deadline=None):
+                      currency=None, format_res=None, offer=None, voice=None, source=None, deadline=None, count=1,
+                      sub_desc=None):
         try:
             id_order = str(uuid.uuid4())
 
@@ -107,11 +108,11 @@ class MyDataBase:
                 with connection.cursor() as cursor:
                     _command = '''INSERT INTO `creo_orders` (
                         `id_order`, `format`, `type`, `category`, `geo`,  `language`, `currency`, `format_res`,
-                         `offer`, `voice`, `source`, `description`, `deadline`
-                     ) VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s);'''
+                         `offer`, `voice`, `source`, `description`, `deadline`, `count`, `sub_description`
+                     ) VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s);'''
                     cursor.execute(_command, (
                         id_order, format_creo, type_creo, category, geo, language, currency, format_res,
-                        offer, voice, source, description, deadline
+                        offer, voice, source, description, deadline, count, sub_desc
                     ))
                 connection.commit()
 
@@ -258,4 +259,16 @@ class MyDataBase:
             return cursor.fetchall()
         except Exception as e:
             print(f"_get_orders_by_user_id_sql: {e}")
+            return None
+
+    def _update_dropbox_link(self, id_order, link):
+        try:
+            with self.connection as connection:
+                with connection.cursor() as cursor:
+                    _command = '''UPDATE `creo_orders` SET `dropbox` = %s WHERE `id_order` = %s;'''
+                    cursor.execute(_command, (link, id_order))
+                connection.commit()
+            return True
+        except Exception as e:
+            print(f"_update_dropbox_link: {e}")
             return None

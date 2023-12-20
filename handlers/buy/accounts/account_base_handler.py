@@ -75,11 +75,14 @@ async def desc_account_order(message: types.Message, state: FSMContext):
 async def count_account_order(message: types.Message, state: FSMContext):
     try:
         count = int(message.text)
-        await state.update_data(count=count)
-        data = await state.get_data()
-        await state.finish()
+        if count <= 0:
+            await message.answer(COUNT_IS_BIGGER_ZERO, reply_markup=cancel_keyboard())
+        else:
+            await state.update_data(count=count)
+            data = await state.get_data()
+            await state.finish()
 
-        await send_order_account(data, message)
+            await send_order_account(data, message)
 
     except Exception as e:
         print(f"count_account_order: {e}")

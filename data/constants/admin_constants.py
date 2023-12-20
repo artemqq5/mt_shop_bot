@@ -33,6 +33,7 @@ CANCELED = "canceled"
 # status_item
 HIDE_STATE = "hide"
 OPEN_STATE = "open"
+DELETE_STATE = "delete"
 
 # table type orders
 CREO_TYPE = "creo"
@@ -74,8 +75,11 @@ CHOICE_TYPE_OF_SHOW = "Выберите категорию товаров для
 # Manage Items ========
 HIDE_ITEM = "Скрыть позицию"
 OPEN_ITEM = "Показать позицию"
+DELETE_ITEM = "Удалить позицию"
+SUCCESULL_DELTED = "Товар успешно удален"
 SUCCESULL_UPDATE_VISIBILITY = "Видимость товара обновлена"
 FAIL_UPDATE_VISIBILITY = "Не вышло обновить видимость товара"
+FAIL_DELTED = "Товар не удален, ошибка"
 
 # ITEMS TYPE ============================
 ACCOUNT_ITEM = "Аккаунты"

@@ -68,6 +68,12 @@ async def account_detail_handler(callback: types.CallbackQuery, state: FSMContex
                     await callback.message.answer(SUCCESULL_UPDATE_VISIBILITY)
                 else:
                     await callback.message.answer(FAIL_UPDATE_VISIBILITY)
+            elif DELETE_STATE in callback.data and current_user['sub_position'] != SUB_POSITION_CREO:
+                result = AccountsRepository().delete_account(callback.data.split("_")[1])
+                if result is not None:
+                    await callback.message.answer(SUCCESULL_DELTED)
+                else:
+                    await callback.message.answer(FAIL_DELTED)
             else:
                 account_info = AccountsRepository().get_account(callback.data)
                 await callback.message.answer(formatted_output_account(account_info),

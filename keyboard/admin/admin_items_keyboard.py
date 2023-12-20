@@ -44,6 +44,7 @@ def list_of_callback_show_item() -> list[str]:
         list_callbacks.append(str(i['id']))
         list_callbacks.append(f"{HIDE_STATE}_{i['id']}")
         list_callbacks.append(f"{OPEN_STATE}_{i['id']}")
+        list_callbacks.append(f"{DELETE_STATE}_{i['id']}")
 
     return list_callbacks
 
@@ -55,6 +56,7 @@ def manag_item_keyboard(id_account) -> InlineKeyboardMarkup:
 
     keyboard.add(InlineKeyboardButton(text=HIDE_ITEM, callback_data=f"{HIDE_STATE}_{account['id']}"))
     keyboard.add(InlineKeyboardButton(text=OPEN_ITEM, callback_data=f"{OPEN_STATE}_{account['id']}"))
+    keyboard.add(InlineKeyboardButton(text=DELETE_ITEM, callback_data=f"{DELETE_STATE}_{account['id']}"))
 
     return keyboard
 

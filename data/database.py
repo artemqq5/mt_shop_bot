@@ -272,3 +272,15 @@ class MyDataBase:
         except Exception as e:
             print(f"_update_dropbox_link: {e}")
             return None
+
+    def _delete_account(self, account_id):
+        try:
+            with self.connection as connection:
+                with connection.cursor() as cursor:
+                    _command = '''DELETE FROM `accounts` WHERE `id` = %s;'''
+                    cursor.execute(_command, account_id)
+                connection.commit()
+            return True
+        except Exception as e:
+            print(f"_delete_account: {e}")
+            return None

@@ -1,6 +1,8 @@
 DESIGN = "Креатив"  #
+EXAMPLE_OF_CREO = "https://www.dropbox.com/scl/fo/d8iy0tk3azr08hcuri9ak/h?dl=0"
 # ---------------------------------------------------------------------------
-DESIGN_FORMAT = "Выберите формат кретива"
+DESIGN_FORMAT = "Выберите формат кретива\n\nПримеры по ссылке: {0}".format(EXAMPLE_OF_CREO)
+
 
 VIDEO_FORMAT = "Видео"
 STATIC_FORMAT = "Статика"

@@ -54,7 +54,7 @@ async def account_detail_handler(callback: types.CallbackQuery, state: FSMContex
     current_user = UsersRepository().get_user(callback.message.chat.id)
     if current_user is not None:
         if current_user['position'] == ADMIN:
-            print(callback.data)
+            # print(callback.data)
             # main ======================
             if HIDE_STATE in callback.data and current_user['sub_position'] != SUB_POSITION_CREO:
                 result = AccountsRepository().exchange_visibility_account(HIDE_STATE, callback.data.split("_")[1])

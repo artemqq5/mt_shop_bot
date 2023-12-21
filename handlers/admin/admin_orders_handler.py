@@ -118,7 +118,7 @@ async def list_status_orders_handler(message: types.Message, state: FSMContext):
 
 
 async def details_orders_callback(callback: types.CallbackQuery):
-    print(callback.data)
+    # print(callback.data)
     current_user = UsersRepository().get_user(callback.message.chat.id)
     if current_user is not None:
         if current_user['position'] == ADMIN:
@@ -231,8 +231,8 @@ async def send_to_trello_callback(callback: types.CallbackQuery):
                     MyTrelloManager().set_status_field(result['id'])  # set status in trello_mng
                     await callback.message.answer(TASK_SUCCESFUL_SEND)
 
-                    result_webhook = MyTrelloManager().set_webhook_card(result['id'])
-                    print(result_webhook.json())
+                    MyTrelloManager().set_webhook_card(result['id'])
+                    # print(result_webhook.json())
                 else:
                     await callback.message.answer(TASK_FAIL_SEND)
 

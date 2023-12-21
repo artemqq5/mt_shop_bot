@@ -18,16 +18,18 @@ async def notify_new_task(message, category, id_order):
     if category == CREO_TYPE:
         data = CreosRepository().get_creo(id_order)
         info_task = f"<b>#{data['id']} Новый заказ | {DESIGN} | {data['type']}</b>\n\n"
-        info_task += f"{data['format']} | {data['category']}\n\n"
-        info_task += f"{data['description']}\n\n"
+        info_task += f"{data['format']} | {data['category']}\n"
+        info_task += f"Кол-во: {data['count']}\n"
         info_task += f"дедлайн: {data['deadline']}\n\n"
+        info_task += f"Описание: {data['description']}\n\n"
+        info_task += f"Доп Описание: {data['sub_description']}\n\n"
         info_task += f"<b>Контакт:</b> {name_user}"
     elif category == ACCOUNT_TYPE:
         data = OrdersRepository().get_account_order(id_order)
         info_task = f"<b>#{data['id']} Новый заказ | {data['name']}</b>\n\n"
-        info_task += f"geo: {data['geo']} | кол-во: {data['count']} | {data['type']}\n\n"
+        info_task += f"Гео: {data['geo']} | Кол-во: {data['count']} | {data['type']}\n\n"
         info_task += f"{data['desc']}\n\n"
-        info_task += f"дополнтительно: {data['desc_from_user']}\n\n"
+        info_task += f"Дополнтительно: {data['desc_from_user']}\n\n"
         info_task += f"<b>Контакт:</b> {name_user}"
     else:
         info_task = "Невідоме сповіщення"  # todo optional

@@ -6,6 +6,9 @@ from data.constants.base_constants import *
 def design_format_keyboard() -> ReplyKeyboardMarkup:
     keyboard = ReplyKeyboardMarkup(row_width=1, resize_keyboard=True)
 
+    # add FAQ for creo
+    keyboard.add(KeyboardButton(text=FAQ_CREO))
+
     for i in FORMAT_CREO_LIST:
         keyboard.add(KeyboardButton(text=i))
 

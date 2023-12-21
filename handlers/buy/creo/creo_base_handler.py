@@ -20,6 +20,11 @@ def register_handlers_creo(dispatcher):
         state=OrderCreativeState.format
     )
     dispatcher.register_message_handler(
+        faq_creo_listener,
+        lambda message: message.text == FAQ_CREO,
+        state=OrderCreativeState.format
+    )
+    dispatcher.register_message_handler(
         design_category,
         lambda message: message.text in TYPE_CREO_LIST,
         state=OrderCreativeState.type
@@ -39,10 +44,14 @@ def register_handlers_creo(dispatcher):
     )
 
 
-# format ("Видео", "Статика", "GIF-анимация")
+# format ("Видео", "Статика", "GIF-анимация") FAQ
 async def design_format(message: types.Message):
     await OrderCreativeState.format.set()
     await message.answer(DESIGN_FORMAT, reply_markup=design_format_keyboard())
+
+
+async def faq_creo_listener(message: types.Message):
+    await message.answer(FAQ_CREO_DESC)
 
 
 # type (NEW, ADAPTIVE)

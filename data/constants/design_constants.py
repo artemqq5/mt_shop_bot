@@ -1,12 +1,14 @@
 DESIGN = "Креатив"  #
-EXAMPLE_OF_CREO = "https://www.dropbox.com/scl/fo/d8iy0tk3azr08hcuri9ak/h?dl=0"
 # ---------------------------------------------------------------------------
-DESIGN_FORMAT = "Выберите формат кретива\n\nПримеры по ссылке: {0}".format(EXAMPLE_OF_CREO)
+DESIGN_FORMAT = "Выберите формат кретива\t<a href='https://www.dropbox.com/scl/fo/d8iy0tk3azr08hcuri9ak/h?dl=0'>Примеры по ссылке</a>"
 
 
 VIDEO_FORMAT = "Видео"
 STATIC_FORMAT = "Статика"
 GIF_ANIM_FORMAT = "GIF-анимация"
+
+FAQ_CREO = "FAQ (Как заказывать?)"
+FAQ_CREO_DESC = "FAQ (Как заказывать?)\t<a href='https://docs.google.com/spreadsheets/d/13FbBoBQoag8S79qqF9XgsI5-aZVdFldL-wyO-lkZKks/edit#gid=1236370808'>Инструкция</a>"
 
 FORMAT_CREO_LIST = (VIDEO_FORMAT, STATIC_FORMAT, GIF_ANIM_FORMAT)
 # ---------------------------------------------------------------------------
@@ -33,8 +35,8 @@ CATEGORY_CREO_LIST_STATIC = (NUTRA, BETTING, I_GAMING, DATING, FINANCE, E_COMMER
 CATEGORY_CREO_LIST_GIF_ANIM = (NUTRA, BETTING, I_GAMING, DATING, FINANCE, E_COMMERCE, SWEEPSTAKES, ESSAY, GAMING,
                                LANDING_UI_UX, APP_DESIGN, OTHER)
 
-CRYPTO = "Крипта (Crypto)"
-FOREX = "Форекс (Forex)"
+CRYPTO = "Крипта (Crypto Finance)"
+FOREX = "Форекс (Forex Finance)"
 OTHER_FINANCE = "Другое (Other Finance)"
 
 FINANCE_CATEGORY_LIST = (CRYPTO, FOREX, OTHER_FINANCE)

@@ -1,5 +1,6 @@
 from data.constants.admin_constants import CREO_TYPE
 from data.constants.base_constants import TASK_SEND, TASK_SEND_ERROR
+from data.constants.design_constants import FAQ_CREO_DESC
 from data.repository.creos import CreosRepository
 from notify.notify_push_task import notify_new_task
 from keyboard.menu.menu_keyboard import main_keyboard
@@ -30,7 +31,7 @@ async def send_order_creo(data, message):
             result = None
 
         if result is not None:
-            await message.answer(TASK_SEND, reply_markup=main_keyboard(message))
+            await message.answer(f"{TASK_SEND}\n\n{FAQ_CREO_DESC}", reply_markup=main_keyboard(message))
             await notify_new_task(message, CREO_TYPE, result)
         else:
             await message.answer(TASK_SEND_ERROR, reply_markup=main_keyboard(message))

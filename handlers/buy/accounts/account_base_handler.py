@@ -44,7 +44,7 @@ async def choice_account(message: types.Message):
             open_accounts.append(i)  # todo very bad code -> NEED TO EXCHANGE!!!!!!!!!!!!!!!!!!
 
     if len(open_accounts) > 0:
-        await message.answer(ACCOUNTS, reply_markup=available_accounts_keyboard(accounts))
+        await message.answer(ACCOUNTS, reply_markup=available_accounts_keyboard(open_accounts))
     else:
         await message.answer(ITEMS_IS_EMPTY)
 

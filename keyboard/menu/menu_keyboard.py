@@ -31,8 +31,8 @@ def main_keyboard(message) -> ReplyKeyboardMarkup:
 def buy_keyboard() -> ReplyKeyboardMarkup:
     keyboard = ReplyKeyboardMarkup(row_width=1, resize_keyboard=True)
 
-    keyboard.add(KeyboardButton(DESIGN))
     keyboard.add(KeyboardButton(ACCOUNTS))
+    keyboard.add(KeyboardButton(DESIGN))
     keyboard.add(KeyboardButton(APPS))
     keyboard.add(KeyboardButton(AGENCY_ACCOUNTS))
     keyboard.add(KeyboardButton(MENU))

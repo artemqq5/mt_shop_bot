@@ -10,7 +10,7 @@ from aiogram.utils import executor
 from data.repository.users import UsersRepository
 from handlers.admin.admin_push_notify import register_push_handlers
 from handlers.buy.accounts.account_base_handler import register_accounts_handlers
-from handlers.admin.admin_add_items import register_add_item_handlers
+from handlers.admin.add_items.admin_add_items import register_add_item_handlers
 from handlers.admin.admin_orders_handler import register_orders_handler
 from handlers.admin.admin_show_items import register_show_item_handlers
 from handlers.buy.agency_accounts.agency_base_handler import register_agency_handlers

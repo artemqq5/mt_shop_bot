@@ -19,24 +19,56 @@ from states.admin.manage_orders_state import ManageOrderState
 
 
 def register_orders_handler(dispatcher):
-    dispatcher.register_message_handler(choice_orders_type, lambda message: message.text == ALL_ORDERS)
-    dispatcher.register_message_handler(status_handler, lambda message: message.text in TYPE_OF_ORDERS,
-                                        state=ManageOrderState.type)
-    dispatcher.register_message_handler(list_status_orders_handler, lambda message: message.text in ORDER_TYPES_LIST,
-                                        state=ManageOrderState.managment)
-    dispatcher.register_callback_query_handler(details_orders_callback, lambda call: call.data in all_order_list_id(),
-                                               state=ManageOrderState.managment)
-    dispatcher.register_callback_query_handler(managment_order_callback,
-                                               lambda call: call.data in all_order_status_change(),
-                                               state=ManageOrderState.managment)
-    dispatcher.register_message_handler(set_dropbox_link, state=ManageOrderState.dropbox)
-    dispatcher.register_callback_query_handler(send_to_trello_callback,
-                                               lambda call: call.data in order_send_trello_list(),
-                                               state=ManageOrderState.managment)
-    dispatcher.register_callback_query_handler(refinement_callback,
-                                               lambda call: call.data in order_refinement_list(),
-                                               state=ManageOrderState.managment)
-    dispatcher.register_message_handler(refinement_comment, state=ManageOrderState.refinement)
+    dispatcher.register_message_handler(
+        choice_orders_type,
+        lambda message: message.text == ALL_ORDERS
+    )
+
+    dispatcher.register_message_handler(
+        status_handler,
+        lambda message: message.text in TYPE_OF_ORDERS,
+        state=ManageOrderState.type
+    )
+
+    dispatcher.register_message_handler(
+        list_status_orders_handler,
+        lambda message: message.text in ORDER_TYPES_LIST,
+        state=ManageOrderState.managment
+    )
+
+    dispatcher.register_callback_query_handler(
+        details_orders_callback,
+        lambda call: call.data in all_order_list_id(),
+        state=ManageOrderState.managment
+    )
+
+    dispatcher.register_callback_query_handler(
+        managment_order_callback,
+        lambda call: call.data in all_order_status_change(),
+        state=ManageOrderState.managment
+    )
+
+    dispatcher.register_message_handler(
+        set_dropbox_link,
+        state=ManageOrderState.dropbox
+    )
+
+    dispatcher.register_callback_query_handler(
+        send_to_trello_callback,
+        lambda call: call.data in order_send_trello_list(),
+        state=ManageOrderState.managment
+    )
+
+    dispatcher.register_callback_query_handler(
+        refinement_callback,
+        lambda call: call.data in order_refinement_list(),
+        state=ManageOrderState.managment
+    )
+
+    dispatcher.register_message_handler(
+        refinement_comment,
+        state=ManageOrderState.refinement
+    )
 
 
 async def choice_orders_type(message: types.Message):
@@ -53,7 +85,7 @@ async def choice_orders_type(message: types.Message):
 
 # category of orders (REVIEW_ORDERS, ACTIVE_ORDERS, COMPLETED_ORDERS, CANCELED_ORDERS)
 async def status_handler(message: types.Message, state: FSMContext):
-    if message.text == ACCOUNTS:
+    if message.text == FARM:
         await state.update_data(type=ACCOUNT_TYPE)
 
         await ManageOrderState.managment.set()

@@ -139,16 +139,52 @@ class MyDataBase:
             print(f"exchange_status_order_sql: {e}")
             return None
 
-    def _add_account_sql(self, type_account, name, desc, geo, count, price):
+    def _add_account_sql(self, type_account, name, desc, geo, price):
         try:
             with self.connection as connection:
                 with connection.cursor() as cursor:
-                    _command = '''INSERT INTO `accounts` (`name`, `desc`, `geo`, `type`, `count`, `price`) VALUES (%s, %s, %s, %s, %s, %s);'''
-                    cursor.execute(_command, (name, desc, geo, type_account, count, price))
+                    _command = '''INSERT INTO `accounts` (`name`, `desc`, `geo`, `type`, `price`) VALUES (%s, %s, %s, %s, %s);'''
+                    cursor.execute(_command, (name, desc, geo, type_account, price))
                 connection.commit()
             return True
         except Exception as e:
             print(f"add_account_sql: {e}")
+            return None
+
+    def _add_cabinet_sql(self, name, desc, price):
+        try:
+            with self.connection as connection:
+                with connection.cursor() as cursor:
+                    _command = '''INSERT INTO `cabinets` (`name`, `desc`, `price`) VALUES (%s, %s, %s);'''
+                    cursor.execute(_command, (name, desc, price))
+                connection.commit()
+            return True
+        except Exception as e:
+            print(f"add_cabinet_sql: {e}")
+            return None
+
+    def _add_card_sql(self, name, desc, price):
+        try:
+            with self.connection as connection:
+                with connection.cursor() as cursor:
+                    _command = '''INSERT INTO `cards` (`name`, `desc`, `price`) VALUES (%s, %s, %s);'''
+                    cursor.execute(_command, (name, desc, price))
+                connection.commit()
+            return True
+        except Exception as e:
+            print(f"add_card_sql: {e}")
+            return None
+
+    def _add_verification_sql(self, name, geo, desc, price):
+        try:
+            with self.connection as connection:
+                with connection.cursor() as cursor:
+                    _command = '''INSERT INTO `verifications` (`name`, `geo`, `desc`, `price`) VALUES (%s, %s, %s, %s);'''
+                    cursor.execute(_command, (name, geo, desc, price))
+                connection.commit()
+            return True
+        except Exception as e:
+            print(f"add_verification_sql: {e}")
             return None
 
     def _get_accounts_sql(self, source=None):
@@ -166,6 +202,39 @@ class MyDataBase:
             print(f"get_accounts_sql: {e}")
             return None
 
+    def _get_cards_sql(self):
+        try:
+            with self.connection as connection:
+                with connection.cursor() as cursor:
+                    _command = '''SELECT * FROM `cards`;'''
+                    cursor.execute(_command)
+            return cursor.fetchall()
+        except Exception as e:
+            print(f"get_cards_sql: {e}")
+            return None
+
+    def _get_cabinets_sql(self):
+        try:
+            with self.connection as connection:
+                with connection.cursor() as cursor:
+                    _command = '''SELECT * FROM `cabinets`;'''
+                    cursor.execute(_command)
+            return cursor.fetchall()
+        except Exception as e:
+            print(f"get_cabinets_sql: {e}")
+            return None
+
+    def _get_verifications_sql(self):
+        try:
+            with self.connection as connection:
+                with connection.cursor() as cursor:
+                    _command = '''SELECT * FROM `verifications`;'''
+                    cursor.execute(_command)
+            return cursor.fetchall()
+        except Exception as e:
+            print(f"get_verifications_sql: {e}")
+            return None
+
     def _get_account_sql(self, id_account):
         try:
             with self.connection as connection:
@@ -175,6 +244,39 @@ class MyDataBase:
             return cursor.fetchone()
         except Exception as e:
             print(f"get_account_sql: {e}")
+            return None
+
+    def _get_card_sql(self, id_account):
+        try:
+            with self.connection as connection:
+                with connection.cursor() as cursor:
+                    _command = '''SELECT * FROM `cards` WHERE `id` = %s;'''
+                    cursor.execute(_command, id_account)
+            return cursor.fetchone()
+        except Exception as e:
+            print(f"get_card_sql: {e}")
+            return None
+
+    def _get_cabinet_sql(self, id_account):
+        try:
+            with self.connection as connection:
+                with connection.cursor() as cursor:
+                    _command = '''SELECT * FROM `cabinets` WHERE `id` = %s;'''
+                    cursor.execute(_command, id_account)
+            return cursor.fetchone()
+        except Exception as e:
+            print(f"get_cabinet_sql: {e}")
+            return None
+
+    def _get_verification_sql(self, id_account):
+        try:
+            with self.connection as connection:
+                with connection.cursor() as cursor:
+                    _command = '''SELECT * FROM `verifications` WHERE `id` = %s;'''
+                    cursor.execute(_command, id_account)
+            return cursor.fetchone()
+        except Exception as e:
+            print(f"get_verifications_sql: {e}")
             return None
 
     def _add_account_order_sql(self, name, desc, type_account, geo, count, price, id_user, desc_from_user):
@@ -238,6 +340,42 @@ class MyDataBase:
             print(f"exchange_visibility_account_sql: {e}")
             return None
 
+    def _exchange_visibility_card_sql(self, visibility, id_account):
+        try:
+            with self.connection as connection:
+                with connection.cursor() as cursor:
+                    _command = '''UPDATE `cards` SET `visibility` = %s WHERE `id` = %s;'''
+                    cursor.execute(_command, (visibility, id_account))
+                connection.commit()
+            return True
+        except Exception as e:
+            print(f"exchange_visibility_card_sql: {e}")
+            return None
+
+    def _exchange_visibility_cabinet_sql(self, visibility, id_account):
+        try:
+            with self.connection as connection:
+                with connection.cursor() as cursor:
+                    _command = '''UPDATE `cabinets` SET `visibility` = %s WHERE `id` = %s;'''
+                    cursor.execute(_command, (visibility, id_account))
+                connection.commit()
+            return True
+        except Exception as e:
+            print(f"exchange_visibility_cabinet_sql: {e}")
+            return None
+
+    def _exchange_visibility_verification_sql(self, visibility, id_account):
+        try:
+            with self.connection as connection:
+                with connection.cursor() as cursor:
+                    _command = '''UPDATE `verifications` SET `visibility` = %s WHERE `id` = %s;'''
+                    cursor.execute(_command, (visibility, id_account))
+                connection.commit()
+            return True
+        except Exception as e:
+            print(f"exchange_visibility_verification_sql: {e}")
+            return None
+
     def _update_creo_order_trello_sql(self, trello_id, trello_url, id_order):
         try:
             with self.connection as connection:
@@ -261,7 +399,7 @@ class MyDataBase:
             print(f"_get_orders_by_user_id_sql: {e}")
             return None
 
-    def _update_dropbox_link(self, id_order, link):
+    def _update_dropbox_link_sql(self, id_order, link):
         try:
             with self.connection as connection:
                 with connection.cursor() as cursor:
@@ -273,7 +411,7 @@ class MyDataBase:
             print(f"_update_dropbox_link: {e}")
             return None
 
-    def _delete_account(self, account_id):
+    def _delete_account_sql(self, account_id):
         try:
             with self.connection as connection:
                 with connection.cursor() as cursor:
@@ -282,5 +420,41 @@ class MyDataBase:
                 connection.commit()
             return True
         except Exception as e:
-            print(f"_delete_account: {e}")
+            print(f"delete_account_sql: {e}")
+            return None
+
+    def _delete_card_sql(self, account_id):
+        try:
+            with self.connection as connection:
+                with connection.cursor() as cursor:
+                    _command = '''DELETE FROM `cards` WHERE `id` = %s;'''
+                    cursor.execute(_command, account_id)
+                connection.commit()
+            return True
+        except Exception as e:
+            print(f"delete_card_sql: {e}")
+            return None
+
+    def _delete_cabinet_sql(self, account_id):
+        try:
+            with self.connection as connection:
+                with connection.cursor() as cursor:
+                    _command = '''DELETE FROM `cabinets` WHERE `id` = %s;'''
+                    cursor.execute(_command, account_id)
+                connection.commit()
+            return True
+        except Exception as e:
+            print(f"delete_cabinet_sql: {e}")
+            return None
+
+    def _delete_verification_sql(self, account_id):
+        try:
+            with self.connection as connection:
+                with connection.cursor() as cursor:
+                    _command = '''DELETE FROM `verifications` WHERE `id` = %s;'''
+                    cursor.execute(_command, account_id)
+                connection.commit()
+            return True
+        except Exception as e:
+            print(f"delete_verification_sql: {e}")
             return None

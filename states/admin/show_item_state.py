@@ -7,3 +7,15 @@ class ShowItemState(StatesGroup):
 
 class ShowAccountState(StatesGroup):
     source = State()
+
+
+class ShowCardsState(StatesGroup):
+    source = State()
+
+
+class ShowCabinetsState(StatesGroup):
+    source = State()
+
+
+class ShowVerificationsState(StatesGroup):
+    source = State()

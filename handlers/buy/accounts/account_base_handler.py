@@ -5,7 +5,7 @@ from aiogram.types import ReplyKeyboardRemove
 from data.constants.accounts_constants import *
 from data.constants.base_constants import INPUT_INEGER, SKIP, CLIENT, ERROR_REGISTER_MESSAGE
 from data.repository.users import UsersRepository
-from handlers.buy.accounts.account_use_case.output_account import formatted_output_account
+from handlers.buy.accounts.account_use_case.output_farm import formatted_output_account
 from handlers.buy.accounts.account_use_case.send_order_account import send_order_account
 from keyboard.accounts.accounts_keyboard import *
 from keyboard.base_keyboard import cancel_keyboard, skip_keyboard
@@ -37,11 +37,11 @@ async def source_account(message: types.Message):
 
 
 async def choice_account(message: types.Message):
-    accounts = AccountsRepository().get_accounts()  # todo very bad code -> NEED TO EXCHANGE!!!!!!!!!!!!!!!!!!
-    open_accounts = []  # todo very bad code -> NEED TO EXCHANGE!!!!!!!!!!!!!!!!!!
-    for i in accounts:  # todo very bad code -> NEED TO EXCHANGE!!!!!!!!!!!!!!!!!!
-        if i['visibility'] == OPEN_STATE and i['type'] == message.text:  # todo very bad code -> NEED TO EXCHANGE!!!!!!!!!!!!!!!!!!
-            open_accounts.append(i)  # todo very bad code -> NEED TO EXCHANGE!!!!!!!!!!!!!!!!!!
+    accounts = AccountsRepository().get_accounts()
+    open_accounts = []
+    for i in accounts:
+        if i['visibility'] == OPEN_STATE and i['type'] == message.text:
+            open_accounts.append(i)
 
     if len(open_accounts) > 0:
         await message.answer(ACCOUNTS, reply_markup=available_accounts_keyboard(open_accounts))

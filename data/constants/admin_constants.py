@@ -1,6 +1,6 @@
 # admin menu ----------------------------------------
 # orders
-from data.constants.accounts_constants import ACCOUNTS
+from data.constants.accounts_constants import ACCOUNTS, FARM, CARDS_FARM, CABINETS_FARM, VERIFICATIONS_FARM
 from data.constants.design_constants import DESIGN
 
 ALL_ORDERS = "Посмотреть заказы"
@@ -14,7 +14,7 @@ CANCELED_ORDERS = "Отмененные заказы"
 
 ORDERS_IS_EMPTY = "Нет заказов"
 
-TYPE_OF_ORDERS = (ACCOUNTS, DESIGN)
+TYPE_OF_ORDERS = (FARM, DESIGN)
 CHOICE_TYPE_OF_ORDERS = "Выбирите тип заказов"
 
 ORDER_TYPES_LIST = (REVIEW_ORDERS, ACTIVE_ORDERS, ON_APPROVE_ORDERS, COMPLETED_ORDERS, CANCELED_ORDERS)
@@ -83,7 +83,7 @@ FAIL_DELTED = "Товар не удален, ошибка"
 
 # ITEMS TYPE ============================
 ACCOUNT_ITEM = "Аккаунты"
-LIST_OF_ITEMS_TYPE = (ACCOUNT_ITEM,)
+LIST_OF_ITEMS_TYPE = (ACCOUNT_ITEM, CARDS_FARM, CABINETS_FARM, VERIFICATIONS_FARM)
 
 # PUSH NOTIFYCATION ===========================
 PUSH_NOTIFICATION = "Отправить сообщение"

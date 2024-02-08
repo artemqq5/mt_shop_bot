@@ -16,5 +16,5 @@ class CreosRepository(MyDataBase):
         )
 
     def update_dropbox_link(self, id_order, link):
-        return self._update_dropbox_link(id_order, link)
+        return self._update_dropbox_link_sql(id_order, link)
 

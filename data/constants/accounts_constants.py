@@ -3,7 +3,7 @@ FARM = "Фарм"
 ACCOUNTS = "Аккаунты"  #
 # ==================================================================
 CHOICE_TYPE_OF_ACCOUNT = "Выберите тип аккаунта"
-# types of account
+# types of farm
 FB_TYPE = "FB"
 GOOGLE_TYPE = "GOOGLE"
 IOS = "IOS"  # todo not active, on future
@@ -21,8 +21,8 @@ ITEMS_IS_EMPTY = "Нет аккаунтов в наличии"
 
 COUNT_IS_BIGGER_ZERO = "Количество должно быть больше нуля"
 # Order account ===================================================
-PARAM_DESC_ACCOUNT = "Дополнительные примечания к заказу:"
-PARAM_COUNT_ACCOUNT = "Сколько аккаунтов нужно:"
+PARAM_DESC = "Дополнительные примечания к заказу:"
+PARAM_COUNT = "Сколько аккаунтов нужно:"
 
 CARDS_FARM = "Карты ПБ"
 CABINETS_FARM = "Личные кабинеты Банков"

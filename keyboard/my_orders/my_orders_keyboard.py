@@ -1,7 +1,7 @@
 from aiogram.types import ReplyKeyboardMarkup, KeyboardButton, InlineKeyboardMarkup, InlineKeyboardButton
 
 from data.constants.admin_constants import COMPLETED, ACTIVE, ACTIVE_ORDERS, COMPLETED_ORDERS, CREO_TYPE, CANCELED, \
-    ACCOUNT_TYPE
+    ACCOUNT_TYPE_FB, ACCOUNT_TYPE_GOOGLE
 from data.constants.base_constants import CANCEL, LIST_OF_USER_VIEW, CALL_ADMIN_ABOUT_ORDER, MESSAGE_
 from data.repository.creos import CreosRepository
 from data.repository.orders import OrdersRepository
@@ -41,13 +41,14 @@ def user_task_keyboard(orders) -> InlineKeyboardMarkup:
         if order['type'] == CREO_TYPE:
             my_order = CreosRepository().get_creo(order['id_order'])
             if my_order is not None:
-                name = f"{my_order['format']} | {my_order['type']} | {my_order['category']}"
+                name = f"#{my_order['id']} | {my_order['format']} | {my_order['category']}"
                 keyboard.add(InlineKeyboardButton(text=name, callback_data=f"{status}_{CREO_TYPE}_{my_order['id_order']}"))
         else:
             my_order = OrdersRepository().get_account_order(order['id_order'])
             if my_order is not None:
-                name = f"{my_order['name']} | {my_order['geo']} | {my_order['count']}"
-                keyboard.add(InlineKeyboardButton(text=name, callback_data=f"{status}_{ACCOUNT_TYPE}_{my_order['id_order']}"))
+                name = f"#{my_order['id']} | {my_order['name']} | кол-во: {my_order['count']}"
+                keyboard.add(InlineKeyboardButton(text=name, callback_data=f"{status}_{order['type']}_{my_order['id_order']}"))
+                print(order['type'])
 
     return keyboard
 

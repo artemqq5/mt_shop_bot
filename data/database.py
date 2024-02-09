@@ -44,17 +44,17 @@ class MyDataBase:
                 with connection.cursor() as cursor:
                     if type_account is None:
                         if status is None:
-                            _command = '''SELECT * FROM `orders` WHERE `type` IN (%s, %s);'''
-                            cursor.execute(_command, (CREO_TYPE, ACCOUNT_TYPE))
+                            _command = '''SELECT * FROM `orders` WHERE `type` IN %s;'''
+                            cursor.execute(_command, ([CREO_TYPE, ACCOUNT_TYPE_FB, ACCOUNT_TYPE_GOOGLE, CARD_TYPE, CABINET_TYPE, VERIFICATION_TYPE], ))
                         else:
-                            _command = '''SELECT * FROM `orders` WHERE `status` = %s AND `type` IN (%s, %s);'''
-                            cursor.execute(_command, (status, CREO_TYPE, ACCOUNT_TYPE))
+                            _command = '''SELECT * FROM `orders` WHERE `status` = %s AND `type` IN %s;'''
+                            cursor.execute(_command, (status, [CREO_TYPE, ACCOUNT_TYPE_FB, ACCOUNT_TYPE_GOOGLE, CARD_TYPE, CABINET_TYPE, VERIFICATION_TYPE]))
                     else:
                         if status is None:
-                            _command = '''SELECT * FROM `orders` WHERE `type` = %s;'''
+                            _command = '''SELECT * FROM `orders` WHERE `type` IN %s;'''
                             cursor.execute(_command, type_account)
                         else:
-                            _command = '''SELECT * FROM `orders` WHERE `status` = %s AND `type` = %s;'''
+                            _command = '''SELECT * FROM `orders` WHERE `status` = %s AND `type` IN %s;'''
                             cursor.execute(_command, (status, type_account))
                 return cursor.fetchall()
         except Exception as e:
@@ -66,10 +66,10 @@ class MyDataBase:
             with self.connection as connection:
                 with connection.cursor() as cursor:
                     if status == ACTIVE:
-                        _command = '''SELECT * FROM `orders` WHERE `status` IN (%s, %s, %s) AND `type` = %s AND `id_user` = %s;'''
+                        _command = '''SELECT * FROM `orders` WHERE `status` IN (%s, %s, %s) AND `type` IN %s AND `id_user` = %s;'''
                         cursor.execute(_command, (ACTIVE, REVIEW, ON_APPROVE, type_account, user_id))
                     else:
-                        _command = '''SELECT * FROM `orders` WHERE `status` IN (%s, %s) AND `type` = %s AND `id_user` = %s;'''
+                        _command = '''SELECT * FROM `orders` WHERE `status` IN (%s, %s) AND `type` IN %s AND `id_user` = %s;'''
                         cursor.execute(_command, (COMPLETED, CANCELED, type_account, user_id))
                 return cursor.fetchall()
         except Exception as e:
@@ -293,7 +293,7 @@ class MyDataBase:
 
                 with connection.cursor() as cursor:
                     _command = '''INSERT INTO `orders` (`id_user`, `type`, `id_order`) VALUES (%s, %s, %s);'''
-                    cursor.execute(_command, (id_user, ACCOUNT_TYPE, id_order))
+                    cursor.execute(_command, (id_user, type_account, id_order))
                 connection.commit()
 
             return id_order

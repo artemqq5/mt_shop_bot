@@ -19,6 +19,5 @@ def account_task_view(task) -> str:
     task_message += f"<b>geo:</b> {task['geo']}\n"
     task_message += f"<b>count:</b> {task['count']}\n"
     task_message += f"<b>second desc:</b> {task['desc_from_user']}\n\n"
-    task_message += f"<b>dropbox:</b> {task['dropbox']}\n"
 
     return task_message

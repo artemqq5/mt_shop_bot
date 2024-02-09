@@ -37,7 +37,11 @@ DELETE_STATE = "delete"
 
 # table type orders
 CREO_TYPE = "creo"
-ACCOUNT_TYPE = "account"
+ACCOUNT_TYPE_FB = "accountFB"
+ACCOUNT_TYPE_GOOGLE = "accountGoogle"
+CARD_TYPE = "card"
+VERIFICATION_TYPE = "verification"
+CABINET_TYPE = "cabinet"
 
 # order managment
 SET_REVIEW_STATUS = "На рассмотрении"

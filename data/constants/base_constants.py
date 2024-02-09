@@ -1,4 +1,4 @@
-from data.constants.accounts_constants import ACCOUNTS
+from data.constants.accounts_constants import ACCOUNTS, CARDS_FARM, CABINETS_FARM, VERIFICATIONS_FARM
 from data.constants.agency_accounts_constants import AGENCY_ACCOUNTS
 from data.constants.apps_constants import APPS
 
@@ -40,7 +40,7 @@ SUPPORT = "Поддержка"  #
 MY_ORDERS = "Мои заказы"
 TYPE_OF_ORDER_VIEW = "Выберите что хотите посмотреть"
 GENERAL_STATISTICS = "Общая статистика"
-LIST_OF_USER_VIEW = (GENERAL_STATISTICS, DESIGN, ACCOUNTS, )  # APPS, AGENCY_ACCOUNTS
+LIST_OF_USER_VIEW = (GENERAL_STATISTICS, DESIGN, ACCOUNTS, CARDS_FARM, CABINETS_FARM, VERIFICATIONS_FARM)  # APPS, AGENCY_ACCOUNTS
 STATUS_OF_ORDERS_USER = "Выберите статус заказов"
 CALL_ADMIN_ABOUT_ORDER = "Задать вопрос по заказу"
 MESSAGE_ = "message"

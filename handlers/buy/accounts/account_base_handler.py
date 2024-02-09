@@ -5,13 +5,13 @@ from aiogram.types import ReplyKeyboardRemove
 from data.constants.accounts_constants import *
 from data.constants.base_constants import INPUT_INEGER, SKIP, CLIENT, ERROR_REGISTER_MESSAGE
 from data.repository.users import UsersRepository
-from handlers.buy.accounts.account_use_case.output_farm import formatted_output_account
-from handlers.buy.accounts.account_use_case.send_order_account import send_order_account
+from handlers.buy.farm_use_case.output_farm import formatted_output_account
+from handlers.buy.farm_use_case.send_order_farm import send_order_account
 from keyboard.accounts.accounts_keyboard import *
 from keyboard.base_keyboard import cancel_keyboard, skip_keyboard
 
-from keyboard.accounts.accounts_keyboard import buy_account_keyboard
-from states.account.order_account_state import OrderAccountState
+from keyboard.accounts.accounts_keyboard import buy_item_keyboard
+from states.farm.order_farm_state import OrderAccountState
 
 
 def register_accounts_handlers(dispatcher):
@@ -56,20 +56,19 @@ async def details_account_handler(callback: types.CallbackQuery, state: FSMConte
         if callback.data.split("_")[0] == "account":
             await callback.message.answer(
                 text=formatted_output_account(account_type),
-                reply_markup=buy_account_keyboard(account_type['id'])
+                reply_markup=buy_item_keyboard(account_type['id'])
             )
         else:
-            await OrderAccountState().next()
             await state.update_data(account=account_type)
-            await OrderAccountState.next()
-            await callback.message.answer(PARAM_DESC_ACCOUNT, reply_markup=skip_keyboard())
+            await OrderAccountState.desc.set()
+            await callback.message.answer(PARAM_DESC, reply_markup=skip_keyboard())
 
 
 async def desc_account_order(message: types.Message, state: FSMContext):
     if message.text != SKIP:
         await state.update_data(desc=message.text)
-    await OrderAccountState.next()
-    await message.answer(PARAM_COUNT_ACCOUNT, reply_markup=cancel_keyboard())
+    await OrderAccountState.count.set()
+    await message.answer(PARAM_COUNT, reply_markup=cancel_keyboard())
 
 
 async def count_account_order(message: types.Message, state: FSMContext):

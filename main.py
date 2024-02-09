@@ -15,10 +15,13 @@ from handlers.admin.admin_orders_handler import register_orders_handler
 from handlers.admin.admin_show_items import register_show_item_handlers
 from handlers.buy.agency_accounts.agency_base_handler import register_agency_handlers
 from handlers.buy.apps.apps_base_handler import register_hundler_apps
+from handlers.buy.cabinets.cabinet_base_handler import register_order_cabinets_handlers
+from handlers.buy.cards.cards_base_handler import register_order_cards_handlers
 from handlers.buy.creo.app_handler import register_creo_app_handlers
 from handlers.buy.creo.creo_base_handler import *
 from handlers.buy.creo.default_handler import register_creo_default_handlers
 from handlers.buy.creo.other_handler import register_creo_other_handlers
+from handlers.buy.verifications.verification_base_handler import register_order_verifications_handlers
 from handlers.info.about_us_handler import register_about_us_handlers
 from handlers.my_orders.my_orders_handler import register_my_order_handlers
 from keyboard.info.support_keyboard import support_contacts_keyboard
@@ -102,8 +105,11 @@ register_agency_handlers(dispatcher)
 # apps handler
 register_hundler_apps(dispatcher)
 
-# accounts handler
+# accounts, cards, cabinets, verifications handler
 register_accounts_handlers(dispatcher)
+register_order_cards_handlers(dispatcher)
+register_order_cabinets_handlers(dispatcher)
+register_order_verifications_handlers(dispatcher)
 
 # creo handler
 register_handlers_creo(dispatcher)  # base handlers

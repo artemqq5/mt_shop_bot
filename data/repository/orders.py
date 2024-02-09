@@ -1,4 +1,5 @@
-from data.constants.admin_constants import CREO_TYPE, ACCOUNT_TYPE
+from data.constants.admin_constants import CREO_TYPE, ACCOUNT_TYPE_FB, ACCOUNT_TYPE_GOOGLE, CARD_TYPE, \
+    CABINET_TYPE, VERIFICATION_TYPE
 from data.database import MyDataBase
 
 

@@ -32,14 +32,12 @@ def inline_orders_keyboard(list_of_orders, type_oder) -> InlineKeyboardMarkup:
     keyboard = InlineKeyboardMarkup()
 
     for i in list_of_orders:
-        if type_oder == CREO_TYPE:
+        if CREO_TYPE in type_oder:
             task = CreosRepository().get_creo(i['id_order'])
             name = f"#{task['id']} | {task['format']} | {task['category']} | {task['type']}"
-        elif type_oder == ACCOUNT_TYPE:
+        else:
             task = OrdersRepository().get_account_order(i['id_order'])
             name = f"#{task['id']} | {task['name']} | кол-во: {task['count']}"
-        else:  # todo optional
-            name = f"#{i['id']} | {i['type']} | {i['date']}"
 
         keyboard.add(InlineKeyboardButton(text=name, callback_data=i['id_order']))
 

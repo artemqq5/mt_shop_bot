@@ -1,8 +1,9 @@
 from aiogram import types
 from aiogram.dispatcher import FSMContext
 
-from data.constants.admin_constants import CREO_TYPE, ACCOUNT_TYPE, SET_MESSAGE_TO_PUSH, PUSH_HAVE_SENT, \
-    PUSH_HAVE_NOT_SENT
+from data.constants.admin_constants import CREO_TYPE, ACCOUNT_TYPE_FB, ACCOUNT_TYPE_GOOGLE, SET_MESSAGE_TO_PUSH, \
+    PUSH_HAVE_SENT, \
+    PUSH_HAVE_NOT_SENT, VERIFICATION_TYPE, CABINET_TYPE, CARD_TYPE
 from data.constants.base_constants import *
 from data.repository.accounts import AccountsRepository
 from data.repository.orders import OrdersRepository
@@ -15,20 +16,40 @@ from states.user_orders.user_orders_state import UserOrdersState
 
 
 def register_my_order_handlers(dispatcher):
-    dispatcher.register_message_handler(user_type_view, lambda m: m.text in LIST_OF_USER_VIEW,
-                                        state=UserOrdersState.view)
-    dispatcher.register_message_handler(user_status_view, lambda m: m.text in (ACTIVE_ORDERS, COMPLETED_ORDERS),
-                                        state=UserOrdersState.status)
-    dispatcher.register_callback_query_handler(user_task_active_view_query,
-                                               lambda call: call.data.split("_")[0] == ACTIVE,
-                                               state=UserOrdersState.status)
-    dispatcher.register_callback_query_handler(user_task_completed_view_query,
-                                               lambda call: call.data.split("_")[0] == COMPLETED,
-                                               state=UserOrdersState.status)
-    dispatcher.register_callback_query_handler(user_task_question,
-                                               lambda call: call.data.split("_")[0] == MESSAGE_,
-                                               state=UserOrdersState.status)
-    dispatcher.register_message_handler(task_question_message, state=UserOrdersState.message)
+    dispatcher.register_message_handler(
+        user_type_view,
+        lambda m: m.text in LIST_OF_USER_VIEW,
+        state=UserOrdersState.view
+    )
+
+    dispatcher.register_message_handler(
+        user_status_view,
+        lambda m: m.text in (ACTIVE_ORDERS, COMPLETED_ORDERS),
+        state=UserOrdersState.status
+    )
+
+    dispatcher.register_callback_query_handler(
+        user_task_active_view_query,
+        lambda call: call.data.split("_")[0] == ACTIVE,
+        state=UserOrdersState.status
+    )
+
+    dispatcher.register_callback_query_handler(
+        user_task_completed_view_query,
+       lambda call: call.data.split("_")[0] == COMPLETED,
+       state=UserOrdersState.status
+    )
+
+    dispatcher.register_callback_query_handler(
+        user_task_question,
+        lambda call: call.data.split("_")[0] == MESSAGE_,
+        state=UserOrdersState.status
+    )
+
+    dispatcher.register_message_handler(
+        task_question_message,
+        state=UserOrdersState.message
+    )
 
 
 async def user_type_view(message: types.Message, state: FSMContext):
@@ -36,11 +57,23 @@ async def user_type_view(message: types.Message, state: FSMContext):
     if text == GENERAL_STATISTICS:
         await message.answer(general_statistic_format(message), reply_markup=user_view_choice_keyboard())
     elif text == DESIGN:
-        await state.update_data(view=CREO_TYPE)
+        await state.update_data(view=[CREO_TYPE])
         await UserOrdersState.next()
         await message.answer(STATUS_OF_ORDERS_USER, reply_markup=user_view_type_orders_keyboard())
     elif text == ACCOUNTS:
-        await state.update_data(view=ACCOUNT_TYPE)
+        await state.update_data(view=[ACCOUNT_TYPE_FB, ACCOUNT_TYPE_GOOGLE])
+        await UserOrdersState.next()
+        await message.answer(STATUS_OF_ORDERS_USER, reply_markup=user_view_type_orders_keyboard())
+    elif text == CARDS_FARM:
+        await state.update_data(view=[CARD_TYPE])
+        await UserOrdersState.next()
+        await message.answer(STATUS_OF_ORDERS_USER, reply_markup=user_view_type_orders_keyboard())
+    elif text == CABINETS_FARM:
+        await state.update_data(view=[CABINET_TYPE])
+        await UserOrdersState.next()
+        await message.answer(STATUS_OF_ORDERS_USER, reply_markup=user_view_type_orders_keyboard())
+    elif text == VERIFICATIONS_FARM:
+        await state.update_data(view=[VERIFICATION_TYPE])
         await UserOrdersState.next()
         await message.answer(STATUS_OF_ORDERS_USER, reply_markup=user_view_type_orders_keyboard())
 
@@ -61,7 +94,7 @@ async def user_task_active_view_query(callback: types.CallbackQuery):
 
     if task_type == CREO_TYPE:
         task = creo_task_view(CreosRepository().get_creo(task_id))
-    elif task_type == ACCOUNT_TYPE:
+    elif task_type in (ACCOUNT_TYPE_FB, ACCOUNT_TYPE_GOOGLE, CARD_TYPE, CABINET_TYPE, VERIFICATION_TYPE):
         task = account_task_view(OrdersRepository().get_account_order(task_id))
     else:
         task = TASK_NOT_AVAILABLE
@@ -75,7 +108,7 @@ async def user_task_completed_view_query(callback: types.CallbackQuery):
 
     if task_type == CREO_TYPE:
         task = creo_task_view(CreosRepository().get_creo(task_id))
-    elif task_type == ACCOUNT_TYPE:
+    elif task_type in (ACCOUNT_TYPE_FB, ACCOUNT_TYPE_GOOGLE, CARD_TYPE, CABINET_TYPE, VERIFICATION_TYPE):
         task = account_task_view(OrdersRepository().get_account_order(task_id))
     else:
         task = TASK_NOT_AVAILABLE

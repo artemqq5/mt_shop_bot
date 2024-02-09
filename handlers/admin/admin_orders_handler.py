@@ -86,13 +86,13 @@ async def choice_orders_type(message: types.Message):
 # category of orders (REVIEW_ORDERS, ACTIVE_ORDERS, COMPLETED_ORDERS, CANCELED_ORDERS)
 async def status_handler(message: types.Message, state: FSMContext):
     if message.text == FARM:
-        await state.update_data(type=ACCOUNT_TYPE)
+        await state.update_data(type=[ACCOUNT_TYPE_FB, ACCOUNT_TYPE_GOOGLE, CARD_TYPE, CABINET_TYPE, VERIFICATION_TYPE])
 
         await ManageOrderState.managment.set()
         await message.answer(STATUS_OF_ORDERS, reply_markup=admin_orders_keyboard())
 
     elif message.text == DESIGN:
-        await state.update_data(type=CREO_TYPE)
+        await state.update_data(type=[CREO_TYPE])
 
         await ManageOrderState.managment.set()
         await message.answer(STATUS_OF_ORDERS, reply_markup=admin_orders_keyboard())
@@ -106,6 +106,7 @@ async def list_status_orders_handler(message: types.Message, state: FSMContext):
     # show all order with status: review -------------------------------------------------
     type_account = await state.get_data()
     if message.text == REVIEW_ORDERS:
+        print(type_account['type'])
         orders = OrdersRepository().get_orders(status=REVIEW, type_account=type_account['type'])
         if len(orders) > 0:
             await message.answer(REVIEW_ORDERS, reply_markup=inline_orders_keyboard(orders, type_account['type']))
@@ -165,7 +166,7 @@ async def details_orders_callback(callback: types.CallbackQuery):
                         format_view_order(order_creo, client),
                         reply_markup=managment_order_keyboard(order)
                     )
-                elif order['type'] == ACCOUNT_TYPE:
+                elif order['type'] in [ACCOUNT_TYPE_FB, ACCOUNT_TYPE_GOOGLE, CARD_TYPE, CABINET_TYPE, VERIFICATION_TYPE]:
                     order_account = OrdersRepository().get_account_order(callback.data)
                     await callback.message.answer(
                         format_view_order(order_account, client),

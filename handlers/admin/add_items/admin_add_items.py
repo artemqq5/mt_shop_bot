@@ -22,7 +22,7 @@ def register_add_item_handlers(dispatcher):
     dispatcher.register_message_handler(add_items_handler, lambda message: message.text in LIST_OF_ITEMS_TYPE,
                                         state=AddItemState.add_item)
 
-    # register add account, card, cabinet, verification
+    # register add farm, card, cabinet, verification
     register_add_account_handlers(dispatcher)
     register_add_card_handlers(dispatcher)
     register_add_cabinet_handlers(dispatcher)

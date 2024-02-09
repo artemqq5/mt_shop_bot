@@ -26,4 +26,4 @@ PARAM_COUNT = "Сколько аккаунтов нужно:"
 
 CARDS_FARM = "Карты ПБ"
 CABINETS_FARM = "Личные кабинеты Банков"
-VERIFICATIONS_FARM = "Верификация"
+VERIFICATIONS_FARM = "Верификации"

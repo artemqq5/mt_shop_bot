@@ -33,7 +33,7 @@ async def type_of_add_item(message: types.Message):
     current_user = UsersRepository().get_user(message.chat.id)
     if current_user is not None:
         if (current_user['position'] == ADMIN and
-                (current_user['sub_position'] is None or current_user['sub_position'] == ACCOUNTS)):
+                (current_user['sub_position'] is None or current_user['sub_position'] == SUB_POSITION_ACCOUNT)):
             # main ====================
             await AddItemState.add_item.set()  # set state to add item
             await message.answer(CHOICE_TYPE_OF_ADD, reply_markup=choice_type_item_keyboard())

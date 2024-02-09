@@ -3,7 +3,7 @@ from aiogram.dispatcher import FSMContext
 from aiogram.types import ReplyKeyboardRemove
 
 from data.constants.accounts_constants import INPUT_DESC_OF_ITEM, INPUT_PRICE_OF_ITEM, ACCOUNTS, INPUT_GEO_OF_ITEM
-from data.constants.base_constants import ADMIN, NO_ACCESS, ERROR_REGISTER_MESSAGE
+from data.constants.base_constants import ADMIN, NO_ACCESS, ERROR_REGISTER_MESSAGE, SUB_POSITION_ACCOUNT
 from data.repository.users import UsersRepository
 from handlers.admin.db_use_case.add_farm import add_verification_case
 from keyboard.base_keyboard import cancel_keyboard
@@ -42,7 +42,7 @@ async def choice_price_verification(message: types.Message, state: FSMContext):
     current_user = UsersRepository().get_user(message.chat.id)
     if current_user is not None:
         if (current_user['position'] == ADMIN and
-                (current_user['sub_position'] is None or current_user['sub_position'] == ACCOUNTS)):
+                (current_user['sub_position'] is None or current_user['sub_position'] == SUB_POSITION_ACCOUNT)):
             # main ====================
             data = await state.get_data()
             await state.finish()

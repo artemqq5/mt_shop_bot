@@ -110,7 +110,7 @@ async def message_to_admin_from_client(message, text, order_id):
             elif task['type'] in (ACCOUNT_TYPE_FB, ACCOUNT_TYPE_GOOGLE, CARD_TYPE, CABINET_TYPE, VERIFICATION_TYPE):
                 account_task = OrdersRepository().get_account_order(order_id)
                 for admin in admins:
-                    if admin['sub_position'] is None or admin['sub_position'] == ACCOUNTS:
+                    if admin['sub_position'] is None or admin['sub_position'] == SUB_POSITION_ACCOUNT:
                         await message.bot.send_message(
                             chat_id=admin['id'],
                             text=account_notify_formatted(account_task, text, user)

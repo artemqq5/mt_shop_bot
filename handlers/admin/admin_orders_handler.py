@@ -106,7 +106,7 @@ async def list_status_orders_handler(message: types.Message, state: FSMContext):
     # show all order with status: review -------------------------------------------------
     type_account = await state.get_data()
     if message.text == REVIEW_ORDERS:
-        print(type_account['type'])
+        # print(type_account['type'])
         orders = OrdersRepository().get_orders(status=REVIEW, type_account=type_account['type'])
         if len(orders) > 0:
             await message.answer(REVIEW_ORDERS, reply_markup=inline_orders_keyboard(orders, type_account['type']))

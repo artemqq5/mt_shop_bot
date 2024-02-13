@@ -1,3 +1,4 @@
+import datetime
 import logging
 
 from config.cfg import BOT_TOKEN
@@ -46,7 +47,11 @@ async def start_cmd(message: types.Message, state: FSMContext):
     # ===========================
 
     if UsersRepository().get_user(telegram_id=message.chat.id) is None:
-        UsersRepository().add_user(telegram_id=message.chat.id, name=message.chat.username)
+        UsersRepository().add_user(
+            telegram_id=message.chat.id,
+            name=message.chat.username,
+            time=datetime.datetime.now()
+        )
 
     with open("source/bot_video_start.gif.mp4", 'rb') as video_file:
         await message.answer_animation(

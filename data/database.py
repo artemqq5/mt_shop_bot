@@ -17,12 +17,12 @@ class MyDataBase:
             cursorclass=pymysql.cursors.DictCursor
         )
 
-    def _add_user_sql(self, telegram_id, name):
+    def _add_user_sql(self, telegram_id, name, time):
         try:
             with self.connection as connection:
                 with connection.cursor() as cursor:
-                    _command = '''INSERT INTO `users` (`id`, `name`) VALUES (%s, %s);'''
-                    cursor.execute(_command, (telegram_id, name))
+                    _command = '''INSERT INTO `users` (`id`, `name`, `time`) VALUES (%s, %s, %s);'''
+                    cursor.execute(_command, (telegram_id, name, time))
                 connection.commit()
         except Exception as e:
             print(f"add_user_sql: {e}")

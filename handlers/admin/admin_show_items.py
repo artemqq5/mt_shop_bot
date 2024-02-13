@@ -94,7 +94,8 @@ async def choice_account_type(message: types.Message, state: FSMContext):
 
 
 async def source_account_item(message: types.Message):
-    await message.answer(ACCOUNT_ITEM, reply_markup=show_item_accounts_keyboard(message.text))
+    type_account = ACCOUNT_TYPE_FB if message.text == FB_TYPE else ACCOUNT_TYPE_GOOGLE
+    await message.answer(ACCOUNT_ITEM, reply_markup=show_item_accounts_keyboard(type_account))
 
 
 async def account_detail_handler(callback: types.CallbackQuery, state: FSMContext):

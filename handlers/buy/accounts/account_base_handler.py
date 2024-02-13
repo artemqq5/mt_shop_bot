@@ -3,6 +3,7 @@ from aiogram.dispatcher import FSMContext
 from aiogram.types import ReplyKeyboardRemove
 
 from data.constants.accounts_constants import *
+from data.constants.admin_constants import ACCOUNT_TYPE_FB, ACCOUNT_TYPE_GOOGLE
 from data.constants.base_constants import INPUT_INEGER, SKIP, CLIENT, ERROR_REGISTER_MESSAGE
 from data.repository.users import UsersRepository
 from handlers.buy.farm_use_case.output_farm import formatted_output_account
@@ -37,10 +38,11 @@ async def source_account(message: types.Message):
 
 
 async def choice_account(message: types.Message):
+    type_account = ACCOUNT_TYPE_FB if message.text == FB_TYPE else ACCOUNT_TYPE_GOOGLE
     accounts = AccountsRepository().get_accounts()
     open_accounts = []
     for i in accounts:
-        if i['visibility'] == OPEN_STATE and i['type'] == message.text:
+        if i['visibility'] == OPEN_STATE and i['type'] == type_account:
             open_accounts.append(i)
 
     if len(open_accounts) > 0:

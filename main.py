@@ -28,6 +28,7 @@ from handlers.my_orders.my_orders_handler import register_my_order_handlers
 from keyboard.info.support_keyboard import support_contacts_keyboard
 from keyboard.menu.menu_keyboard import main_keyboard, buy_keyboard, about_keyboard
 from keyboard.my_orders.my_orders_keyboard import user_view_choice_keyboard
+from states.subscribe_checker import is_user_subscribed, YOU_ARE_NOT_SUBSCRIBE, keyboard_subsribe
 from states.user_orders.user_orders_state import UserOrdersState
 
 logging.basicConfig(level=logging.INFO)
@@ -47,18 +48,26 @@ async def start_cmd(message: types.Message, state: FSMContext):
     # ===========================
 
     if UsersRepository().get_user(telegram_id=message.chat.id) is None:
-        UsersRepository().add_user(
-            telegram_id=message.chat.id,
-            name=message.chat.username,
-            time=datetime.datetime.now()
-        )
+        # check subscribe user (mt shop chanel)
+        if await is_user_subscribed(user_id=message.chat.id, bot=bot):
+            # add user to db
+            UsersRepository().add_user(
+                telegram_id=message.chat.id,
+                name=message.chat.username,
+                time=datetime.datetime.now()
+            )
 
-    with open("source/bot_video_start.gif.mp4", 'rb') as video_file:
-        await message.answer_animation(
-            video_file,
-            caption=HELLO_MESSAGE,
-            reply_markup=main_keyboard(message)
-        )
+            # show hello text
+            with open("source/bot_video_start.gif.mp4", 'rb') as video_file:
+                await message.answer_animation(
+                    video_file,
+                    caption=HELLO_MESSAGE,
+                    reply_markup=main_keyboard(message)
+                )
+        else:
+            await message.answer(YOU_ARE_NOT_SUBSCRIBE, reply_markup=keyboard_subsribe())
+    else:
+        await message.answer(HELLO_MESSAGE_REGISTERED_USER, reply_markup=main_keyboard(message))
 
 
 # cancel states

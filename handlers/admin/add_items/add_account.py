@@ -3,7 +3,8 @@ from aiogram.dispatcher import FSMContext
 from aiogram.types import ReplyKeyboardRemove
 
 from data.constants.accounts_constants import INPUT_GEO_OF_ITEM, INPUT_NAME_OF_ITEM, INPUT_COUNT_OF_ITEM, \
-    INPUT_DESC_OF_ITEM, INPUT_PRICE_OF_ITEM, LIST_OF_ACCOUNTS_TYPE, ACCOUNTS
+    INPUT_DESC_OF_ITEM, INPUT_PRICE_OF_ITEM, LIST_OF_ACCOUNTS_TYPE, ACCOUNTS, FB_TYPE, GOOGLE_TYPE
+from data.constants.admin_constants import ACCOUNT_TYPE_GOOGLE, ACCOUNT_TYPE_FB
 from data.constants.base_constants import ADMIN, NO_ACCESS, ERROR_REGISTER_MESSAGE, INPUT_INEGER, SUB_POSITION_ACCOUNT
 from data.repository.users import UsersRepository
 from handlers.admin.db_use_case.add_farm import add_account_case
@@ -22,7 +23,11 @@ def register_add_account_handlers(dispatcher):
 
 
 async def choice_type_account(message: types.Message, state: FSMContext):
-    await state.update_data(type=message.text)
+    if message.text == FB_TYPE:
+        await state.update_data(type=ACCOUNT_TYPE_FB)
+    elif message.text == GOOGLE_TYPE:
+        await state.update_data(type=ACCOUNT_TYPE_GOOGLE)
+
     await AddAccountState.next()
     await message.answer(INPUT_GEO_OF_ITEM, reply_markup=cancel_keyboard())
 

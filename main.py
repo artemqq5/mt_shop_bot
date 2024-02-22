@@ -28,6 +28,7 @@ from handlers.my_orders.my_orders_handler import register_my_order_handlers
 from keyboard.info.support_keyboard import support_contacts_keyboard
 from keyboard.menu.menu_keyboard import main_keyboard, buy_keyboard, about_keyboard
 from keyboard.my_orders.my_orders_keyboard import user_view_choice_keyboard
+from notify.user_action_notify import user_activate_bot
 from states.subscribe_checker import is_user_subscribed, YOU_ARE_NOT_SUBSCRIBE, keyboard_subsribe
 from states.user_orders.user_orders_state import UserOrdersState
 
@@ -56,6 +57,9 @@ async def start_cmd(message: types.Message, state: FSMContext):
                 name=message.chat.username,
                 time=datetime.datetime.now()
             )
+
+            # send admins notify about user
+            await user_activate_bot(message.chat.id, bot)
 
             # show hello text
             with open("source/bot_video_start.gif.mp4", 'rb') as video_file:

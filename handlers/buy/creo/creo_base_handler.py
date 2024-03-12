@@ -149,7 +149,7 @@ async def check_order_task(message: types.Message, state: FSMContext):
         await message.answer(DESIGN_FORMAT, reply_markup=design_format_keyboard())
 
 
-async def check_size_message(message, task_data, state):
+async def check_size_message_creo(message, task_data, state):
     try:
         await message.answer(check_view_order(task_data), reply_markup=check_task_view_keyboard())
     except MessageIsTooLong as e:

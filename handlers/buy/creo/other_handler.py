@@ -5,6 +5,7 @@ from aiogram.dispatcher import FSMContext
 
 from data.constants.base_constants import WRONG_FORRMAT_DATE, SKIP
 from data.constants.design_constants import *
+from handlers.buy.creo.creo_base_handler import check_size_message
 from handlers.buy.creo.creo_use_case.format_task_view import check_view_order
 from handlers.buy.creo.creo_use_case.send_order_creo import send_order_creo
 from keyboard.base_keyboard import cancel_keyboard, skip_keyboard
@@ -68,7 +69,7 @@ async def set_count_other_creative(message: types.Message, state: FSMContext):
             await state.update_data(count=1)
             await CreoOtherState.check.set()
             task_data = await state.get_data()
-            await message.answer(check_view_order(task_data), reply_markup=check_task_view_keyboard())
+            await check_size_message(message, task_data, state)
         else:
             try:
                 count = int(message.text)
@@ -79,7 +80,7 @@ async def set_count_other_creative(message: types.Message, state: FSMContext):
                 elif count == 1:
                     await CreoOtherState.check.set()
                     task_data = await state.get_data()
-                    await message.answer(check_view_order(task_data), reply_markup=check_task_view_keyboard())
+                    await check_size_message(message, task_data, state)
                 else:
                     await message.answer(WRONG_FORMAT_INPUT_CREO, reply_markup=skip_keyboard())
             except Exception as e:
@@ -89,7 +90,7 @@ async def set_count_other_creative(message: types.Message, state: FSMContext):
         await state.update_data(sub_description=message.text)
         await CreoOtherState.check.set()
         task_data = await state.get_data()
-        await message.answer(check_view_order(task_data), reply_markup=check_task_view_keyboard())
+        await check_size_message(message, task_data, state)
 
 
 # set deadline ->

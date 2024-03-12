@@ -1,6 +1,8 @@
 from aiogram import types
 from aiogram.dispatcher import FSMContext
+from aiogram.utils.exceptions import MessageIsTooLong
 
+from handlers.buy.creo.creo_use_case.format_task_view import check_view_order
 from keyboard.base_keyboard import cancel_keyboard, skip_keyboard
 from keyboard.creo.design_keyboard import *
 from states.creo.creo_app_state import CreoAppState
@@ -143,5 +145,16 @@ async def check_order_task(message: types.Message, state: FSMContext):
                 await message.answer(DEADLINE_MESSAGE, reply_markup=skip_keyboard())
     else:
         await state.finish()
+        await OrderCreativeState.format.set()
+        await message.answer(DESIGN_FORMAT, reply_markup=design_format_keyboard())
+
+
+async def check_size_message(message, task_data, state):
+    try:
+        await message.answer(check_view_order(task_data), reply_markup=check_task_view_keyboard())
+    except MessageIsTooLong as e:
+        print(f"MessageIsTooLong: {e}")
+        await message.answer(MESSAGE_IS_TOO_LONG, reply_markup=check_task_view_keyboard())
+        await state.reset_state()
         await OrderCreativeState.format.set()
         await message.answer(DESIGN_FORMAT, reply_markup=design_format_keyboard())

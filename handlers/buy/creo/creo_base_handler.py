@@ -153,7 +153,7 @@ async def check_size_message(message, task_data, state):
     try:
         await message.answer(check_view_order(task_data), reply_markup=check_task_view_keyboard())
     except MessageIsTooLong as e:
-        print(f"MessageIsTooLong: {e}")
+        print(f"MessageIsTooLong error: ({e}) for {message.chat.id}")
         await message.answer(MESSAGE_IS_TOO_LONG, reply_markup=check_task_view_keyboard())
         await state.reset_state()
         await OrderCreativeState.format.set()

@@ -2,6 +2,7 @@ from aiogram import types
 
 from data.constants.apps_constants import *
 from data.constants.base_constants import NOT_IMPLEMENTED
+from is_banned import is_banned
 from keyboard.apps.apps_keeyboard import *
 from keyboard.menu.menu_keyboard import main_keyboard
 from states.apps.order_apps_state import OrderAppsState
@@ -14,6 +15,9 @@ def register_hundler_apps(dispatcher):
 
 
 async def order_apps(message: types.Message):
+    if await is_banned(message):
+        return
+
     await OrderAppsState.choice_type_app.set()
     await message.answer(APPS_TYPE, reply_markup=apps_type_keyboard())
 

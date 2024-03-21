@@ -7,6 +7,7 @@ from data.constants.base_constants import INPUT_INEGER, SKIP, CLIENT, ERROR_REGI
 from data.repository.users import UsersRepository
 from handlers.buy.farm_use_case.output_farm import formatted_output_card
 from handlers.buy.farm_use_case.send_order_farm import send_order_card
+from is_banned import is_banned
 from keyboard.accounts.accounts_keyboard import *
 from keyboard.base_keyboard import cancel_keyboard, skip_keyboard
 
@@ -26,6 +27,9 @@ def register_order_cards_handlers(dispatcher):
 
 
 async def choice_card(message: types.Message):
+    if await is_banned(message):
+        return
+
     current_user = UsersRepository().get_user(message.chat.id)
     if current_user is not None:
         if current_user['position'] == CLIENT:

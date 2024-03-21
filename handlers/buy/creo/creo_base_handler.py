@@ -3,6 +3,7 @@ from aiogram.dispatcher import FSMContext
 from aiogram.utils.exceptions import MessageIsTooLong
 
 from handlers.buy.creo.creo_use_case.format_task_view import check_view_order
+from is_banned import is_banned
 from keyboard.base_keyboard import cancel_keyboard, skip_keyboard
 from keyboard.creo.design_keyboard import *
 from states.creo.creo_app_state import CreoAppState
@@ -48,6 +49,9 @@ def register_handlers_creo(dispatcher):
 
 # format ("Видео", "Статика", "GIF-анимация") FAQ
 async def design_format(message: types.Message):
+    if await is_banned(message):
+        return
+
     await OrderCreativeState.format.set()
     await message.answer(DESIGN_FORMAT, reply_markup=design_format_keyboard())
 

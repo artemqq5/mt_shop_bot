@@ -8,6 +8,7 @@ from data.constants.admin_constants import ACCOUNT_TYPE_GOOGLE, ACCOUNT_TYPE_FB
 from data.constants.base_constants import ADMIN, NO_ACCESS, ERROR_REGISTER_MESSAGE, INPUT_INEGER, SUB_POSITION_ACCOUNT
 from data.repository.users import UsersRepository
 from handlers.admin.db_use_case.add_farm import add_account_case
+from is_banned import is_banned
 from keyboard.base_keyboard import cancel_keyboard
 from keyboard.menu.menu_keyboard import main_keyboard
 from states.admin.add_item_state import AddAccountState

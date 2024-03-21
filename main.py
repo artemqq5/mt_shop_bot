@@ -10,6 +10,7 @@ from aiogram.utils import executor
 
 from data.repository.users import UsersRepository
 from handlers.admin.admin_push_notify import register_push_handlers
+from handlers.admin.system_ban_handler import register_ban_system_handlers
 from handlers.buy.accounts.account_base_handler import register_accounts_handlers
 from handlers.admin.add_items.admin_add_items import register_add_item_handlers
 from handlers.admin.admin_orders_handler import register_orders_handler
@@ -25,6 +26,7 @@ from handlers.buy.creo.other_handler import register_creo_other_handlers
 from handlers.buy.verifications.verification_base_handler import register_order_verifications_handlers
 from handlers.info.about_us_handler import register_about_us_handlers
 from handlers.my_orders.my_orders_handler import register_my_order_handlers
+from is_banned import is_banned
 from keyboard.info.support_keyboard import support_contacts_keyboard
 from keyboard.menu.menu_keyboard import main_keyboard, buy_keyboard, about_keyboard
 from keyboard.my_orders.my_orders_keyboard import user_view_choice_keyboard
@@ -42,16 +44,15 @@ dispatcher = Dispatcher(bot, storage=storage)
 # start handler
 @dispatcher.message_handler(commands=['start'], state='*')
 async def start_cmd(message: types.Message, state: FSMContext):
+    if await is_banned(message):
+        return
+
     # cancel state if not None
     current_state = await state.get_state()
     if current_state is not None:
         await state.reset_state()
     # ===========================
     current_user = UsersRepository().get_user(telegram_id=message.chat.id)
-
-    if current_user and current_user['banned']:
-        await message.answer(current_user['banned_message'], reply_markup=ReplyKeyboardRemove())
-        return
 
     if not current_user:
         # check subscribe user (mt shop chanel)
@@ -82,6 +83,9 @@ async def start_cmd(message: types.Message, state: FSMContext):
 # cancel states
 @dispatcher.message_handler(lambda m: m.text == CANCEL, state='*')
 async def cancel_handler(message: types.Message, state: FSMContext):
+    if await is_banned(message):
+        return
+
     current_state = await state.get_state()
     if current_state is not None:
         await state.reset_state()
@@ -92,12 +96,18 @@ async def cancel_handler(message: types.Message, state: FSMContext):
 # menu
 @dispatcher.message_handler(lambda m: m.text == MENU)
 async def menu_handler(message: types.Message):
+    if await is_banned(message):
+        return
+
     await message.reply(MENU, reply_markup=main_keyboard(message))
 
 
 # menu handler
 @dispatcher.message_handler(lambda message: message.text in (BUY, RULES, SUPPORT, ABOUT, MY_ORDERS))
 async def main_handler(message: types.Message):
+    if await is_banned(message):
+        return
+
     current_user = UsersRepository().get_user(telegram_id=message.chat.id)
     if current_user is not None:
         if current_user['position'] == CLIENT:
@@ -149,6 +159,7 @@ register_about_us_handlers(dispatcher)
 register_orders_handler(dispatcher)
 register_add_item_handlers(dispatcher)
 register_show_item_handlers(dispatcher)
+register_ban_system_handlers(dispatcher)
 
 if __name__ == '__main__':
     executor.start_polling(dispatcher=dispatcher, skip_updates=True)

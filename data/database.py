@@ -45,10 +45,14 @@ class MyDataBase:
                     if type_account is None:
                         if status is None:
                             _command = '''SELECT * FROM `orders` WHERE `type` IN %s;'''
-                            cursor.execute(_command, ([CREO_TYPE, ACCOUNT_TYPE_FB, ACCOUNT_TYPE_GOOGLE, CARD_TYPE, CABINET_TYPE, VERIFICATION_TYPE], ))
+                            cursor.execute(_command, (
+                            [CREO_TYPE, ACCOUNT_TYPE_FB, ACCOUNT_TYPE_GOOGLE, CARD_TYPE, CABINET_TYPE,
+                             VERIFICATION_TYPE],))
                         else:
                             _command = '''SELECT * FROM `orders` WHERE `status` = %s AND `type` IN %s;'''
-                            cursor.execute(_command, (status, [CREO_TYPE, ACCOUNT_TYPE_FB, ACCOUNT_TYPE_GOOGLE, CARD_TYPE, CABINET_TYPE, VERIFICATION_TYPE]))
+                            cursor.execute(_command, (status,
+                                                      [CREO_TYPE, ACCOUNT_TYPE_FB, ACCOUNT_TYPE_GOOGLE, CARD_TYPE,
+                                                       CABINET_TYPE, VERIFICATION_TYPE]))
                     else:
                         if status is None:
                             _command = '''SELECT * FROM `orders` WHERE `type` IN %s;'''
@@ -454,6 +458,7 @@ class MyDataBase:
                     _command = '''DELETE FROM `verifications` WHERE `id` = %s;'''
                     cursor.execute(_command, account_id)
                 connection.commit()
+
             return True
         except Exception as e:
             print(f"delete_verification_sql: {e}")
@@ -463,8 +468,27 @@ class MyDataBase:
         try:
             with self.connection as connection:
                 with connection.cursor() as cursor:
-                    return cursor.execute(query, args)
+                    cursor.execute(query, args)
+                    return cursor.fetchone()
         except Exception as e:
             print(f"_select_one: {e}")
-            return None
 
+    def _select(self, query, args=None):
+        try:
+            with self.connection as connection:
+                with connection.cursor() as cursor:
+                    cursor.execute(query, args)
+                    return cursor.fetchall()
+        except Exception as e:
+            print(f"_select: {e}")
+
+    def _update(self, query, args=None):
+        try:
+            with self.connection as connection:
+                with connection.cursor() as cursor:
+                    result = cursor.execute(query, args)
+                connection.commit()
+                return result
+        except Exception as e:
+            print(f"_update: {e}")
+            return None

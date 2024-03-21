@@ -458,3 +458,13 @@ class MyDataBase:
         except Exception as e:
             print(f"delete_verification_sql: {e}")
             return None
+
+    def _select_one(self, query, args=None):
+        try:
+            with self.connection as connection:
+                with connection.cursor() as cursor:
+                    return cursor.execute(query, args)
+        except Exception as e:
+            print(f"_select_one: {e}")
+            return None
+

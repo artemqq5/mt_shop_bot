@@ -11,3 +11,4 @@ class UsersRepository(MyDataBase):
 
     def get_users(self, position):  # get users by position or All by default
         return self._get_users_sql(position)
+

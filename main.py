@@ -47,8 +47,13 @@ async def start_cmd(message: types.Message, state: FSMContext):
     if current_state is not None:
         await state.reset_state()
     # ===========================
+    current_user = UsersRepository().get_user(telegram_id=message.chat.id)
 
-    if UsersRepository().get_user(telegram_id=message.chat.id) is None:
+    if current_user and current_user['banned']:
+        await message.answer(current_user['banned_message'], reply_markup=ReplyKeyboardRemove())
+        return
+
+    if not current_user:
         # check subscribe user (mt shop chanel)
         if await is_user_subscribed(user_id=message.chat.id, bot=bot):
             # add user to db

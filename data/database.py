@@ -1,7 +1,7 @@
 import uuid
 
 import pymysql
-from config.cfg import *
+import private_cfg as config
 from data.constants.admin_constants import *
 
 
@@ -11,8 +11,8 @@ class MyDataBase:
         self.connection = pymysql.connect(
             host="localhost",
             user="root",
-            password=DB_PASSWORD,
-            db="mt_shop_db",
+            password=config.DB_PASSWORD,
+            db=config.DB_NAME,
             charset="utf8mb4",
             cursorclass=pymysql.cursors.DictCursor
         )
@@ -464,6 +464,14 @@ class MyDataBase:
             print(f"delete_verification_sql: {e}")
             return None
 
+    def _insert(self, query, args=None):
+        try:
+            with self.connection as con:
+                with con.cursor() as cursor:
+                    return cursor.execute(query, args)
+        except Exception as e:
+            print(f"_insert\n({query}): {e}")
+
     def _select_one(self, query, args=None):
         try:
             with self.connection as connection:
@@ -471,7 +479,7 @@ class MyDataBase:
                     cursor.execute(query, args)
                     return cursor.fetchone()
         except Exception as e:
-            print(f"_select_one: {e}")
+            print(f"_select_one\n({query}): {e}")
 
     def _select(self, query, args=None):
         try:
@@ -480,7 +488,7 @@ class MyDataBase:
                     cursor.execute(query, args)
                     return cursor.fetchall()
         except Exception as e:
-            print(f"_select: {e}")
+            print(f"_select\n({query}): {e}")
 
     def _update(self, query, args=None):
         try:
@@ -490,5 +498,13 @@ class MyDataBase:
                 connection.commit()
                 return result
         except Exception as e:
-            print(f"_update: {e}")
+            print(f"_update\n({query}): {e}")
             return None
+
+    def _delete(self, query, args=None):
+        try:
+            with self.connection as con:
+                with con.cursor() as cursor:
+                    return cursor.execute(query, args)
+        except Exception as e:
+            print(f"_delete\n({query}): {e}")

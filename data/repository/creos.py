@@ -1,7 +1,7 @@
 from data.database import MyDataBase
 
 
-class CreosRepository(MyDataBase):
+class CreoRepository(MyDataBase):
 
     def get_creo(self, id_order):
         return self._get_creo_sql(id_order)

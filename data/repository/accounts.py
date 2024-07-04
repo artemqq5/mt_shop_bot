@@ -1,7 +1,7 @@
 from data.database import MyDataBase
 
 
-class AccountsRepository(MyDataBase):
+class AccountRepository(MyDataBase):
 
     def delete_account(self, account_id):
         return self._delete_account_sql(account_id)

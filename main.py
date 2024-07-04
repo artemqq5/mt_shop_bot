@@ -1,165 +1,60 @@
-import datetime
+import asyncio
 import logging
 
-from config.cfg import BOT_TOKEN
-
 from aiogram import Bot, Dispatcher
-from aiogram.contrib.fsm_storage.memory import MemoryStorage
-from aiogram.types import ParseMode, ReplyKeyboardRemove
-from aiogram.utils import executor
+from aiogram.client.default import DefaultBotProperties
+from aiogram.enums import ParseMode
+from aiogram.fsm.storage.memory import MemoryStorage
+from aiogram_i18n import I18nMiddleware
+from aiogram_i18n.cores import FluentRuntimeCore
 
-from data.repository.users import UsersRepository
-from handlers.admin.admin_push_notify import register_push_handlers
-from handlers.admin.system_ban_handler import register_ban_system_handlers
-from handlers.buy.accounts.account_base_handler import register_accounts_handlers
-from handlers.admin.add_items.admin_add_items import register_add_item_handlers
-from handlers.admin.admin_orders_handler import register_orders_handler
-from handlers.admin.admin_show_items import register_show_item_handlers
-from handlers.buy.agency_accounts.agency_base_handler import register_agency_handlers
-from handlers.buy.apps.apps_base_handler import register_hundler_apps
-from handlers.buy.cabinets.cabinet_base_handler import register_order_cabinets_handlers
-from handlers.buy.cards.cards_base_handler import register_order_cards_handlers
-from handlers.buy.creo.app_handler import register_creo_app_handlers
-from handlers.buy.creo.creo_base_handler import *
-from handlers.buy.creo.default_handler import register_creo_default_handlers
-from handlers.buy.creo.other_handler import register_creo_other_handlers
-from handlers.buy.verifications.verification_base_handler import register_order_verifications_handlers
-from handlers.info.about_us_handler import register_about_us_handlers
-from handlers.my_orders.my_orders_handler import register_my_order_handlers
-from is_banned import is_banned
-from keyboard.info.support_keyboard import support_contacts_keyboard
-from keyboard.menu.menu_keyboard import main_keyboard, buy_keyboard, about_keyboard
-from keyboard.my_orders.my_orders_keyboard import user_view_choice_keyboard
-from notify.user_action_notify import user_activate_bot
-from states.subscribe_checker import is_user_subscribed, YOU_ARE_NOT_SUBSCRIBE, keyboard_subsribe
-from states.user_orders.user_orders_state import UserOrdersState
-
-logging.basicConfig(level=logging.INFO)
+import private_cfg as config
+from domain.middlewares.IsUserBanned import UserBannedMiddleware
+from domain.middlewares.IsUserRegistration import UserRegistrationMiddleware
+from domain.middlewares.LocaleManager import LocaleManager
+from domain.routers.admin import admin_handler
+from domain.routers.common_route_ import localization_
+from domain.routers.user import user_handler
+from domain.routers.user_no_team import user_no_team_handler
 
 storage = MemoryStorage()
-bot = Bot(token=BOT_TOKEN, parse_mode=ParseMode.HTML)
-dispatcher = Dispatcher(bot, storage=storage)
+dp = Dispatcher(storage=storage)
+
+dp.include_routers(
+    admin_handler.router,
+    user_handler.router,
+    user_no_team_handler.router,
+    localization_.route
+)
 
 
-# start handler
-@dispatcher.message_handler(commands=['start'], state='*')
-async def start_cmd(message: types.Message, state: FSMContext):
-    if await is_banned(message):
+async def main():
+    logging.basicConfig(level=logging.INFO)
+    default_properties = DefaultBotProperties(parse_mode=ParseMode.HTML)
+    bot = Bot(token=config.BOT_TOKEN, default=default_properties)
+
+    try:
+        i18n_middleware = I18nMiddleware(
+            core=FluentRuntimeCore(path='locales'),
+            default_locale='en',
+            manager=LocaleManager()
+        )
+
+        i18n_middleware.setup(dp)
+
+        dp.message.outer_middleware(UserRegistrationMiddleware())  # register if user not registered
+        dp.callback_query.outer_middleware(UserRegistrationMiddleware())  # register if user not registered
+
+        dp.message.outer_middleware(UserBannedMiddleware())  # check if user banned
+        dp.callback_query.outer_middleware(UserBannedMiddleware())  # check if user banned
+
+        # start bot
+        await bot.delete_webhook(drop_pending_updates=True)
+        await dp.start_polling(bot, allowed_updates=dp.resolve_used_update_types())
+    except Exception as e:
+        print(f"start bot: {e}")
         return
 
-    # cancel state if not None
-    current_state = await state.get_state()
-    if current_state is not None:
-        await state.reset_state()
-    # ===========================
-    current_user = UsersRepository().get_user(telegram_id=message.chat.id)
-
-    if not current_user:
-        # check subscribe user (mt shop chanel)
-        if await is_user_subscribed(user_id=message.chat.id, bot=bot):
-            # add user to db
-            UsersRepository().add_user(
-                telegram_id=message.chat.id,
-                name=message.chat.username,
-                time=datetime.datetime.now()
-            )
-
-            # send admins notify about user
-            await user_activate_bot(message.chat.id, bot)
-
-            # show hello text
-            with open("source/bot_video_start.gif.mp4", 'rb') as video_file:
-                await message.answer_animation(
-                    video_file,
-                    caption=HELLO_MESSAGE,
-                    reply_markup=main_keyboard(message)
-                )
-        else:
-            await message.answer(YOU_ARE_NOT_SUBSCRIBE, reply_markup=keyboard_subsribe())
-    else:
-        await message.answer(HELLO_MESSAGE_REGISTERED_USER, reply_markup=main_keyboard(message))
-
-
-# cancel states
-@dispatcher.message_handler(lambda m: m.text == CANCEL, state='*')
-async def cancel_handler(message: types.Message, state: FSMContext):
-    if await is_banned(message):
-        return
-
-    current_state = await state.get_state()
-    if current_state is not None:
-        await state.reset_state()
-
-    await message.reply(CANCEL_OK, reply_markup=main_keyboard(message))
-
-
-# menu
-@dispatcher.message_handler(lambda m: m.text == MENU)
-async def menu_handler(message: types.Message):
-    if await is_banned(message):
-        return
-
-    await message.reply(MENU, reply_markup=main_keyboard(message))
-
-
-# menu handler
-@dispatcher.message_handler(lambda message: message.text in (BUY, RULES, SUPPORT, ABOUT, MY_ORDERS))
-async def main_handler(message: types.Message):
-    if await is_banned(message):
-        return
-
-    current_user = UsersRepository().get_user(telegram_id=message.chat.id)
-    if current_user is not None:
-        if current_user['position'] == CLIENT:
-            if message.text == BUY:
-                await message.answer(CATEGORIES, reply_markup=buy_keyboard())
-            elif message.text == RULES:
-                await message.answer(RULES_TEXT)
-            elif message.text == SUPPORT:
-                await message.answer(CONTACTS_OUR_SUPPORTS, reply_markup=support_contacts_keyboard())
-            elif message.text == ABOUT:
-                await message.answer(text=WHAT_INTERESTED, reply_markup=about_keyboard())
-            elif message.text == MY_ORDERS:
-                await UserOrdersState.view.set()
-                await message.answer(text=TYPE_OF_ORDER_VIEW, reply_markup=user_view_choice_keyboard())
-    else:
-        await message.answer(ERROR_REGISTER_MESSAGE, reply_markup=ReplyKeyboardRemove())
-
-
-# my orders
-register_my_order_handlers(dispatcher)
-
-# push
-register_push_handlers(dispatcher)
-
-# agency accounts
-register_agency_handlers(dispatcher)
-
-# apps handler
-register_hundler_apps(dispatcher)
-
-# accounts, cards, cabinets, verifications handler
-register_accounts_handlers(dispatcher)
-register_order_cards_handlers(dispatcher)
-register_order_cabinets_handlers(dispatcher)
-register_order_verifications_handlers(dispatcher)
-
-# creo handler
-register_handlers_creo(dispatcher)  # base handlers
-register_creo_default_handlers(dispatcher)  # for all creo category besides (APP Design, Other (Custom creo))
-register_creo_other_handlers(dispatcher)  # for Other (Custom creo)
-register_creo_app_handlers(dispatcher)  # for App Design creo
-
-# info handler
-register_about_us_handlers(dispatcher)
-# register_support_handlers(dispatcher) the same realization as main SUPPORT
-# register_rules_handlers(dispatcher) the same realization as main RULES
-
-# admin handler
-register_orders_handler(dispatcher)
-register_add_item_handlers(dispatcher)
-register_show_item_handlers(dispatcher)
-register_ban_system_handlers(dispatcher)
 
 if __name__ == '__main__':
-    executor.start_polling(dispatcher=dispatcher, skip_updates=True)
+    asyncio.run(main())

@@ -1,7 +1,7 @@
 from data.database import MyDataBase
 
 
-class UsersRepository(MyDataBase):
+class UserRepository(MyDataBase):
 
     def add_user(self, telegram_id, name, time):
         return self._add_user_sql(telegram_id, name, time)

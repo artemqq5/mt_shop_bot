@@ -3,7 +3,7 @@ from data.constants.admin_constants import CREO_TYPE, ACCOUNT_TYPE_FB, ACCOUNT_T
 from data.database import MyDataBase
 
 
-class OrdersRepository(MyDataBase):
+class OrderRepository(MyDataBase):
 
     def get_orders(self, status=None, type_account=None):
         return self._get_orders_sql(status, type_account)  # get orders by type and status, by default all types of orders

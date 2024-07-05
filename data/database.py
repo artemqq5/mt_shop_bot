@@ -14,7 +14,8 @@ class MyDataBase:
             password=config.DB_PASSWORD,
             db=config.DB_NAME,
             charset="utf8mb4",
-            cursorclass=pymysql.cursors.DictCursor
+            cursorclass=pymysql.cursors.DictCursor,
+            autocommit=True
         )
 
     def _add_user_sql(self, telegram_id, name, time):
@@ -31,7 +32,7 @@ class MyDataBase:
         try:
             with self.connection as connection:
                 with connection.cursor() as cursor:
-                    _command = '''SELECT * FROM `users` WHERE `id` = %s;'''
+                    _command = '''SELECT * FROM `users` WHERE `user_id` = %s;'''
                     cursor.execute(_command, (telegram_id,))
                 return cursor.fetchone()
         except Exception as e:
@@ -46,8 +47,8 @@ class MyDataBase:
                         if status is None:
                             _command = '''SELECT * FROM `orders` WHERE `type` IN %s;'''
                             cursor.execute(_command, (
-                            [CREO_TYPE, ACCOUNT_TYPE_FB, ACCOUNT_TYPE_GOOGLE, CARD_TYPE, CABINET_TYPE,
-                             VERIFICATION_TYPE],))
+                                [CREO_TYPE, ACCOUNT_TYPE_FB, ACCOUNT_TYPE_GOOGLE, CARD_TYPE, CABINET_TYPE,
+                                 VERIFICATION_TYPE],))
                         else:
                             _command = '''SELECT * FROM `orders` WHERE `status` = %s AND `type` IN %s;'''
                             cursor.execute(_command, (status,
@@ -495,7 +496,6 @@ class MyDataBase:
             with self.connection as connection:
                 with connection.cursor() as cursor:
                     result = cursor.execute(query, args)
-                connection.commit()
                 return result
         except Exception as e:
             print(f"_update\n({query}): {e}")

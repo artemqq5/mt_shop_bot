@@ -1,7 +1,7 @@
 from aiogram.types import User
 from aiogram_i18n.managers import BaseManager
 
-from data.repositoryDB.UserRepository import UserRepository
+from data.repository.users import UserRepository
 
 
 class LocaleManager(BaseManager):
@@ -10,8 +10,10 @@ class LocaleManager(BaseManager):
         pass
 
     async def get_locale(self, event_from_user: User) -> str:
-        user_database = UserRepository().get_user(event_from_user.id)
-        if not user_database or not user_database['lang']:
+        current_user = UserRepository().user(event_from_user.id)
+        if not current_user or not current_user['lang']:
+            # update user lang in database like telegram if its equals none
+            UserRepository().update_lang(event_from_user.id, event_from_user.language_code)
             return event_from_user.language_code
 
-        return user_database['lang']
+        return current_user['lang']

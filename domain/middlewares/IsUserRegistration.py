@@ -32,9 +32,6 @@ class UserRegistrationMiddleware(BaseMiddleware):
             # notify admin about registration
             await NotificationAdmin().user_activate_bot(tg_user.id, event.bot, data['i18n'])
 
-            if await is_user_subscribed(tg_user.id, event.bot):
-                await event.bot.send_message(chat_id=tg_user.id, text=data['i18n'].START_MESSAGE())
-
         if current_user['banned']:
             await event.bot.send_message(chat_id=tg_user.id, text=data['i18n'].BAN_MESSAGE(), reply_markup=ReplyKeyboardRemove())
             return None

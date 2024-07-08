@@ -23,6 +23,7 @@ class UserRepository(MyDataBase):
         query = "SELECT * FROM `users` WHERE `role` = 'client';"
         return self._select(query)
 
+    # temporary for update data in new structure tables database
     def update_lang(self, user_id, lang):
         query = "UPDATE `users` SET `lang` = %s WHERE `user_id` = %s;"
         return self._select_one(query, (lang, user_id))

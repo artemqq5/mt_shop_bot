@@ -8,7 +8,7 @@ from dev.keyboard.admin.admin_keyboard import admin_panel_keyboard
 def main_keyboard(message) -> ReplyKeyboardMarkup:
     keyboard = ReplyKeyboardMarkup(row_width=1, resize_keyboard=True)
 
-    if UsersRepository().get_user(message.chat.id)['position'] is not None:  # check if user admin set admin command
+    if UsersRepository().get_user(message.chat.id)['position'] is not None:  # check if client admin set admin command
         is_admin = UsersRepository().get_user(message.chat.id)['position'] == ADMIN
     else:
         is_admin = False

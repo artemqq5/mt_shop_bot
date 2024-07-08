@@ -10,22 +10,27 @@ from aiogram_i18n.cores import FluentRuntimeCore
 
 import private_cfg as config
 from data.repository.users import UserRepository
+from domain.handlers.admin import main_admin
+from domain.handlers.client import main_client
 from domain.middlewares.IsUserRegistration import UserRegistrationMiddleware
 from domain.middlewares.LocaleManager import LocaleManager
+
 # from domain.routers.admin import admin_handler
 # from domain.routers.common_route_ import localization_
-# from domain.routers.user import user_handler
+# from domain.routers.client import user_handler
 # from domain.routers.user_no_team import user_no_team_handler
 
 storage = MemoryStorage()
 dp = Dispatcher(storage=storage)
 
-# dp.include_routers(
-#     admin_handler.router,
-#     user_handler.router,
-#     user_no_team_handler.router,
-#     localization_.route
-# )
+dp.include_routers(
+    main_client.router,
+    main_admin.router,
+    #     admin_handler.router,
+    #     user_handler.router,
+    #     user_no_team_handler.router,
+    #     localization_.route
+)
 
 
 async def main():
@@ -42,8 +47,8 @@ async def main():
 
         i18n_middleware.setup(dp)
 
-        dp.message.outer_middleware(UserRegistrationMiddleware())  # register if user not registered
-        dp.callback_query.outer_middleware(UserRegistrationMiddleware())  # register if user not registered
+        dp.message.outer_middleware(UserRegistrationMiddleware())  # register if client not registered
+        dp.callback_query.outer_middleware(UserRegistrationMiddleware())  # register if client not registered
 
         # start bot
         await bot.delete_webhook(drop_pending_updates=True)

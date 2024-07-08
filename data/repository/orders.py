@@ -9,7 +9,7 @@ class OrderRepository(MyDataBase):
         return self._get_orders_sql(status, type_account)  # get orders by type and status, by default all types of orders
 
     def get_user_orders(self, status, user_id, type_account):
-        return self._get_user_orders_sql(status, user_id, type_account)  # get orders by type, status and user id, by default all types of orders
+        return self._get_user_orders_sql(status, user_id, type_account)  # get orders by type, status and client id, by default all types of orders
 
     def get_order(self, id_order):
         return self._get_order_sql(id_order)

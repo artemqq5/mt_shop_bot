@@ -11,8 +11,4 @@ START_MESSAGE = Welcome to <b>MT SHOP</b> - a platform where you can cover all y
  Just write it in the description before ordering
 
 
-NOTIFICATION-NEW_USER = 👤 <b>A new user has joined the bot!</b>
-
-    Name: <b>@{$username}</b>
-    Telegram ID: <code>{$user_id}</code>
-    Joined: <b>{$join_at}</b>
+MENU = Menu

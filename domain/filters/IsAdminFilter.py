@@ -1,7 +1,7 @@
 from aiogram.filters import BaseFilter
 from aiogram.types import Message
 
-from data.constants.default_constants import ADMIN, CLIENT
+from data.default_constants import ADMIN, CLIENT
 from data.repository.users import UserRepository
 
 

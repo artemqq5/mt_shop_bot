@@ -38,6 +38,7 @@ class UserRegistrationMiddleware(BaseMiddleware):
 
         if not await is_user_subscribed(tg_user.id, event.bot):
             await event.bot.send_message(chat_id=tg_user.id, text=data['i18n'].SUBSCRIBE_CHANNEL(), reply_markup=keyboard_subsribe)
+            return None
 
         return await handler(event, data)
 

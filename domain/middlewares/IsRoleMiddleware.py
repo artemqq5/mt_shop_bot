@@ -6,7 +6,7 @@ from aiogram.types import TelegramObject
 from data.repository.users import UserRepository
 
 
-class IsUserAdmin(BaseMiddleware):
+class IsRoleMiddleware(BaseMiddleware):
 
     def __init__(self, role):
         self.role = role

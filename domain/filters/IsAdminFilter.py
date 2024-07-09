@@ -12,4 +12,3 @@ class IsAdminFilter(BaseFilter):
 
     async def __call__(self, message: Message):
         return UserRepository().user(message.from_user.id)['role'] == (ADMIN if self.is_admin else CLIENT)
-

@@ -12,7 +12,7 @@ import private_cfg as config
 from data.repository.users import UserRepository
 from domain.handlers.admin import main_admin
 from domain.handlers.client import main_client
-from domain.middlewares.IsUserRegistration import UserRegistrationMiddleware
+from domain.middlewares.UserRegistrationMiddleware import UserRegistrationMiddleware
 from domain.middlewares.LocaleManager import LocaleManager
 
 # from domain.routers.admin import admin_handler

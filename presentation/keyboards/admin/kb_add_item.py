@@ -3,11 +3,11 @@ from aiogram_i18n import L
 from aiogram_i18n.types import InlineKeyboardMarkup, InlineKeyboardButton
 
 
-class CategoryChoice(CallbackData, preffix="Category*Choice"):
+class CategoryChoice(CallbackData, prefix="Category*Choice"):
     name: str
 
 
-class CreateNewCategory(CallbackData, preffix="Create*New*Category"):
+class CreateNewCategory(CallbackData, prefix="Create*New*Category"):
     key: str = "CreateNewCategory"
 
 

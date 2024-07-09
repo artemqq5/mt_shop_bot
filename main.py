@@ -1,11 +1,13 @@
 import asyncio
 import logging
 
-from aiogram import Bot, Dispatcher
+from aiogram import Bot, Dispatcher, types
 from aiogram.client.default import DefaultBotProperties
 from aiogram.enums import ParseMode
+from aiogram.filters import Command
 from aiogram.fsm.storage.memory import MemoryStorage
-from aiogram_i18n import I18nMiddleware
+from aiogram.types import Message
+from aiogram_i18n import I18nMiddleware, I18nContext
 from aiogram_i18n.cores import FluentRuntimeCore
 
 import private_cfg as config
@@ -49,6 +51,7 @@ async def main():
 
         dp.message.outer_middleware(UserRegistrationMiddleware())  # register if client not registered
         dp.callback_query.outer_middleware(UserRegistrationMiddleware())  # register if client not registered
+        dp.business_message.outer_middleware(UserRegistrationMiddleware())  # register if client not registered
 
         # start bot
         await bot.delete_webhook(drop_pending_updates=True)

@@ -5,7 +5,7 @@ from aiogram.types import TelegramObject, ReplyKeyboardRemove
 
 from data.repository.users import UserRepository
 from domain.notification.NotificationAdmin import NotificationAdmin
-from presentation.keyboards.user._default import keyboard_subsribe
+from presentation.keyboards.client._default import keyboard_subsribe
 from private_cfg import CHANNEL_ID
 
 
@@ -19,12 +19,13 @@ class UserRegistrationMiddleware(BaseMiddleware):
         if not isinstance(event, (types.Message, types.CallbackQuery)):
             return
 
+        message = event if isinstance(event, types.Message) else event.message
         tg_user = event.from_user
         current_user = UserRepository().user(tg_user.id)
 
         if not current_user:
             if not UserRepository().add(tg_user.id, tg_user.username, tg_user.language_code):
-                await event.bot.send_message(chat_id=tg_user.id, text=data['i18n'].REGISTER_FAIL())
+                await message.answer(text=data['i18n'].REGISTER_FAIL())
                 return None
 
             current_user = UserRepository().user(tg_user.id)
@@ -33,11 +34,11 @@ class UserRegistrationMiddleware(BaseMiddleware):
             await NotificationAdmin().user_activate_bot(tg_user.id, event.bot, data['i18n'])
 
         if current_user['banned']:
-            await event.bot.send_message(chat_id=tg_user.id, text=data['i18n'].BAN_MESSAGE(), reply_markup=ReplyKeyboardRemove())
+            await message.answer(text=data['i18n'].BAN_MESSAGE(), reply_markup=ReplyKeyboardRemove())
             return None
 
         if not await is_user_subscribed(tg_user.id, event.bot):
-            await event.bot.send_message(chat_id=tg_user.id, text=data['i18n'].SUBSCRIBE_CHANNEL(), reply_markup=keyboard_subsribe)
+            await message.answer(text=data['i18n'].SUBSCRIBE_CHANNEL(), reply_markup=keyboard_subsribe)
             return None
 
         return await handler(event, data)

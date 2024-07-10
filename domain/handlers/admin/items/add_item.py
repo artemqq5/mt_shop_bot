@@ -5,24 +5,35 @@ from aiogram_i18n import I18nContext, L
 
 from data.repository.categories import CategoryRepository
 from data.repository.items import ItemRepository
+from domain.handlers.admin.items import create_category
 from domain.states.AddItemState import AddItemState
 from presentation.keyboards.admin.kb_add_item import kb_choice_category, CategoryChoice, kb_preview_add_item, \
-    PreviewItemPublish, kb_publish_onemore
+    PreviewItemPublish, kb_publish_onemore, CategoryNavication
 
 router = Router()
+router.include_router(create_category.router)
 
 
 @router.message(F.text == L.ADMIN.ADD_ITEM())
-async def add(message: types.Message, state: FSMContext, i18n: I18nContext):
+async def add_item(message: types.Message, state: FSMContext, i18n: I18nContext):
+    await state.set_state(AddItemState.category)
+
     categories = CategoryRepository().categories()
-    await message.answer(i18n.ADMIN.ADD_ITEM.CHOICE_CATEGORY(), reply_markup=kb_choice_category(categories))
+    await message.answer(i18n.ADMIN.CHOICE_CATEGORY(), reply_markup=kb_choice_category(categories, 1))
+
+
+@router.callback_query(CategoryNavication.filter(), AddItemState.category)
+async def choice_category_nav(callback: CallbackQuery, state: FSMContext, i18n: I18nContext):
+    page = callback.data.split(":")[1]
+    categories = CategoryRepository().categories()
+
+    await callback.message.edit_reply_markup(reply_markup=kb_choice_category(categories, int(page)))
 
 
 @router.callback_query(CategoryChoice.filter(), AddItemState.category)
 async def choice_category(callback: CallbackQuery, state: FSMContext, i18n: I18nContext):
     category = callback.data.split(":")[1]
 
-    await state.set_state(AddItemState.category)
     await state.update_data(category=category)
     await state.set_state(AddItemState.title)
 
@@ -66,7 +77,7 @@ async def set_cost_item(message: types.Message, state: FSMContext, i18n: I18nCon
 
 
 @router.callback_query(PreviewItemPublish.filter(), AddItemState.preview)
-async def preview_callback_query(callback: CallbackQuery, state: FSMContext, i18n: I18nContext):
+async def preview(callback: CallbackQuery, state: FSMContext, i18n: I18nContext):
     mode = callback.data.split(":")[1]
 
     if mode == "publish":
@@ -74,9 +85,9 @@ async def preview_callback_query(callback: CallbackQuery, state: FSMContext, i18
         if ItemRepository().add(data['title'], data['desc'], data['category'], data['cost']):
             await callback.message.edit_text(i18n.ADMIN.SUCCESS_PUBLISHED(), reply_markup=kb_publish_onemore)
         else:
-            await callback.message.answer(i18n.ADMIN.ERROR_PUBLISHED())
+            await callback.message.answer(i18n.ADMIN.FAIL_PUBLISHED())
     elif mode == "restart":
         # start again
         await state.clear()
         await callback.message.delete()
-        await add(callback.message, state, i18n)
+        await add_item(callback.message, state, i18n)

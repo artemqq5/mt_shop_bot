@@ -2,7 +2,7 @@ from aiogram import types
 from aiogram.dispatcher import FSMContext
 from aiogram.types import ReplyKeyboardRemove
 
-from data.constants.base_constants import *
+from dev.constants.base_constants import *
 from data.repository.users import UsersRepository
 from handlers.buy.farm_use_case.output_farm import formatted_output_account, formatted_output_card, \
     formatted_output_cabinet, formatted_output_verification

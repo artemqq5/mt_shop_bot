@@ -1,6 +1,6 @@
 from aiogram import types
 
-from data.constants.base_constants import NOT_IMPLEMENTED
+from dev.constants.base_constants import NOT_IMPLEMENTED
 from keyboard.info.about_us_keyboard import *
 
 

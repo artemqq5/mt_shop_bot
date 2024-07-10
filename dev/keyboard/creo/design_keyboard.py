@@ -1,6 +1,6 @@
 from aiogram.types import ReplyKeyboardMarkup, KeyboardButton, InlineKeyboardMarkup, InlineKeyboardButton
 
-from data.constants.base_constants import *
+from dev.constants.base_constants import *
 
 
 def design_format_keyboard() -> ReplyKeyboardMarkup:

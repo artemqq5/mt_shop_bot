@@ -1,10 +1,9 @@
 from aiogram.types import ReplyKeyboardMarkup, KeyboardButton, InlineKeyboardMarkup, InlineKeyboardButton
 
-from data.constants.admin_constants import COMPLETED, ACTIVE, ACTIVE_ORDERS, COMPLETED_ORDERS, CREO_TYPE, CANCELED, \
-    ACCOUNT_TYPE_FB, ACCOUNT_TYPE_GOOGLE
-from data.constants.base_constants import CANCEL, LIST_OF_USER_VIEW, CALL_ADMIN_ABOUT_ORDER, MESSAGE_
-from data.repository.creos import CreosRepository
-from data.repository.orders import OrdersRepository
+from dev.constants.admin_constants import COMPLETED, ACTIVE, ACTIVE_ORDERS, COMPLETED_ORDERS, CREO_TYPE, CANCELED
+from dev.constants.base_constants import CANCEL, LIST_OF_USER_VIEW, CALL_ADMIN_ABOUT_ORDER, MESSAGE_
+from dev.constants.creos import CreosRepository
+from dev.constants.orders import OrdersRepository
 
 
 def user_view_choice_keyboard() -> ReplyKeyboardMarkup:

@@ -1,6 +1,6 @@
-from data.constants.admin_constants import ACCOUNT_TYPE_GOOGLE, ACCOUNT_TYPE_FB, CARD_TYPE, CABINET_TYPE, VERIFICATION_TYPE
-from data.constants.base_constants import TASK_SEND, TASK_SEND_ERROR
-from data.repository.orders import OrdersRepository
+from dev.constants.admin_constants import CARD_TYPE, CABINET_TYPE, VERIFICATION_TYPE
+from dev.constants.base_constants import TASK_SEND, TASK_SEND_ERROR
+from dev.constants.orders import OrdersRepository
 from notify.notify_push_task import notify_new_task
 from keyboard.menu.menu_keyboard import main_keyboard
 

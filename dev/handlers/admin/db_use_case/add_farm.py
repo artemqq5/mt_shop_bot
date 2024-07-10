@@ -1,5 +1,5 @@
-from data.constants.admin_constants import SUCCSESFULL_ADDED, FAIL_ADDED
-from data.repository.accounts import AccountsRepository
+from dev.constants.admin_constants import SUCCSESFULL_ADDED, FAIL_ADDED
+from dev.constants.accounts import AccountsRepository
 from keyboard.menu.menu_keyboard import main_keyboard
 
 

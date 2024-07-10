@@ -1,7 +1,7 @@
 from aiogram import types
 
-from data.constants.base_constants import SUPPORT
-from data.constants.info_constants import CONTACTS_OUR_SUPPORTS
+from dev.constants.base_constants import SUPPORT
+from dev.constants.info_constants import CONTACTS_OUR_SUPPORTS
 from dev.keyboard.info.support_keyboard import support_contacts_keyboard
 
 

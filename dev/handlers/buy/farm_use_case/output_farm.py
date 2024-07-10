@@ -1,4 +1,4 @@
-from data.constants.accounts_constants import INPUT_PRICE_OF_ITEM
+from dev.constants.accounts_constants import INPUT_PRICE_OF_ITEM
 
 
 def formatted_output_account(list_data) -> str:

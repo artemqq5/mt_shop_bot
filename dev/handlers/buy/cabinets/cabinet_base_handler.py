@@ -2,8 +2,8 @@ from aiogram import types
 from aiogram.dispatcher import FSMContext
 from aiogram.types import ReplyKeyboardRemove
 
-from data.constants.accounts_constants import *
-from data.constants.base_constants import INPUT_INEGER, SKIP, CLIENT, ERROR_REGISTER_MESSAGE
+from dev.constants.accounts_constants import *
+from dev.constants.base_constants import INPUT_INEGER, SKIP, CLIENT, ERROR_REGISTER_MESSAGE
 from data.repository.users import UsersRepository
 from handlers.buy.farm_use_case.output_farm import formatted_output_cabinet
 from handlers.buy.farm_use_case.send_order_farm import send_order_cabinet

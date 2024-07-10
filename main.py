@@ -51,7 +51,7 @@ async def main():
 
         dp.message.outer_middleware(UserRegistrationMiddleware())  # register if client not registered
         dp.callback_query.outer_middleware(UserRegistrationMiddleware())  # register if client not registered
-        dp.business_message.outer_middleware(UserRegistrationMiddleware())  # register if client not registered
+        # dp.business_message.outer_middleware(UserRegistrationMiddleware())  # register if client not registered
 
         # start bot
         await bot.delete_webhook(drop_pending_updates=True)

@@ -1,8 +1,6 @@
-from data.constants.admin_constants import CREO_TYPE, ACCOUNT_TYPE_FB, ACCOUNT_TYPE_GOOGLE, CARD_TYPE, CABINET_TYPE, \
+from dev.constants.admin_constants import CREO_TYPE, ACCOUNT_TYPE_FB, ACCOUNT_TYPE_GOOGLE, CARD_TYPE, CABINET_TYPE, \
     VERIFICATION_TYPE
-from data.constants.agency_accounts_constants import AGENCY_TYPE
-from data.constants.apps_constants import APPS_TYPE
-from data.repository.orders import OrdersRepository
+from dev.constants.orders import OrdersRepository
 
 
 def general_statistic_format(message) -> str:

@@ -6,4 +6,5 @@ class AddItemState(StatesGroup):
     title = State()
     desc = State()
     cost = State()
+    preview = State()
 

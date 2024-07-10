@@ -1,9 +1,9 @@
 from aiogram.types import InlineKeyboardMarkup, InlineKeyboardButton, ReplyKeyboardMarkup, KeyboardButton
 
-from data.constants.accounts_constants import LIST_OF_ACCOUNTS_TYPE
-from data.constants.admin_constants import OPEN_STATE
-from data.constants.base_constants import BUY, CANCEL
-from data.repository.accounts import AccountsRepository
+from dev.constants.accounts_constants import LIST_OF_ACCOUNTS_TYPE
+from dev.constants.admin_constants import OPEN_STATE
+from dev.constants.base_constants import BUY, CANCEL
+from dev.constants.accounts import AccountsRepository
 
 
 def source_account_keyboard() -> ReplyKeyboardMarkup:

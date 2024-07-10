@@ -1,7 +1,7 @@
 from aiogram.types import ReplyKeyboardMarkup, KeyboardButton, InlineKeyboardMarkup, InlineKeyboardButton
 
-from data.constants.agency_accounts_constants import *
-from data.constants.base_constants import CANCEL
+from dev.constants.agency_accounts_constants import *
+from dev.constants.base_constants import CANCEL
 
 
 def agency_type_keyboard() -> ReplyKeyboardMarkup:

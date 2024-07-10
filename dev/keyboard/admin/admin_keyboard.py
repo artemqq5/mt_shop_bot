@@ -1,7 +1,7 @@
-from aiogram.types import ReplyKeyboardMarkup, KeyboardButton, InlineKeyboardMarkup, InlineKeyboardButton
+from aiogram.types import ReplyKeyboardMarkup, KeyboardButton
 
-from data.constants.admin_constants import *
-from data.constants.base_constants import MENU, CANCEL
+from dev.constants.admin_constants import *
+from dev.constants.base_constants import CANCEL
 
 
 def admin_panel_keyboard() -> ReplyKeyboardMarkup:

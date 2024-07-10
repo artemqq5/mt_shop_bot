@@ -1,7 +1,7 @@
 from aiogram import types
 
-from data.constants.apps_constants import *
-from data.constants.base_constants import NOT_IMPLEMENTED
+from dev.constants.apps_constants import *
+from dev.constants.base_constants import NOT_IMPLEMENTED
 from dev.is_banned import is_banned
 from dev.keyboard.apps.apps_keeyboard import *
 from keyboard.menu.menu_keyboard import main_keyboard

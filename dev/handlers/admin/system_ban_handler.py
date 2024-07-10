@@ -1,10 +1,10 @@
 from aiogram import types
 from aiogram.dispatcher import FSMContext
 
-from data.constants.admin_constants import SYSTEM_OF_BAN, BAN_USER_CATEGORY, INPUT_USER_ID_OR_USERNAME_FOR_BAN, \
+from dev.constants.admin_constants import SYSTEM_OF_BAN, BAN_USER_CATEGORY, INPUT_USER_ID_OR_USERNAME_FOR_BAN, \
     BAN_MESSAGE, BAN_MESSAGE_TOO_LONG, BAN_MESSAGE_PRE_VIEW, BAN_USER, ERROR_BANNED, SUCCESSFUL_BANNED, \
     DEFAULT_BAN_MESSAGE, SHOW_BANNED_USERS, BANNED_USERS_EMPTY
-from data.constants.base_constants import SKIP
+from dev.constants.base_constants import SKIP
 from data.repository.users import UsersRepository
 from dev.keyboard.admin.admin_keyboard import admin_ban_system_keyboard, ban_user_keyboard
 from keyboard.base_keyboard import cancel_keyboard, skip_keyboard

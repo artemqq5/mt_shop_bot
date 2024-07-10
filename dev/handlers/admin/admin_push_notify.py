@@ -2,8 +2,8 @@ from aiogram import types
 from aiogram.dispatcher import FSMContext
 from aiogram.types import ReplyKeyboardRemove
 
-from data.constants.admin_constants import *
-from data.constants.base_constants import ADMIN, NO_ACCESS, ERROR_REGISTER_MESSAGE, NOT_IMPLEMENTED
+from dev.constants.admin_constants import *
+from dev.constants.base_constants import ADMIN, NO_ACCESS, ERROR_REGISTER_MESSAGE, NOT_IMPLEMENTED
 from data.repository.users import UsersRepository
 from keyboard.admin.admin_push_keyboard import *
 from keyboard.base_keyboard import cancel_keyboard

@@ -1,7 +1,7 @@
 from aiogram.types import InlineKeyboardMarkup, InlineKeyboardButton
 
-from data.constants.agency_accounts_constants import SUPPORT_AGENCY_CONTACT, SUPPORT_AGENCY_LABEL
-from data.constants.info_constants import MT_SHOP_ACCOUNTS_SUPPORT_LABEL, MT_SHOP_ACCOUNTS_SUPPORT, \
+from dev.constants.agency_accounts_constants import SUPPORT_AGENCY_CONTACT, SUPPORT_AGENCY_LABEL
+from dev.constants.info_constants import MT_SHOP_ACCOUNTS_SUPPORT_LABEL, MT_SHOP_ACCOUNTS_SUPPORT, \
     MT_SHOP_CREO_SUPPORT_LEBAL, MT_SHOP_CREO_SUPPORT, MASONS_APPS_LABEL, MASONS_APPS_LINK
 
 

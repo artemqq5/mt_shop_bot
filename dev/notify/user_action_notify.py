@@ -1,4 +1,4 @@
-from data.constants.base_constants import ADMIN
+from dev.constants.base_constants import ADMIN
 from data.repository.users import UsersRepository
 
 

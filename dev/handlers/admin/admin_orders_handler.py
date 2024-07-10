@@ -3,14 +3,13 @@ from aiogram.dispatcher import FSMContext
 from aiogram.types import ReplyKeyboardRemove
 
 from config.cfg import ACTIVE_STATUS_TRELLO
-from data.constants.base_constants import *
-from data.repository.creos import CreosRepository
+from dev.constants.base_constants import *
+from dev.constants.creos import CreosRepository
 from data.repository.users import UsersRepository
 from handlers.admin.parse_data_db.orders_parse import *
 from notify.notify_push_task import push_users
 from trello_mng.card_format import parse_to_trello_card_format
 from trello_mng.send_task import MyTrelloManager
-from dev.keyboard.admin.admin_keyboard import *
 from dev.keyboard.admin.admin_orders_keyboard import admin_orders_keyboard, inline_orders_keyboard, \
     managment_order_keyboard, type_of_orders_admin
 from keyboard.base_keyboard import cancel_keyboard, skip_keyboard

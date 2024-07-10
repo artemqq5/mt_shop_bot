@@ -1,9 +1,9 @@
 from aiogram.types import ReplyKeyboardMarkup, KeyboardButton, InlineKeyboardMarkup, InlineKeyboardButton
 
-from data.constants.admin_constants import *
-from data.constants.accounts_constants import *
-from data.constants.base_constants import CANCEL
-from data.repository.accounts import AccountsRepository
+from dev.constants.admin_constants import *
+from dev.constants.accounts_constants import *
+from dev.constants.base_constants import CANCEL
+from dev.constants.accounts import AccountsRepository
 
 
 def choice_type_item_keyboard() -> ReplyKeyboardMarkup:

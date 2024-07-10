@@ -1,6 +1,6 @@
 from aiogram.types import InlineKeyboardMarkup, InlineKeyboardButton
 
-from data.constants.info_constants import *
+from dev.constants.info_constants import *
 
 
 def mt_media_keyboard() -> InlineKeyboardMarkup:

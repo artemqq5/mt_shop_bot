@@ -1,9 +1,9 @@
 from aiogram.types import ReplyKeyboardMarkup, KeyboardButton, InlineKeyboardMarkup, InlineKeyboardButton
 
-from data.constants.admin_constants import *
-from data.constants.base_constants import CANCEL
-from data.repository.creos import CreosRepository
-from data.repository.orders import OrdersRepository
+from dev.constants.admin_constants import *
+from dev.constants.base_constants import CANCEL
+from dev.constants.creos import CreosRepository
+from dev.constants.orders import OrdersRepository
 
 
 def type_of_orders_admin() -> ReplyKeyboardMarkup:

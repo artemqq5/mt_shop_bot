@@ -1,6 +1,6 @@
 from aiogram.types import ReplyKeyboardMarkup, KeyboardButton
 
-from data.constants.base_constants import *
+from dev.constants.base_constants import *
 
 
 def cancel_keyboard() -> ReplyKeyboardMarkup:

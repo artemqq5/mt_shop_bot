@@ -2,7 +2,7 @@ import uuid
 
 import pymysql
 import private_cfg as config
-from data.constants.admin_constants import *
+from dev.constants.admin_constants import *
 
 
 class MyDataBase:

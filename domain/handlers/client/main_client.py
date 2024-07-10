@@ -19,6 +19,6 @@ async def start(message: Message, state: FSMContext, i18n: I18nContext):
     await message.answer(text=i18n.MENU())
 
 
-@router.business_message(Command("start"), IsAdminFilter(False))
-async def start(message: Message, state: FSMContext, i18n: I18nContext):
-    await message.answer(text=i18n.MENU())
+# @router.business_message(Command("start"), IsAdminFilter(False))
+# async def start(message: Message, state: FSMContext, i18n: I18nContext):
+#     await message.answer(text=i18n.MENU())

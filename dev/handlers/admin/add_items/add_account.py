@@ -2,10 +2,10 @@ from aiogram import types
 from aiogram.dispatcher import FSMContext
 from aiogram.types import ReplyKeyboardRemove
 
-from data.constants.accounts_constants import INPUT_GEO_OF_ITEM, INPUT_NAME_OF_ITEM, INPUT_DESC_OF_ITEM, INPUT_PRICE_OF_ITEM, LIST_OF_ACCOUNTS_TYPE, \
+from dev.constants.accounts_constants import INPUT_GEO_OF_ITEM, INPUT_NAME_OF_ITEM, INPUT_DESC_OF_ITEM, INPUT_PRICE_OF_ITEM, LIST_OF_ACCOUNTS_TYPE, \
     FB_TYPE, GOOGLE_TYPE
-from data.constants.admin_constants import ACCOUNT_TYPE_GOOGLE, ACCOUNT_TYPE_FB
-from data.constants.base_constants import ADMIN, NO_ACCESS, ERROR_REGISTER_MESSAGE, SUB_POSITION_ACCOUNT
+from dev.constants.admin_constants import ACCOUNT_TYPE_GOOGLE, ACCOUNT_TYPE_FB
+from dev.constants.base_constants import ADMIN, NO_ACCESS, ERROR_REGISTER_MESSAGE, SUB_POSITION_ACCOUNT
 from data.repository.users import UsersRepository
 from handlers.admin.db_use_case.add_farm import add_account_case
 from keyboard.base_keyboard import cancel_keyboard

@@ -1,6 +1,4 @@
-from data.constants.accounts_constants import ACCOUNTS, CARDS_FARM, CABINETS_FARM, VERIFICATIONS_FARM
-from data.constants.agency_accounts_constants import AGENCY_ACCOUNTS
-from data.constants.apps_constants import APPS
+from dev.constants.accounts_constants import ACCOUNTS, CARDS_FARM, CABINETS_FARM, VERIFICATIONS_FARM
 
 HELLO_MESSAGE = '''Приветствуем в <b>MT SHOP</b> – платформа где можно закрыть все потребности!\n
 🌐 Самые трастовые FB/Google аккаунты на рынке.\n
@@ -24,7 +22,6 @@ SUB_POSITION_ACCOUNT = "account"
 # CATEGORIES -----------------------------------------------------
 # ABOUT
 ABOUT = "О нас"  #
-from data.constants.info_constants import *
 
 # BUY -------
 BUY = "Купить"  #
@@ -32,7 +29,7 @@ CATEGORIES = "Категории"
 WHAT_INTERESTED = "Выбери что тебя интересует"
 # buy categories --------
 # creo -------- #1
-from data.constants.design_constants import *
+from dev.constants.design_constants import *
 
 # RULES
 RULES = "Правила"  #

@@ -2,8 +2,8 @@ from aiogram import types
 from aiogram.dispatcher import FSMContext
 from aiogram.types import ReplyKeyboardRemove
 
-from data.constants.accounts_constants import INPUT_DESC_OF_ITEM, INPUT_PRICE_OF_ITEM
-from data.constants.base_constants import ADMIN, NO_ACCESS, ERROR_REGISTER_MESSAGE, SUB_POSITION_ACCOUNT
+from dev.constants.accounts_constants import INPUT_DESC_OF_ITEM, INPUT_PRICE_OF_ITEM
+from dev.constants.base_constants import ADMIN, NO_ACCESS, ERROR_REGISTER_MESSAGE, SUB_POSITION_ACCOUNT
 from data.repository.users import UsersRepository
 from handlers.admin.db_use_case.add_farm import add_card_case
 from keyboard.base_keyboard import cancel_keyboard

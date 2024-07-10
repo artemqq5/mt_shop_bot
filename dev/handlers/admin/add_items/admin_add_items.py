@@ -2,9 +2,9 @@ from aiogram import types
 from aiogram.dispatcher import FSMContext
 from aiogram.types import ReplyKeyboardRemove
 
-from data.constants.accounts_constants import *
-from data.constants.admin_constants import *
-from data.constants.base_constants import *
+from dev.constants.accounts_constants import *
+from dev.constants.admin_constants import *
+from dev.constants.base_constants import *
 from data.repository.users import UsersRepository
 from handlers.admin.add_items.add_account import register_add_account_handlers
 from handlers.admin.add_items.add_cabinet import register_add_cabinet_handlers

@@ -1,7 +1,7 @@
-from data.constants.admin_constants import CREO_TYPE
-from data.constants.base_constants import TASK_SEND, TASK_SEND_ERROR
-from data.constants.design_constants import FAQ_CREO_DESC
-from data.repository.creos import CreosRepository
+from dev.constants.admin_constants import CREO_TYPE
+from dev.constants.base_constants import TASK_SEND, TASK_SEND_ERROR
+from dev.constants.design_constants import FAQ_CREO_DESC
+from dev.constants.creos import CreosRepository
 from notify.notify_push_task import notify_new_task
 from keyboard.menu.menu_keyboard import main_keyboard
 

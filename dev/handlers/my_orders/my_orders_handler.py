@@ -1,11 +1,11 @@
 from aiogram import types
 from aiogram.dispatcher import FSMContext
 
-from data.constants.admin_constants import CREO_TYPE, ACCOUNT_TYPE_FB, ACCOUNT_TYPE_GOOGLE, SET_MESSAGE_TO_PUSH, \
+from dev.constants.admin_constants import CREO_TYPE, ACCOUNT_TYPE_FB, ACCOUNT_TYPE_GOOGLE, SET_MESSAGE_TO_PUSH, \
     PUSH_HAVE_SENT, \
     VERIFICATION_TYPE, CABINET_TYPE, CARD_TYPE
-from data.constants.base_constants import *
-from data.repository.orders import OrdersRepository
+from dev.constants.base_constants import *
+from dev.constants.orders import OrdersRepository
 from handlers.my_orders.message_format.view_task_message import creo_task_view, account_task_view
 from handlers.my_orders.message_format.statistic_message import general_statistic_format
 from keyboard.base_keyboard import cancel_keyboard

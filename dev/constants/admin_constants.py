@@ -1,7 +1,7 @@
 # admin menu ----------------------------------------
 # orders
-from data.constants.accounts_constants import ACCOUNTS, FARM, CARDS_FARM, CABINETS_FARM, VERIFICATIONS_FARM
-from data.constants.design_constants import DESIGN
+from dev.constants.accounts_constants import FARM, CARDS_FARM, CABINETS_FARM, VERIFICATIONS_FARM
+from dev.constants.design_constants import DESIGN
 
 ALL_ORDERS = "Посмотреть заказы"
 STATUS_OF_ORDERS = "Статус заказов"

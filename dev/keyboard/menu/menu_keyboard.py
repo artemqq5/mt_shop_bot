@@ -1,6 +1,6 @@
 from aiogram.types import ReplyKeyboardMarkup, KeyboardButton
 
-from data.constants.base_constants import *
+from dev.constants.base_constants import *
 from data.repository.users import UsersRepository
 from dev.keyboard.admin.admin_keyboard import admin_panel_keyboard
 

@@ -2,7 +2,7 @@ from aiogram.filters.callback_data import CallbackData
 from aiogram_i18n import L
 from aiogram_i18n.types import InlineKeyboardMarkup, InlineKeyboardButton
 
-from presentation.keyboards.admin.kb_add_item import CreateNewCategory
+from presentation.keyboards.admin.kb_managment import CreateNewCategory
 
 
 class CreateNewCategoryBack(CallbackData, prefix="Create*New*Category*Back"):

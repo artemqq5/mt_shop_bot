@@ -1,8 +1,22 @@
 # admin main menu
 ADMIN-ORDERS = Замовлення
-ADMIN-ADD_ITEM = Додати
+ADMIN-MANAGEMENT = Управління
 ADMIN-MESSAGING = Розсилка
 ADMIN-BAN_USER = Заблокувати
+
+
+# MANAGMENT
+ADMIN-CATEGORY_INFO = <b>{$category}</b>
+    Товарів у категорії: <b>{$count}</b>
+ADMIN-ADD_ITEM = Додати товар
+ADMIN-SHOW_ITEMS = Переглянути товари
+ADMIN-HIDE = Скрити
+ADMIN-OPEN = Показати
+ADMIN-DELETE = Видалити
+ADMIN-DELETE_CATEGORY_APPROVE = Видалити категорію <b>{$category}</b>?
+
+    Всі товари категорії буде видалено також❗
+
 
 # ADD ITEM
 ADMIN-CHOICE_CATEGORY = Оберіть категорію

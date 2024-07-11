@@ -14,7 +14,7 @@ router = Router()
 @router.message(AddItemState.title)
 async def set_title_item(message: types.Message, state: FSMContext, i18n: I18nContext):
     if len(message.text) > 50:
-        await message.answer(i18n.ADMIN.TITLE_ITEM_ERROR(count=len(message.text)))
+        await message.answer(i18n.ADMIN.TITLE_ITEM_ERROR(count=len(message.text)), reply_markup=None)
         return
 
     data = await state.get_data()
@@ -36,10 +36,12 @@ async def set_desc_item(message: types.Message, state: FSMContext, i18n: I18nCon
 
 @router.message(AddItemState.cost)
 async def set_cost_item(message: types.Message, state: FSMContext, i18n: I18nContext):
+    data = await state.get_data()
+
     try:
         float(message.text)
     except ValueError as e:
-        await message.answer(i18n.ADMIN.COST_ITEM_ERROR())
+        await message.answer(i18n.ADMIN.COST_ITEM_ERROR(), reply_markup=kb_back_category_management(data['category']))
         return
 
     await state.update_data(cost=float(message.text))
@@ -49,24 +51,25 @@ async def set_cost_item(message: types.Message, state: FSMContext, i18n: I18nCon
 
     await message.answer(i18n.ADMIN.PREVIEW_ITEM(
         title=data['title'], category=data['category'], cost=data['cost'], desc=data['desc']
-    ), reply_markup=kb_preview_add_item)
+    ), reply_markup=kb_preview_add_item(data['category']))
 
 
 @router.callback_query(PreviewItemPublish.filter(), AddItemState.preview)
 async def preview(callback: CallbackQuery, state: FSMContext, i18n: I18nContext):
     mode = callback.data.split(":")[1]
+    data = await state.get_data()
 
     if mode == "publish":
-        data = await state.get_data()
         if ItemRepository().add(data['title'], data['desc'], data['category'], data['cost']):
-            await callback.message.edit_text(i18n.ADMIN.SUCCESS_PUBLISHED(), reply_markup=kb_publish_onemore)
+            await callback.message.edit_text(
+                i18n.ADMIN.SUCCESS_PUBLISHED(),
+                reply_markup=kb_publish_onemore(data['category'])
+            )
         else:
-            await callback.message.answer(
+            await callback.message.edit_text(
                 i18n.ADMIN.FAIL_PUBLISHED(),
                 reply_markup=kb_back_category_management(data['category'])
             )
-    # elif mode == "restart":
-    # start again
-    # await state.clear()
-    # await callback.message.delete()
-    # await add_item(callback.message, state, i18n)
+    elif mode == "restart":
+        from domain.handlers.admin.items.management import add_item_management
+        await add_item_management(callback, state, i18n)

@@ -71,7 +71,7 @@ def kb_choice_category(categories, current_page: int = 1):
 
 
 class CategoryManagementAddItem(CallbackData, prefix="Category*Management*AddItem"):
-    category: str
+    pass
 
 
 class CategoryManagementItemList(CallbackData, prefix="Category*Management*ItemList"):
@@ -104,7 +104,7 @@ def kb_category_management(category):
     inline_kb = [
         [InlineKeyboardButton(
             text=L.ADMIN.ADD_ITEM(),
-            callback_data=CategoryManagementAddItem(category=category['name']).pack()
+            callback_data=CategoryManagementAddItem().pack()
         )],
         [InlineKeyboardButton(
             text=L.ADMIN.SHOW_ITEMS(),
@@ -141,3 +141,8 @@ def kb_back_category_management(category):
     return InlineKeyboardMarkup(inline_keyboard=[
         [InlineKeyboardButton(text=L.BACK(), callback_data=ManagementBack(category=category).pack())]
     ])
+
+
+kb_back_category_choice = InlineKeyboardMarkup(inline_keyboard=[
+    [InlineKeyboardButton(text=L.BACK(), callback_data=ChoiceCategoryBack().pack())]
+])

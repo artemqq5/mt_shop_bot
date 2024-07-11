@@ -89,7 +89,7 @@ class CategoryManagementVisibility(CallbackData, prefix="Category*Management*Vis
 
 
 class CategoryManagementDelete(CallbackData, prefix="Category*Management*Delete"):
-    category: str
+    pass
 
 
 class ChoiceCategoryBack(CallbackData, prefix="Choice*Category*Back"):
@@ -126,7 +126,7 @@ def kb_category_management(category):
     inline_kb.append([
         InlineKeyboardButton(
             text=L.ADMIN.DELETE(),
-            callback_data=CategoryManagementDelete(category=category['name']).pack()
+            callback_data=CategoryManagementDelete().pack()
         )
     ])
 

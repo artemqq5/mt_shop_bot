@@ -5,10 +5,18 @@ from aiogram_i18n import I18nContext
 
 from data.repository.items import ItemRepository
 from domain.states.AddItemState import AddItemState
+from domain.states.ManageItemState import ManagementCategoryState
 from presentation.keyboards.admin.kb_add_item import kb_preview_add_item, PreviewItemPublish, kb_publish_onemore
-from presentation.keyboards.admin.kb_managment import kb_back_category_management
+from presentation.keyboards.admin.kb_managment import kb_back_category_management, CategoryManagementAddItem
 
 router = Router()
+
+
+@router.callback_query(CategoryManagementAddItem.filter(), ManagementCategoryState.SetCategory)
+async def add_item_management(callback: CallbackQuery, state: FSMContext, i18n: I18nContext):
+    await state.set_state(AddItemState.title)
+    data = await state.get_data()
+    await callback.message.edit_text(i18n.ADMIN.TITLE_ITEM(), reply_markup=kb_back_category_management(data['category']))
 
 
 @router.message(AddItemState.title)
@@ -71,5 +79,4 @@ async def preview(callback: CallbackQuery, state: FSMContext, i18n: I18nContext)
                 reply_markup=kb_back_category_management(data['category'])
             )
     elif mode == "restart":
-        from domain.handlers.admin.items.management import add_item_management
         await add_item_management(callback, state, i18n)

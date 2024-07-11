@@ -1,9 +1,8 @@
 # admin main menu
 ADMIN-ORDERS = Замовлення
-ADMIN-ADD_ITEM = Додати товар
-ADMIN-MANAGE_ITEMS = Товари
+ADMIN-ADD_ITEM = Додати
 ADMIN-MESSAGING = Розсилка
-ADMIN-BAN_USER = Заблокувати користувача
+ADMIN-BAN_USER = Заблокувати
 
 # ADD ITEM
 ADMIN-CHOICE_CATEGORY = Оберіть категорію

@@ -10,7 +10,7 @@ class CategoryChoice(CallbackData, prefix="Category*Choice"):
     page: int
 
 
-class CategoryNavication(CallbackData, prefix="Category*Navication"):
+class CategoryNavigation(CallbackData, prefix="Category*Navication"):
     page: int
 
 
@@ -44,7 +44,7 @@ def kb_choice_category(categories, current_page: int = 1):
     if current_page > 1:
         nav.append(InlineKeyboardButton(
             text='<',
-            callback_data=CategoryNavication(page=current_page - 1).pack()
+            callback_data=CategoryNavigation(page=current_page - 1).pack()
         ))
     else:
         nav.append(InlineKeyboardButton(
@@ -57,7 +57,7 @@ def kb_choice_category(categories, current_page: int = 1):
     if current_page < total_pages:
         nav.append(InlineKeyboardButton(
             text='>',
-            callback_data=CategoryNavication(page=current_page + 1).pack()
+            callback_data=CategoryNavigation(page=current_page + 1).pack()
         ))
     else:
         nav.append(InlineKeyboardButton(
@@ -67,7 +67,7 @@ def kb_choice_category(categories, current_page: int = 1):
 
     inline_kb.append(nav)
 
-    return InlineKeyboardMarkup(inline_keyboard=inline_kb, resize_keyboard=True)
+    return InlineKeyboardMarkup(inline_keyboard=inline_kb)
 
 
 class PreviewItemPublish(CallbackData, prefix="Preview*Item*Publish"):

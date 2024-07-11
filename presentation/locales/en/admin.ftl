@@ -1,6 +1,5 @@
 # admin main menu
 ADMIN-ORDERS = Orders
-ADMIN-ADD_ITEM = Add item
-ADMIN-MANAGE_ITEMS = Items
+ADMIN-ADD_ITEM = Add
 ADMIN-MESSAGING = Mailing
-ADMIN-BAN_USER = Ban user
+ADMIN-BAN_USER = Ban

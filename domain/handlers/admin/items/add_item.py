@@ -8,7 +8,7 @@ from data.repository.items import ItemRepository
 from domain.handlers.admin.items import create_category
 from domain.states.AddItemState import AddItemState
 from presentation.keyboards.admin.kb_add_item import kb_choice_category, CategoryChoice, kb_preview_add_item, \
-    PreviewItemPublish, kb_publish_onemore, CategoryNavication
+    PreviewItemPublish, kb_publish_onemore, CategoryNavigation
 
 router = Router()
 router.include_router(create_category.router)
@@ -22,7 +22,7 @@ async def add_item(message: types.Message, state: FSMContext, i18n: I18nContext)
     await message.answer(i18n.ADMIN.CHOICE_CATEGORY(), reply_markup=kb_choice_category(categories, 1))
 
 
-@router.callback_query(CategoryNavication.filter(), AddItemState.category)
+@router.callback_query(CategoryNavigation.filter(), AddItemState.category)
 async def choice_category_nav(callback: CallbackQuery, state: FSMContext, i18n: I18nContext):
     page = callback.data.split(":")[1]
     categories = CategoryRepository().categories()
@@ -37,7 +37,7 @@ async def choice_category(callback: CallbackQuery, state: FSMContext, i18n: I18n
     await state.update_data(category=category)
     await state.set_state(AddItemState.title)
 
-    await callback.message.answer(i18n.ADMIN.TITLE_ITEM())
+    await callback.message.edit_text(i18n.ADMIN.TITLE_ITEM(), reply_markup=None)
 
 
 @router.message(AddItemState.title)

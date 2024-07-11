@@ -1,6 +1,5 @@
 # admin main menu
 ADMIN-ORDERS = Заказы
-ADMIN-ADD_ITEM = Добавить товар
-ADMIN-MANAGE_ITEMS = Товары
+ADMIN-ADD_ITEM = Добавить
 ADMIN-MESSAGING = Рассылка
-ADMIN-BAN_USER = Заблокировать пользователя
+ADMIN-BAN_USER = Заблокировать

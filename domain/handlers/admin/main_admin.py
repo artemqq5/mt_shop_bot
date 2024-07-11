@@ -21,5 +21,6 @@ router.message.middleware(IsRoleMiddleware(ADMIN))
 
 @router.message(Command("start"), IsAdminFilter(True))
 async def start(message: Message, state: FSMContext, i18n: I18nContext):
+    await state.clear()
     await message.answer(text=i18n.MENU(), reply_markup=kb_menu_admin)
 

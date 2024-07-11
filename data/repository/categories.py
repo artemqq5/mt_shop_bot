@@ -4,7 +4,7 @@ from data.database import MyDataBase
 class CategoryRepository(MyDataBase):
 
     def categories(self):
-        query = "SELECT * FROM `categories`;"
+        query = "SELECT * FROM `categories` ORDER BY `date` DESC;"
         return self._select(query)
 
     def add(self, name):

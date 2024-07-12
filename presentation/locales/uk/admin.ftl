@@ -15,7 +15,7 @@ ADMIN-OPEN = Показати
 ADMIN-DELETE = Видалити
 
 # DELETE CATEGORY
-ADMIN-DELETE_CATEGORY_APPROVE = Видалити категорію <b>{$category}</b>?
+ADMIN-DELETE_CATEGORY_APPROVE = Видалити категорію (<b>{$category}</b>)?
 
     Всі товари категорії буде видалено також❗
 ADMIN-DELETE_SUCCESS = Успішно видалено
@@ -24,6 +24,9 @@ ADMIN-DELETE_FAIL = Помилка видалення
 
 # MANAGMENT ITEMS
 ADMIN-ITEMS_GROUP_INFO = Категорія: <b>{$category}</b>
+
+# DELETE ITEM
+ADMIN-DELETE_ITEM_APPROVE = Видалити товар (<b>{$item}</b>)?
 
 # ADD ITEM
 ADMIN-CHOICE_CATEGORY = Оберіть категорію

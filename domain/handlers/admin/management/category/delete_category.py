@@ -6,7 +6,7 @@ from aiogram_i18n import I18nContext
 from data.repository.categories import CategoryRepository
 from data.repository.items import ItemRepository
 from domain.states.ManageCategoryState import ManagementCategoryState
-from presentation.keyboards.admin.kb_delete_category import kb_category_delete, CategoryAproveDelete
+from presentation.keyboards.admin.kb_delete_category import kb_category_delete, CategoryApproveDelete
 from presentation.keyboards.admin.kb_managment import CategoryManagementDelete, kb_back_category_management, \
     kb_back_category_choice
 
@@ -23,8 +23,8 @@ async def delete_category(callback: CallbackQuery, state: FSMContext, i18n: I18n
     )
 
 
-@router.callback_query(CategoryAproveDelete.filter(), ManagementCategoryState.DeleteCategory)
-async def delete_aprove_category(callback: CallbackQuery, state: FSMContext, i18n: I18nContext):
+@router.callback_query(CategoryApproveDelete.filter(), ManagementCategoryState.DeleteCategory)
+async def delete_approve_category(callback: CallbackQuery, state: FSMContext, i18n: I18nContext):
     data = await state.get_data()
 
     if CategoryRepository().delete(data['category']):

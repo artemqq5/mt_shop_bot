@@ -12,3 +12,4 @@ START_MESSAGE = Welcome to <b>MT SHOP</b> - a platform where you can cover all y
 
 
 MENU = Menu
+BACK = Back

@@ -12,3 +12,4 @@ START_MESSAGE = Добро пожаловать в <b>MT SHOP</b> – платф
 
 
 MENU = Меню
+BACK = Назад

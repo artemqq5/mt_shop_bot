@@ -81,7 +81,7 @@ class ManagementItemBack(CallbackData, prefix="Management*Item*Back"):
     id: int
 
 
-def kb_back_choice_item(item):
+def kb_item_management(item):
     inline_kb = []
 
     if item['visibility'] == 1:
@@ -104,3 +104,8 @@ def kb_back_choice_item(item):
     ])
 
     return InlineKeyboardMarkup(inline_keyboard=inline_kb)
+
+
+kb_back_item_choice = InlineKeyboardMarkup(inline_keyboard=[
+    [InlineKeyboardButton(text=L.BACK(), callback_data=ChoiceItemBack().pack())]
+])

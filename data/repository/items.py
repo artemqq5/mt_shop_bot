@@ -11,6 +11,10 @@ class ItemRepository(MyDataBase):
         query = "INSERT INTO `items` (`title`, `desc`, `category`, `cost`) VALUES(%s, %s, %s, %s);"
         return self._insert(query, (title, desc, category, cost))
 
+    def delete(self, item_id):
+        query = "DELETE FROM `items` WHERE `id` = %s;"
+        return self._delete(query, (item_id,))
+
     def items_by_category(self, category):
         query = "SELECT * FROM `items` WHERE `category` = %s ORDER BY `id` DESC;"
         return self._select(query, (category,))

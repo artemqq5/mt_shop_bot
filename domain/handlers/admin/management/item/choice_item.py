@@ -5,9 +5,9 @@ from aiogram_i18n import I18nContext
 
 from data.repository.items import ItemRepository
 from domain.handlers.admin.management.item import add_item, delete_item, visibility_item
-from domain.states.ManageItemState import ManageItemState
+from domain.states.ManagementItemState import ManagementItemState
 from presentation.keyboards.admin.kb_management_item import kb_choice_item, ItemChoice, \
-    ItemNavigation, kb_back_choice_item, ChoiceItemBack, ManagementItemBack
+    ItemNavigation, kb_item_management, ChoiceItemBack, ManagementItemBack
 from presentation.keyboards.admin.kb_managment import CategoryManagementItemList
 
 router = Router()
@@ -24,7 +24,7 @@ async def item_list(callback: CallbackQuery, state: FSMContext, i18n: I18nContex
     data = await state.get_data()
     items = ItemRepository().items_by_category(data['category'])
 
-    await state.set_state(ManageItemState.SetItem)
+    await state.set_state(ManagementItemState.SetItem)
 
     await callback.message.edit_text(
         i18n.ADMIN.ITEMS_GROUP_INFO(category=data['category']),
@@ -32,7 +32,7 @@ async def item_list(callback: CallbackQuery, state: FSMContext, i18n: I18nContex
     )
 
 
-@router.callback_query(ItemNavigation.filter(), ManageItemState.SetItem)
+@router.callback_query(ItemNavigation.filter(), ManagementItemState.SetItem)
 async def choice_category_nav(callback: CallbackQuery, state: FSMContext, i18n: I18nContext):
     page = callback.data.split(":")[1]
     data = await state.get_data()
@@ -41,13 +41,13 @@ async def choice_category_nav(callback: CallbackQuery, state: FSMContext, i18n: 
     await callback.message.edit_reply_markup(reply_markup=kb_choice_item(items, data['category'], int(page)))
 
 
-@router.callback_query(ItemChoice.filter(), ManageItemState.SetItem)
+@router.callback_query(ItemChoice.filter(), ManagementItemState.SetItem)
 async def choice_item(callback: CallbackQuery, state: FSMContext, i18n: I18nContext):
     item_id = callback.data.split(":")[1]
     item = ItemRepository().item(item_id)
     await callback.message.edit_text(
         i18n.ADMIN.PREVIEW_ITEM(title=item['title'], category=item['category'], cost=item['cost'], desc=item['desc']),
-        reply_markup=kb_back_choice_item(item)
+        reply_markup=kb_item_management(item)
     )
 
 

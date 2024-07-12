@@ -14,3 +14,7 @@ class CategoryRepository(MyDataBase):
     def add(self, name):
         query = "INSERT INTO `categories` (`name`) VALUES (%s);"
         return self._insert(query, (name,))
+
+    def delete(self, name):
+        query = "DELETE FROM `categories` WHERE `name` = %s;"
+        return self._delete(query, (name,))

@@ -16,6 +16,8 @@ ADMIN-DELETE = Видалити
 ADMIN-DELETE_CATEGORY_APPROVE = Видалити категорію <b>{$category}</b>?
 
     Всі товари категорії буде видалено також❗
+ADMIN-DELETE_SUCCESS = Успішно видалено
+ADMIN-DELETE_FAIL = Помилка видалення
 
 
 # ADD ITEM

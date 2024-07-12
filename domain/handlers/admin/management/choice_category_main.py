@@ -5,11 +5,11 @@ from aiogram_i18n import I18nContext, L
 
 from data.repository.categories import CategoryRepository
 from data.repository.items import ItemRepository
-from domain.handlers.admin.items import add_category, add_item, delete_category
-from domain.states.AddItemState import AddItemState
+from domain.handlers.admin.items import add_item
+from domain.handlers.admin.items.category import add_category, delete_category
 from domain.states.ManageItemState import ManagementCategoryState
 from presentation.keyboards.admin.kb_managment import kb_category_management, kb_choice_category, CategoryNavigation, \
-    CategoryChoice, ManagementBack, CategoryManagementAddItem, kb_back_category_management, ChoiceCategoryBack
+    CategoryChoice, ManagementBack, ChoiceCategoryBack
 
 router = Router()
 router.include_routers(

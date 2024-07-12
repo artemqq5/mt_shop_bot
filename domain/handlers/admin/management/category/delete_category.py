@@ -5,7 +5,7 @@ from aiogram_i18n import I18nContext
 
 from data.repository.categories import CategoryRepository
 from data.repository.items import ItemRepository
-from domain.states.ManageItemState import ManagementCategoryState
+from domain.states.ManageCategoryState import ManagementCategoryState
 from presentation.keyboards.admin.kb_delete_category import kb_category_delete, CategoryAproveDelete
 from presentation.keyboards.admin.kb_managment import CategoryManagementDelete, kb_back_category_management, \
     kb_back_category_choice

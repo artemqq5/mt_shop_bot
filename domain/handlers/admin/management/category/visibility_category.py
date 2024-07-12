@@ -26,7 +26,5 @@ async def visibility_manage_category(callback: CallbackQuery, state: FSMContext,
         json=callback.json
     )
 
-    print(new_callback.data)
-
     if CategoryRepository().update_visibility(name=data['category'], visibility=int(visibility)):
         await management_back(new_callback, state, i18n)

@@ -7,7 +7,6 @@ from aiogram_i18n.types import InlineKeyboardMarkup, InlineKeyboardButton
 
 class CategoryChoice(CallbackData, prefix="Category*Choice"):
     name: str
-    page: int
 
 
 class CategoryNavigation(CallbackData, prefix="Category*Navigation"):
@@ -34,7 +33,7 @@ def kb_choice_category(categories, current_page: int = 1):
         inline_kb.append(
             [InlineKeyboardButton(
                 text=categories[i]['name'],
-                callback_data=CategoryChoice(name=categories[i]['name'], page=current_page).pack()
+                callback_data=CategoryChoice(name=categories[i]['name']).pack()
             )]
         )
 
@@ -75,12 +74,7 @@ class CategoryManagementAddItem(CallbackData, prefix="Category*Management*AddIte
 
 
 class CategoryManagementItemList(CallbackData, prefix="Category*Management*ItemList"):
-    category: str
-    page: int = 1
-
-
-class CategoryManagementItemListNavigation(CallbackData, prefix="Category*Management*ItemList*Navigation"):
-    page: int
+    pass
 
 
 class CategoryManagementVisibility(CallbackData, prefix="Category*Management*Visibility"):
@@ -107,7 +101,7 @@ def kb_category_management(category):
         )],
         [InlineKeyboardButton(
             text=L.ADMIN.SHOW_ITEMS(),
-            callback_data=CategoryManagementItemList(category=category['name']).pack()
+            callback_data=CategoryManagementItemList().pack()
         )]
     ]
 

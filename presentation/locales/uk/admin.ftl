@@ -5,7 +5,7 @@ ADMIN-MESSAGING = Розсилка
 ADMIN-BAN_USER = Заблокувати
 
 
-# MANAGMENT
+# MANAGMENT CATEGORY
 ADMIN-CATEGORY_INFO = <b>{$category}</b>
     Товарів у категорії: <b>{$count}</b>
 ADMIN-ADD_ITEM = Додати товар
@@ -13,12 +13,17 @@ ADMIN-SHOW_ITEMS = Переглянути товари
 ADMIN-HIDE = Скрити
 ADMIN-OPEN = Показати
 ADMIN-DELETE = Видалити
+
+# DELETE CATEGORY
 ADMIN-DELETE_CATEGORY_APPROVE = Видалити категорію <b>{$category}</b>?
 
     Всі товари категорії буде видалено також❗
 ADMIN-DELETE_SUCCESS = Успішно видалено
 ADMIN-DELETE_FAIL = Помилка видалення
 
+
+# MANAGMENT ITEMS
+ADMIN-ITEMS_GROUP_INFO = Категорія: <b>{$category}</b>
 
 # ADD ITEM
 ADMIN-CHOICE_CATEGORY = Оберіть категорію

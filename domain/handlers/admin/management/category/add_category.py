@@ -4,7 +4,7 @@ from aiogram.types import CallbackQuery, Message
 from aiogram_i18n import I18nContext
 
 from data.repository.categories import CategoryRepository
-from domain.states.ManageItemState import ManagementCategoryState
+from domain.states.ManageCategoryState import ManagementCategoryState
 from presentation.keyboards.admin.kb_create_category import kb_create_category_next
 from presentation.keyboards.admin.kb_managment import CreateNewCategory, kb_back_category_choice
 

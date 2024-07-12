@@ -11,7 +11,7 @@ class ItemChoice(CallbackData, prefix="Item*Choice"):
     id: int
 
 
-class CategoryManagementItemListNavigation(CallbackData, prefix="Category*Management*ItemList*Navigation"):
+class ItemNavigation(CallbackData, prefix="Item*Navigation"):
     page: int
 
 
@@ -37,7 +37,7 @@ def kb_choice_item(items, category, current_page: int = 1):
     if current_page > 1:
         nav.append(InlineKeyboardButton(
             text='<',
-            callback_data=CategoryManagementItemListNavigation(page=current_page - 1).pack()
+            callback_data=ItemNavigation(page=current_page - 1).pack()
         ))
     else:
         nav.append(InlineKeyboardButton(
@@ -50,7 +50,7 @@ def kb_choice_item(items, category, current_page: int = 1):
     if current_page < total_pages:
         nav.append(InlineKeyboardButton(
             text='>',
-            callback_data=CategoryManagementItemListNavigation(page=current_page + 1).pack()
+            callback_data=ItemNavigation(page=current_page + 1).pack()
         ))
     else:
         nav.append(InlineKeyboardButton(

@@ -7,7 +7,7 @@ from data.repository.items import ItemRepository
 from domain.handlers.admin.management.item import add_item, delete_item, visibility_item
 from domain.states.ManageItemState import ManageItemState
 from presentation.keyboards.admin.kb_management_item import kb_choice_item, ItemChoice, \
-    CategoryManagementItemListNavigation, kb_back_choice_item, ChoiceItemBack, ManagementItemBack
+    ItemNavigation, kb_back_choice_item, ChoiceItemBack, ManagementItemBack
 from presentation.keyboards.admin.kb_managment import CategoryManagementItemList
 
 router = Router()
@@ -32,16 +32,13 @@ async def item_list(callback: CallbackQuery, state: FSMContext, i18n: I18nContex
     )
 
 
-@router.callback_query(CategoryManagementItemListNavigation.filter(), ManageItemState.SetItem)
+@router.callback_query(ItemNavigation.filter(), ManageItemState.SetItem)
 async def choice_category_nav(callback: CallbackQuery, state: FSMContext, i18n: I18nContext):
     page = callback.data.split(":")[1]
     data = await state.get_data()
     items = ItemRepository().items_by_category(data['category'])
 
-    await callback.message.edit_reply_markup(
-        i18n.ADMIN.ITEMS_GROUP_INFO(category=data['category']),
-        reply_markup=kb_choice_item(items, data['category'], int(page))
-    )
+    await callback.message.edit_reply_markup(reply_markup=kb_choice_item(items, data['category'], int(page)))
 
 
 @router.callback_query(ItemChoice.filter(), ManageItemState.SetItem)

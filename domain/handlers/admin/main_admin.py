@@ -6,14 +6,14 @@ from aiogram_i18n import I18nContext
 
 from data.default_constants import ADMIN
 from domain.filters.IsAdminFilter import IsAdminFilter
-from domain.handlers.admin.items import management
+from domain.handlers.admin.management import choice_category_main
 from domain.middlewares.IsRoleMiddleware import IsRoleMiddleware
 from presentation.keyboards.admin.kb_menu import kb_menu_admin
 
 router = Router()
 
 router.include_routers(
-    management.router,
+    choice_category_main.router,
 )
 
 router.message.middleware(IsRoleMiddleware(ADMIN))

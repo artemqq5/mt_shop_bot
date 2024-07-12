@@ -18,3 +18,7 @@ class CategoryRepository(MyDataBase):
     def delete(self, name):
         query = "DELETE FROM `categories` WHERE `name` = %s;"
         return self._delete(query, (name,))
+
+    def update_visibility(self, name, visibility):
+        query = "UPDATE `categories` SET `visibility` = %s WHERE `name` = %s;"
+        return self._update(query, (visibility, name))

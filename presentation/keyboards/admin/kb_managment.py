@@ -84,7 +84,6 @@ class CategoryManagementItemListNavigation(CallbackData, prefix="Category*Manage
 
 
 class CategoryManagementVisibility(CallbackData, prefix="Category*Management*Visibility"):
-    category: str
     visibility: bool
 
 
@@ -115,12 +114,12 @@ def kb_category_management(category):
     if category['visibility'] == 1:
         inline_kb.append([InlineKeyboardButton(
             text=L.ADMIN.HIDE(),
-            callback_data=CategoryManagementVisibility(category=category['name'], visibility=False).pack()
+            callback_data=CategoryManagementVisibility(visibility=False).pack()
         )])
     else:
         inline_kb.append([InlineKeyboardButton(
             text=L.ADMIN.OPEN(),
-            callback_data=CategoryManagementVisibility(category=category['name'], visibility=True).pack()
+            callback_data=CategoryManagementVisibility(visibility=True).pack()
         )])
 
     inline_kb.append([

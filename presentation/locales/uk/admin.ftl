@@ -68,8 +68,13 @@ ADMIN-MESSAGE_INDIVIDUAL = Особисто по Telegram ID
 ADMIN-SET_USER_ID = Введіть Telegram ID користувача:
 ADMIN-SET_MESSAGE = Ваше повідомлення (Можна використовувати формат телеграма):
 ADMIN-SET_MEDIA = Надішліть Фото/Відео/Гіфку за бажанням:
+ADMIN-MEDIA_WRONG = Невірний формат, надішліть (Фото/Відео/Гіфку) у стисненому форматі:
 ADMIN-SET_BUTTON = Бажаєте додати кнопку?
-ADMIN-SET_BUTTON_TEXT = Текст для кнопки:
+ADMIN-SET_BUTTON_TEXT = Текст для кнопки (20-30 символів бажано):
+ADMIN-BUTTON_TEXT_ERROR = Скороти хоча б до 50 символів, зараз {$count}
 ADMIN-SET_BUTTON_URL = Посилання для кнопки:
+ADMIN-BUTTON_URL_ERROR = Посилання має неправильний формат, воно має починатися з https://:
 ADMIN-SET_BUTTON_NEXT = Бажаєте додати ще кнопку?
-
+ADMIN-PREVIEW_MESSAGING = Якщо все правильно, можете відправляти!
+ADMIN-SEND = Відправити
+ADMIN-RESTART = Почати спочатку

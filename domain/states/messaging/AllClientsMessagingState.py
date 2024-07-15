@@ -6,5 +6,6 @@ class AllClientsMessagingState(StatesGroup):
     Media = State()
     ButtonText = State()
     ButtonUrl = State()
+    RepeatButton = State()
     Preview = State()
 

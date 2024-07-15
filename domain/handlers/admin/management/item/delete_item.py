@@ -1,16 +1,13 @@
 from aiogram import Router
 
-from data.repository.categories import CategoryRepository
 from data.repository.items import ItemRepository
-from domain.states.ManageCategoryState import ManagementCategoryState
 from presentation.keyboards.admin.kb_delete_item import kb_item_delete, ItemApproveDelete
 from presentation.keyboards.admin.kb_management_item import ItemManagementDelete, kb_back_item_choice
-from presentation.keyboards.admin.kb_managment import CategoryManagementDelete, kb_back_category_choice
 
 from aiogram.fsm.context import FSMContext
 from aiogram.types import CallbackQuery
 from aiogram_i18n import I18nContext
-from domain.states.ManagementItemState import ManagementItemState
+from domain.states.management.ManagementItemState import ManagementItemState
 
 router = Router()
 

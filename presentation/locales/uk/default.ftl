@@ -13,3 +13,4 @@ START_MESSAGE = Вітаємо в <b>MT SHOP</b> – платформа, де м
 
 MENU = Меню
 BACK = Назад
+SKIP = Пропустити

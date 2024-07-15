@@ -4,8 +4,8 @@ from aiogram.types import CallbackQuery
 from aiogram_i18n import I18nContext
 
 from data.repository.items import ItemRepository
-from domain.states.AddItemState import AddItemState
-from domain.states.ManageCategoryState import ManagementCategoryState
+from domain.states.management.AddItemState import AddItemState
+from domain.states.management.ManageCategoryState import ManagementCategoryState
 from presentation.keyboards.admin.kb_add_item import kb_preview_add_item, PreviewItemPublish, kb_publish_onemore
 from presentation.keyboards.admin.kb_managment import kb_back_category_management, CategoryManagementAddItem
 

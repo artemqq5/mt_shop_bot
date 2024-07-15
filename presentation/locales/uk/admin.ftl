@@ -58,3 +58,18 @@ ADMIN-CATEGORY_NAME = Назва для категорії (вкладіться
 ADMIN-NAME_CATEGORY_ERROR = Назва для товару {$count} символів, скороти до 50 хоча б:
 ADMIN-CATEGORY_SUCCESS_ADD = Категорію <b>{$name}</b> успішно додано! Додати ще?
 ADMIN-CATEGORY_FAIL_ADD = Помилка cтворення
+
+
+# MESSAGING CATEGORY
+ADMIN-CHOICE_TYPE_MESSAGE = Оберіть для кого розсилка
+ADMIN-MESSAGE_ALL_CLIENTS = Всім клієнтам
+ADMIN-MESSAGE_INDIVIDUAL = Особисто по Telegram ID
+
+ADMIN-SET_USER_ID = Введіть Telegram ID користувача:
+ADMIN-SET_MESSAGE = Ваше повідомлення (Можна використовувати формат телеграма):
+ADMIN-SET_MEDIA = Надішліть Фото/Відео/Гіфку за бажанням:
+ADMIN-SET_BUTTON = Бажаєте додати кнопку?
+ADMIN-SET_BUTTON_TEXT = Текст для кнопки:
+ADMIN-SET_BUTTON_URL = Посилання для кнопки:
+ADMIN-SET_BUTTON_NEXT = Бажаєте додати ще кнопку?
+

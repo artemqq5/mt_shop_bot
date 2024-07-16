@@ -28,6 +28,18 @@ class UserRepository(MyDataBase):
         query = "UPDATE `users` SET `lang` = %s WHERE `user_id` = %s;"
         return self._select_one(query, (lang, user_id))
 
+    def update_ban_by_id(self, user_id, ban_state):
+        query = "UPDATE `users` SET `banned` = %s WHERE `user_id` = %s AND `role` != 'admin';"
+        return self._update(query, (ban_state, user_id))
+
+    def update_ban_by_username(self, username, ban_state):
+        query = "UPDATE `users` SET `banned` = %s WHERE `username` = %s AND `role` != 'admin';"
+        return self._update(query, (ban_state, username))
+
+    def banned_users(self):
+        query = "SELECT * FROM `users` WHERE `banned` = '1';"
+        return self._select(query)
+
     # def add_user(self, telegram_id, name, time):
     #     return self._add_user_sql(telegram_id, name, time)
     #

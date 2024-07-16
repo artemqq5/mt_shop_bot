@@ -3,10 +3,8 @@ from aiogram.fsm.context import FSMContext
 from aiogram.types import CallbackQuery
 from aiogram_i18n import I18nContext
 
-from data.repository.categories import CategoryRepository
 from data.repository.items import ItemRepository
-from presentation.keyboards.admin.kb_management_item import ItemManagementVisibility
-from presentation.keyboards.admin.kb_managment import CategoryManagementVisibility, ManagementBack
+from presentation.keyboards.admin.management.kb_management_item import ItemManagementVisibility
 
 router = Router()
 

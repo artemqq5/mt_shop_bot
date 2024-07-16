@@ -7,12 +7,11 @@ from data.default_constants import ALL_CLIENT_MESSAGING
 from domain.handlers.admin.messaging.MessagingTools import MessagingTools
 from domain.notification.NotificationClient import NotificationClient
 from domain.states.messaging.MessagingState import MessagingState
-from domain.states.messaging.MessagingState import MessagingState
-from presentation.keyboards.admin.kb_messaging import kb_back_messaging, kb_messaging_categories, \
+from presentation.keyboards.admin.messaging.kb_messaging import kb_back_messaging, kb_messaging_categories, \
     kb_skip_messaging_media, kb_skip_messaging_button, MediaMessagingSkip, kb_repeat_button_messaging, \
     RepeatButtonChoice, kb_send_message_all_clients, SendMessageAllClients, ButtonMessagingSkip, \
     ChoiceTypeMessaging
-from presentation.keyboards.admin.kb_messaging import BackMessaging
+from presentation.keyboards.admin.messaging.kb_messaging import BackMessaging
 
 router = Router()
 

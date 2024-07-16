@@ -4,7 +4,7 @@ from aiogram.filters.callback_data import CallbackData
 from aiogram_i18n import L
 from aiogram_i18n.types import InlineKeyboardMarkup, InlineKeyboardButton
 
-from presentation.keyboards.admin.kb_managment import CategoryManagementItemList, ManagementBack
+from presentation.keyboards.admin.management.kb_managment import ManagementBack
 
 
 class ItemChoice(CallbackData, prefix="Item*Choice"):

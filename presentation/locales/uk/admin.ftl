@@ -2,7 +2,7 @@
 ADMIN-ORDERS = Замовлення
 ADMIN-MANAGEMENT = Управління
 ADMIN-MESSAGING = Розсилка
-ADMIN-BAN_USER = Заблокувати
+ADMIN-BAN_SYSTEM = Заблокувати
 
 
 # MANAGMENT CATEGORY
@@ -84,3 +84,25 @@ ADMIN-RESULT_NOTIFICATION = <b>-Результат розсилки-</b>
     Отримали повідомлення: {$send}\{$users}
     Заблокували бота: {$block}
     Інше: {$other}
+
+
+# BAN SYSTEM
+ADMIN-BAN_USER = Заблокувати користувача
+ADMIN-UNBAN_USER = Розблокувати користувача
+ADMIN-BAN_LIST = Список заблокованих
+
+ADMIN-BAN_ONE_MORE = Заблокувати ще одного
+ADMIN-UNBAN_ONE_MORE = Розблокувати ще одного
+
+ADMIN-BAN_USER_ID = Введіть Telegram ID (<b>348938590</b>) або
+    нікнейм користувача (<b>@nickname</b>):
+ADMIN-UNBAN_USER_ID = Введіть Telegram ID (<b>348938590</b>):
+
+ADMIN-BAN_SUCCESS = Користувача успішно заблоковано
+ADMIN-BAN_ERROR = Помилка при блокуванні
+ADMIN-UNBAN_SUCCESS = Користувача успішно розблоковано
+ADMIN-UNBAN_ERROR = Помилка при розблокуванні
+
+ADMIN-BAN_LIST_TEMPLATE = Юзернейм: @{$username}
+    Телеграм ID: <code>{$id}</code>
+    Мова користувача: <b>{$lang}</b>

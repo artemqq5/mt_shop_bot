@@ -1,8 +1,8 @@
 from aiogram import Router
 
 from data.repository.items import ItemRepository
-from presentation.keyboards.admin.kb_delete_item import kb_item_delete, ItemApproveDelete
-from presentation.keyboards.admin.kb_management_item import ItemManagementDelete, kb_back_item_choice
+from presentation.keyboards.admin.management.kb_delete_item import kb_item_delete, ItemApproveDelete
+from presentation.keyboards.admin.management.kb_management_item import ItemManagementDelete, kb_back_item_choice
 
 from aiogram.fsm.context import FSMContext
 from aiogram.types import CallbackQuery

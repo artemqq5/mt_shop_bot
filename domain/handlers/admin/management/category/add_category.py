@@ -5,8 +5,8 @@ from aiogram_i18n import I18nContext
 
 from data.repository.categories import CategoryRepository
 from domain.states.management.ManageCategoryState import ManagementCategoryState
-from presentation.keyboards.admin.kb_create_category import kb_create_category_next
-from presentation.keyboards.admin.kb_managment import CreateNewCategory, kb_back_category_choice
+from presentation.keyboards.admin.management.kb_create_category import kb_create_category_next
+from presentation.keyboards.admin.management.kb_managment import CreateNewCategory, kb_back_category_choice
 
 router = Router()
 

@@ -1,10 +1,5 @@
-from aiogram import Bot
 from aiogram.fsm.context import FSMContext
-from aiogram.types import Message
-from aiogram.utils.keyboard import InlineKeyboardBuilder
 from aiogram_i18n.types import InlineKeyboardButton, InlineKeyboardMarkup
-
-from presentation.keyboards.admin.kb_messaging import kb_send_message_all_clients
 
 
 class MessagingTools:

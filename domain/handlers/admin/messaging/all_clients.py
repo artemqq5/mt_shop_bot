@@ -8,7 +8,7 @@ from domain.states.messaging.AllClientsMessagingState import AllClientsMessaging
 from domain.states.messaging.MessagingState import MessagingState
 from presentation.keyboards.admin.kb_messaging import AllClientsMessaging, kb_back_messaging, kb_messaging_categories, \
     kb_skip_messaging_media, kb_skip_messaging_button, MediaMessagingSkip, kb_repeat_button_messaging, \
-    RepeatButtonChoice, kb_send_message_all_clients, SendMessageAllClients, RestartMessage
+    RepeatButtonChoice, kb_send_message_all_clients, SendMessageAllClients, RestartMessage, ButtonMessagingSkip
 
 router = Router()
 
@@ -49,14 +49,18 @@ async def set_button(message: types.Message, state: FSMContext, i18n: I18nContex
 
     await state.set_state(AllClientsMessagingState.ButtonText)
     await message.answer(i18n.ADMIN.SET_BUTTON(), reply_markup=kb_skip_messaging_button)
-    await MessagingTools.add_new_button(state)
 
 
-@router.callback_query(MediaMessagingSkip.filter(), AllClientsMessagingState.ButtonText)
+@router.callback_query(ButtonMessagingSkip.filter(), AllClientsMessagingState.ButtonText)
 async def button_skip(callback: CallbackQuery, state: FSMContext, i18n: I18nContext):
-    await state.set_state(AllClientsMessagingState.Preview)
-    # preview
-    await callback.message.answer(i18n.ADMIN.PREVIEW_MESSAGING(), reply_markup=kb_send_message_all_clients)
+    button = callback.data.split(":")[1]
+    if not int(button):
+        await state.set_state(AllClientsMessagingState.Preview)
+        data = await state.get_data()
+        await MessagingTools.preview_message(data, callback.message)
+        await callback.message.edit_text(i18n.ADMIN.PREVIEW_MESSAGING(), reply_markup=kb_send_message_all_clients)
+    else:
+        await callback.message.edit_text(i18n.ADMIN.SET_BUTTON_TEXT(), reply_markup=kb_back_messaging)
 
 
 @router.message(AllClientsMessagingState.ButtonText)
@@ -65,6 +69,7 @@ async def set_button_text(message: types.Message, state: FSMContext, i18n: I18nC
         await message.answer(i18n.ADMIN.BUTTON_TEXT_ERROR(count=len(message.text)), reply_markup=kb_back_messaging)
         return
 
+    await MessagingTools.add_new_button(state)
     await MessagingTools.add_text_last_button(state, message.text)
     await state.set_state(AllClientsMessagingState.ButtonUrl)
     await message.answer(i18n.ADMIN.SET_BUTTON_URL(), reply_markup=kb_back_messaging)
@@ -73,7 +78,7 @@ async def set_button_text(message: types.Message, state: FSMContext, i18n: I18nC
 @router.message(AllClientsMessagingState.ButtonUrl)
 async def set_button_url(message: types.Message, state: FSMContext, i18n: I18nContext):
     if not MessagingTools.is_valid_url(message.text):
-        await message.answer(i18n.ADMIN.BUTTON_URL_ERROR(), kb_back_messaging)
+        await message.answer(i18n.ADMIN.BUTTON_URL_ERROR(), reply_markup=kb_back_messaging)
         return
 
     await MessagingTools.add_url_last_button(state, message.text)
@@ -84,20 +89,20 @@ async def set_button_url(message: types.Message, state: FSMContext, i18n: I18nCo
 @router.callback_query(RepeatButtonChoice.filter(), AllClientsMessagingState.RepeatButton)
 async def repeat_button(callback: CallbackQuery, state: FSMContext, i18n: I18nContext):
     repeat = callback.data.split(":")[1]
-
-    if repeat:
+    if int(repeat):
         await state.set_state(AllClientsMessagingState.ButtonText)
-        await callback.message.answer(i18n.ADMIN.SET_BUTTON(), reply_markup=kb_skip_messaging_button)
-        await MessagingTools.add_new_button(state)
+        await callback.message.answer(i18n.ADMIN.SET_BUTTON_TEXT(), reply_markup=kb_back_messaging)
     else:
         await state.set_state(AllClientsMessagingState.Preview)
-        # preview
+        data = await state.get_data()
+
+        await MessagingTools.preview_message(data, callback.message)
         await callback.message.answer(i18n.ADMIN.PREVIEW_MESSAGING(), reply_markup=kb_send_message_all_clients)
 
 
 @router.callback_query(SendMessageAllClients.filter(), AllClientsMessagingState.Preview)
 async def preview_send(callback: CallbackQuery, state: FSMContext, i18n: I18nContext):
-    pass
+    print("send all clients")
 
 
 @router.callback_query(RestartMessage.filter(), AllClientsMessagingState.Preview)

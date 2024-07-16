@@ -37,11 +37,12 @@ kb_skip_messaging_media = InlineKeyboardMarkup(inline_keyboard=[
 
 
 class ButtonMessagingSkip(CallbackData, prefix="ButtonMessagingSkip"):
-    pass
+    button: bool
 
 
 kb_skip_messaging_button = InlineKeyboardMarkup(inline_keyboard=[
-    [InlineKeyboardButton(text=L.SKIP(), callback_data=ButtonMessagingSkip().pack())],
+    [InlineKeyboardButton(text=L.YES(), callback_data=ButtonMessagingSkip(button=True).pack())],
+    [InlineKeyboardButton(text=L.SKIP(), callback_data=ButtonMessagingSkip(button=False).pack())],
     [InlineKeyboardButton(text=L.BACK(), callback_data=BackMessaging().pack())]
 ])
 

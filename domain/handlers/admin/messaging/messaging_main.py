@@ -3,38 +3,67 @@ from aiogram.fsm.context import FSMContext
 from aiogram.types import CallbackQuery
 from aiogram_i18n import I18nContext, L
 
+from data.default_constants import ALL_CLIENT_MESSAGING
 from domain.handlers.admin.messaging.MessagingTools import MessagingTools
-from domain.states.messaging.AllClientsMessagingState import AllClientsMessagingState
 from domain.states.messaging.MessagingState import MessagingState
-from presentation.keyboards.admin.kb_messaging import AllClientsMessaging, kb_back_messaging, kb_messaging_categories, \
+from domain.states.messaging.MessagingState import MessagingState
+from presentation.keyboards.admin.kb_messaging import kb_back_messaging, kb_messaging_categories, \
     kb_skip_messaging_media, kb_skip_messaging_button, MediaMessagingSkip, kb_repeat_button_messaging, \
-    RepeatButtonChoice, kb_send_message_all_clients, SendMessageAllClients, RestartMessage, ButtonMessagingSkip
+    RepeatButtonChoice, kb_send_message_all_clients, SendMessageAllClients, ButtonMessagingSkip, \
+    ChoiceTypeMessaging
+from presentation.keyboards.admin.kb_messaging import BackMessaging
 
 router = Router()
 
 
-@router.callback_query(AllClientsMessaging.filter(), MessagingState.MessagingType)
-async def set_message(callback: CallbackQuery, state: FSMContext, i18n: I18nContext):
-    await state.set_state(AllClientsMessagingState.Message)
-    await callback.message.edit_text(i18n.ADMIN.SET_MESSAGE(), reply_markup=kb_back_messaging)
+@router.message(F.text == L.ADMIN.MESSAGING())
+async def messaging(message: types.Message, state: FSMContext, i18n: I18nContext):
+    await message.answer(i18n.ADMIN.CHOICE_TYPE_MESSAGE(), reply_markup=kb_messaging_categories)
+    await state.set_state(MessagingState.MessagingType)
 
 
-@router.message(AllClientsMessagingState.Message)
+@router.callback_query(BackMessaging.filter())
+async def messaging_back(callback: CallbackQuery, state: FSMContext, i18n: I18nContext):
+    await callback.message.edit_text(i18n.ADMIN.CHOICE_TYPE_MESSAGE(), reply_markup=kb_messaging_categories)
+    await state.set_state(MessagingState.MessagingType)
+
+
+@router.callback_query(ChoiceTypeMessaging.filter(), MessagingState.MessagingType)
+async def set_type(callback: CallbackQuery, state: FSMContext, i18n: I18nContext):
+    type_m = callback.data.split(":")[1]
+    await state.update_data(type_messaging=type_m)
+
+    if type_m == ALL_CLIENT_MESSAGING:
+        await state.set_state(MessagingState.Message)
+        await callback.message.edit_text(i18n.ADMIN.SET_MESSAGE(), reply_markup=kb_back_messaging)
+    else:
+        await state.set_state(MessagingState.TelegramID)
+        await callback.message.edit_text(i18n.ADMIN.SET_USER_ID(), reply_markup=kb_back_messaging)
+
+
+@router.message(MessagingState.TelegramID)
+async def set_telegram_id(message: types.Message, state: FSMContext, i18n: I18nContext):
+    await state.update_data(telegram_id=message.text)
+    await state.set_state(MessagingState.Message)
+    await message.answer(i18n.ADMIN.SET_MESSAGE(), reply_markup=kb_back_messaging)
+
+
+@router.message(MessagingState.Message)
 async def set_media(message: types.Message, state: FSMContext, i18n: I18nContext):
     await state.update_data(message=message.html_text)
     await state.update_data(buttons=[])
 
     await message.answer(i18n.ADMIN.SET_MEDIA(), reply_markup=kb_skip_messaging_media)
-    await state.set_state(AllClientsMessagingState.Media)
+    await state.set_state(MessagingState.Media)
 
 
-@router.callback_query(MediaMessagingSkip.filter(), AllClientsMessagingState.Media)
+@router.callback_query(MediaMessagingSkip.filter(), MessagingState.Media)
 async def media_skip(callback: CallbackQuery, state: FSMContext, i18n: I18nContext):
-    await state.set_state(AllClientsMessagingState.ButtonText)
+    await state.set_state(MessagingState.ButtonText)
     await callback.message.answer(i18n.ADMIN.SET_BUTTON(), reply_markup=kb_skip_messaging_button)
 
 
-@router.message(AllClientsMessagingState.Media, (F.photo | F.animation | F.video))
+@router.message(MessagingState.Media, (F.photo | F.animation | F.video))
 async def set_button(message: types.Message, state: FSMContext, i18n: I18nContext):
     if message.content_type == 'photo':
         await state.update_data(photo=message.photo[-1].file_id)
@@ -46,15 +75,15 @@ async def set_button(message: types.Message, state: FSMContext, i18n: I18nContex
         await message.answer(i18n.ADMIN.MEDIA_WRONG(), reply_markup=kb_skip_messaging_media)
         return
 
-    await state.set_state(AllClientsMessagingState.ButtonText)
+    await state.set_state(MessagingState.ButtonText)
     await message.answer(i18n.ADMIN.SET_BUTTON(), reply_markup=kb_skip_messaging_button)
 
 
-@router.callback_query(ButtonMessagingSkip.filter(), AllClientsMessagingState.ButtonText)
+@router.callback_query(ButtonMessagingSkip.filter(), MessagingState.ButtonText)
 async def button_skip(callback: CallbackQuery, state: FSMContext, i18n: I18nContext):
     button = callback.data.split(":")[1]
     if not int(button):
-        await state.set_state(AllClientsMessagingState.Preview)
+        await state.set_state(MessagingState.Preview)
         data = await state.get_data()
         await MessagingTools.preview_message(data, callback.message)
         await callback.message.answer(i18n.ADMIN.PREVIEW_MESSAGING(), reply_markup=kb_send_message_all_clients)
@@ -62,7 +91,7 @@ async def button_skip(callback: CallbackQuery, state: FSMContext, i18n: I18nCont
         await callback.message.edit_text(i18n.ADMIN.SET_BUTTON_TEXT(), reply_markup=kb_back_messaging)
 
 
-@router.message(AllClientsMessagingState.ButtonText)
+@router.message(MessagingState.ButtonText)
 async def set_button_text(message: types.Message, state: FSMContext, i18n: I18nContext):
     if len(message.text) > 50:
         await message.answer(i18n.ADMIN.BUTTON_TEXT_ERROR(count=len(message.text)), reply_markup=kb_back_messaging)
@@ -70,41 +99,37 @@ async def set_button_text(message: types.Message, state: FSMContext, i18n: I18nC
 
     await MessagingTools.add_new_button(state)
     await MessagingTools.add_text_last_button(state, message.text)
-    await state.set_state(AllClientsMessagingState.ButtonUrl)
+    await state.set_state(MessagingState.ButtonUrl)
     await message.answer(i18n.ADMIN.SET_BUTTON_URL(), reply_markup=kb_back_messaging)
 
 
-@router.message(AllClientsMessagingState.ButtonUrl)
+@router.message(MessagingState.ButtonUrl)
 async def set_button_url(message: types.Message, state: FSMContext, i18n: I18nContext):
     if not MessagingTools.is_valid_url(message.text):
         await message.answer(i18n.ADMIN.BUTTON_URL_ERROR(), reply_markup=kb_back_messaging)
         return
 
     await MessagingTools.add_url_last_button(state, message.text)
-    await state.set_state(AllClientsMessagingState.RepeatButton)
+    await state.set_state(MessagingState.RepeatButton)
     await message.answer(i18n.ADMIN.SET_BUTTON_NEXT(), reply_markup=kb_repeat_button_messaging)
 
 
-@router.callback_query(RepeatButtonChoice.filter(), AllClientsMessagingState.RepeatButton)
+@router.callback_query(RepeatButtonChoice.filter(), MessagingState.RepeatButton)
 async def repeat_button(callback: CallbackQuery, state: FSMContext, i18n: I18nContext):
     repeat = callback.data.split(":")[1]
     if int(repeat):
-        await state.set_state(AllClientsMessagingState.ButtonText)
+        await state.set_state(MessagingState.ButtonText)
         await callback.message.edit_text(i18n.ADMIN.SET_BUTTON_TEXT(), reply_markup=kb_back_messaging)
     else:
-        await state.set_state(AllClientsMessagingState.Preview)
+        await state.set_state(MessagingState.Preview)
         data = await state.get_data()
 
         await MessagingTools.preview_message(data, callback.message)
         await callback.message.answer(i18n.ADMIN.PREVIEW_MESSAGING(), reply_markup=kb_send_message_all_clients)
 
 
-@router.callback_query(SendMessageAllClients.filter(), AllClientsMessagingState.Preview)
+@router.callback_query(SendMessageAllClients.filter(), MessagingState.Preview)
 async def preview_send(callback: CallbackQuery, state: FSMContext, i18n: I18nContext):
     print("send all clients")
 
 
-@router.callback_query(RestartMessage.filter(), AllClientsMessagingState.Preview)
-async def preview_start_again(callback: CallbackQuery, state: FSMContext, i18n: I18nContext):
-    await state.clear()
-    await set_message(callback, state, i18n)

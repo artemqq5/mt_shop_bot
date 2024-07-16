@@ -2,18 +2,18 @@ from aiogram.filters.callback_data import CallbackData
 from aiogram_i18n import L
 from aiogram_i18n.types import InlineKeyboardMarkup, InlineKeyboardButton
 
-
-class AllClientsMessaging(CallbackData, prefix="AllClientsMessaging"):
-    pass
+from data.default_constants import ALL_CLIENT_MESSAGING, INDIVIDUAL_MESSAGING
 
 
-class IndividualMessaging(CallbackData, prefix="IndividualMessaging"):
-    pass
+class ChoiceTypeMessaging(CallbackData, prefix="ChoiceTypeMessaging"):
+    type: str
 
 
 kb_messaging_categories = InlineKeyboardMarkup(inline_keyboard=[
-    [InlineKeyboardButton(text=L.ADMIN.MESSAGE_ALL_CLIENTS(), callback_data=AllClientsMessaging().pack())],
-    [InlineKeyboardButton(text=L.ADMIN.MESSAGE_INDIVIDUAL(), callback_data=IndividualMessaging().pack())],
+    [InlineKeyboardButton(text=L.ADMIN.MESSAGE_ALL_CLIENTS(),
+                          callback_data=ChoiceTypeMessaging(type=ALL_CLIENT_MESSAGING).pack())],
+    [InlineKeyboardButton(text=L.ADMIN.MESSAGE_INDIVIDUAL(),
+                          callback_data=ChoiceTypeMessaging(type=INDIVIDUAL_MESSAGING).pack())],
 ])
 
 
@@ -62,12 +62,7 @@ class SendMessageAllClients(CallbackData, prefix="SendMessageAllClients"):
     pass
 
 
-class RestartMessage(CallbackData, prefix="RestartMessage"):
-    pass
-
-
 kb_send_message_all_clients = InlineKeyboardMarkup(inline_keyboard=[
     [InlineKeyboardButton(text=L.ADMIN.SEND(), callback_data=SendMessageAllClients().pack())],
-    [InlineKeyboardButton(text=L.ADMIN.RESTART(), callback_data=RestartMessage().pack())],
     [InlineKeyboardButton(text=L.BACK(), callback_data=BackMessaging().pack())]
 ])

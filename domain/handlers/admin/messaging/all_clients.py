@@ -32,7 +32,6 @@ async def set_media(message: types.Message, state: FSMContext, i18n: I18nContext
 async def media_skip(callback: CallbackQuery, state: FSMContext, i18n: I18nContext):
     await state.set_state(AllClientsMessagingState.ButtonText)
     await callback.message.answer(i18n.ADMIN.SET_BUTTON(), reply_markup=kb_skip_messaging_button)
-    await MessagingTools.add_new_button(state)
 
 
 @router.message(AllClientsMessagingState.Media, (F.photo | F.animation | F.video))

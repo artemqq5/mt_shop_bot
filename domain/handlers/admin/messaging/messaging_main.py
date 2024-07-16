@@ -1,10 +1,11 @@
-from aiogram import Router, F, types
+from aiogram import Router, F, types, Bot
 from aiogram.fsm.context import FSMContext
 from aiogram.types import CallbackQuery
 from aiogram_i18n import I18nContext, L
 
 from data.default_constants import ALL_CLIENT_MESSAGING
 from domain.handlers.admin.messaging.MessagingTools import MessagingTools
+from domain.notification.NotificationClient import NotificationClient
 from domain.states.messaging.MessagingState import MessagingState
 from domain.states.messaging.MessagingState import MessagingState
 from presentation.keyboards.admin.kb_messaging import kb_back_messaging, kb_messaging_categories, \
@@ -80,12 +81,12 @@ async def set_button(message: types.Message, state: FSMContext, i18n: I18nContex
 
 
 @router.callback_query(ButtonMessagingSkip.filter(), MessagingState.ButtonText)
-async def button_skip(callback: CallbackQuery, state: FSMContext, i18n: I18nContext):
+async def button_skip(callback: CallbackQuery, state: FSMContext, i18n: I18nContext, bot: Bot):
     button = callback.data.split(":")[1]
     if not int(button):
         await state.set_state(MessagingState.Preview)
         data = await state.get_data()
-        await MessagingTools.preview_message(data, callback.message)
+        await MessagingTools.preview_message_send(data, bot, callback.from_user.id)
         await callback.message.answer(i18n.ADMIN.PREVIEW_MESSAGING(), reply_markup=kb_send_message_all_clients)
     else:
         await callback.message.edit_text(i18n.ADMIN.SET_BUTTON_TEXT(), reply_markup=kb_back_messaging)
@@ -115,7 +116,7 @@ async def set_button_url(message: types.Message, state: FSMContext, i18n: I18nCo
 
 
 @router.callback_query(RepeatButtonChoice.filter(), MessagingState.RepeatButton)
-async def repeat_button(callback: CallbackQuery, state: FSMContext, i18n: I18nContext):
+async def repeat_button(callback: CallbackQuery, state: FSMContext, i18n: I18nContext, bot: Bot):
     repeat = callback.data.split(":")[1]
     if int(repeat):
         await state.set_state(MessagingState.ButtonText)
@@ -124,12 +125,18 @@ async def repeat_button(callback: CallbackQuery, state: FSMContext, i18n: I18nCo
         await state.set_state(MessagingState.Preview)
         data = await state.get_data()
 
-        await MessagingTools.preview_message(data, callback.message)
+        await MessagingTools.preview_message_send(data, bot, callback.from_user.id)
         await callback.message.answer(i18n.ADMIN.PREVIEW_MESSAGING(), reply_markup=kb_send_message_all_clients)
 
 
 @router.callback_query(SendMessageAllClients.filter(), MessagingState.Preview)
-async def preview_send(callback: CallbackQuery, state: FSMContext, i18n: I18nContext):
-    print("send all clients")
+async def preview_send(callback: CallbackQuery, state: FSMContext, i18n: I18nContext, bot: Bot):
+    data = await state.get_data()
 
+    if data.get('telegram_id', None):
+        result = await NotificationClient.push_individual_client(data, bot, data.get('telegram_id'), i18n)
+    else:
+        result = await NotificationClient.push_all_clients(data, bot, i18n)
 
+    await state.clear()
+    await callback.message.edit_text(result, reply_markup=kb_back_messaging)

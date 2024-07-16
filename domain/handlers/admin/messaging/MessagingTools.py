@@ -36,38 +36,40 @@ class MessagingTools:
         await state.update_data(buttons=buttons)
 
     @staticmethod
-    async def preview_message(data, message: Message):
+    async def preview_message_send(data, bot, user_id):
 
         if len(data.get('buttons', [])) > 0:
             kb_buttons = []
             for btn in data.get('buttons'):
-                print(btn)
                 kb_buttons.append([InlineKeyboardButton(text=btn['btn_text'], url=btn['btn_url'])])
             kb_buttons = InlineKeyboardMarkup(inline_keyboard=kb_buttons)
         else:
             kb_buttons = None
 
         if data.get('photo', None):
-            await message.answer_photo(
+            await bot.send_photo(
+                chat_id=user_id,
                 photo=data.get('photo'),
                 caption=data['message'],
                 reply_markup=kb_buttons
             )
         elif data.get('video', None):
-            await message.answer_video(
+            await bot.send_video(
+                chat_id=user_id,
                 video=data.get('video'),
                 caption=data['message'],
                 reply_markup=kb_buttons
             )
         elif data.get('animation', None):
-            await message.answer_animation(
+            await bot.send_animation(
+                chat_id=user_id,
                 animation=data.get('animation'),
                 caption=data['message'],
                 reply_markup=kb_buttons
             )
         else:
-            await message.answer(
+            await bot.send_message(
+                chat_id=user_id,
                 text=data['message'],
                 reply_markup=kb_buttons
             )
-

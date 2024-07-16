@@ -24,7 +24,6 @@ class NotificationAdmin:
                         )
                     )
                 counter += 1
-            pass
 
         except Exception as e:
             print(f"user_activate_bot: {e}")

@@ -78,3 +78,9 @@ ADMIN-SET_BUTTON_NEXT = Бажаєте додати ще кнопку?
 ADMIN-PREVIEW_MESSAGING = Якщо все правильно, можете відправляти!
 ADMIN-SEND = Відправити
 ADMIN-RESTART = Почати спочатку
+
+ADMIN-RESULT_NOTIFICATION = <b>-Результат розсилки-</b>
+
+    Отримали повідомлення: {$send}\{$users}
+    Заблокували бота: {$block}
+    Інше: {$other}

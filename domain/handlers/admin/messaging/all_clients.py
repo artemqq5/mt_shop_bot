@@ -57,7 +57,7 @@ async def button_skip(callback: CallbackQuery, state: FSMContext, i18n: I18nCont
         await state.set_state(AllClientsMessagingState.Preview)
         data = await state.get_data()
         await MessagingTools.preview_message(data, callback.message)
-        await callback.message.edit_text(i18n.ADMIN.PREVIEW_MESSAGING(), reply_markup=kb_send_message_all_clients)
+        await callback.message.answer(i18n.ADMIN.PREVIEW_MESSAGING(), reply_markup=kb_send_message_all_clients)
     else:
         await callback.message.edit_text(i18n.ADMIN.SET_BUTTON_TEXT(), reply_markup=kb_back_messaging)
 
@@ -90,7 +90,7 @@ async def repeat_button(callback: CallbackQuery, state: FSMContext, i18n: I18nCo
     repeat = callback.data.split(":")[1]
     if int(repeat):
         await state.set_state(AllClientsMessagingState.ButtonText)
-        await callback.message.answer(i18n.ADMIN.SET_BUTTON_TEXT(), reply_markup=kb_back_messaging)
+        await callback.message.edit_text(i18n.ADMIN.SET_BUTTON_TEXT(), reply_markup=kb_back_messaging)
     else:
         await state.set_state(AllClientsMessagingState.Preview)
         data = await state.get_data()

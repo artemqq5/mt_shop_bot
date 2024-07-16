@@ -36,11 +36,12 @@ class MessagingTools:
         await state.update_data(buttons=buttons)
 
     @staticmethod
-    async def preview_message(data: dict[str], message: Message):
+    async def preview_message(data, message: Message):
 
         if len(data.get('buttons', [])) > 0:
             kb_buttons = []
             for btn in data.get('buttons'):
+                print(btn)
                 kb_buttons.append([InlineKeyboardButton(text=btn['btn_text'], url=btn['btn_url'])])
             kb_buttons = InlineKeyboardMarkup(inline_keyboard=kb_buttons)
         else:

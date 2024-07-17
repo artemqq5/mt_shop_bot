@@ -9,6 +9,7 @@ from domain.filters.IsAdminFilter import IsAdminFilter
 from domain.handlers.admin.ban import ban_system_main
 from domain.handlers.admin.management import choice_category_main
 from domain.handlers.admin.messaging import messaging_main
+from domain.handlers.admin.orders import orders_list_main
 from domain.middlewares.IsRoleMiddleware import IsRoleMiddleware
 from presentation.keyboards.admin.kb_menu import kb_menu_admin
 
@@ -17,7 +18,8 @@ router = Router()
 router.include_routers(
     choice_category_main.router,
     messaging_main.router,
-    ban_system_main.router
+    ban_system_main.router,
+    orders_list_main.router
 )
 
 router.message.middleware(IsRoleMiddleware(ADMIN))

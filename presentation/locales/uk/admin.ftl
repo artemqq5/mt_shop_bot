@@ -107,3 +107,31 @@ ADMIN-BAN_LIST_TEMPLATE = Юзернейм: @{$username}
     Телеграм ID: <code>{$id}</code>
     Мова користувача: <b>{$lang}</b>
 ADMIN-NO_BANNED_USERS = Немає заблокованих користувачів
+
+
+# ORDERS
+ADMIN-ORDER_STATUS_COMPLETED = Готово
+ADMIN-ORDER_STATUS_REVIEW = В обробці
+ADMIN-USERNAME_HAVNT = Відстутній юзернейм
+
+ADMIN-ORDER_LIST_TEMPLATE = #{$id} {$category} ({$count} шт.) =${$price}
+ADMIN-ORDER_ITEM_TEMPLATE = #{$id} {$category} ({$count} шт.) =${$price}
+    ===================
+    Номер: <b>#{$id}</b>
+    Дата: <b>{$date}</b>
+    Статус: <b>{$status}</b>
+
+    Категорія: <b>{$category}</b>
+    Кількість: <b>{$count}</b> шт.
+    Загальна Ціна: <b>{$price}$</b>
+
+    <b>Опис:</b>
+    {$desc}
+
+    <b>Користувач:</b>
+    Телеграм ID: {$user_id}
+    Юзернейм: {$username}
+
+
+
+

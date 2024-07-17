@@ -7,7 +7,7 @@ from aiogram_i18n import I18nContext
 from data.default_constants import CLIENT
 from domain.filters.IsAdminFilter import IsAdminFilter
 from domain.middlewares.IsRoleMiddleware import IsRoleMiddleware
-from presentation.keyboards.client._default import keyboard_subsribe
+from presentation.keyboards.client._default import kb_subsribe
 
 router = Router()
 

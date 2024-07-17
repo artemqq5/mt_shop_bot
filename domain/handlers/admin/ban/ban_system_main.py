@@ -6,7 +6,7 @@ from aiogram_i18n import I18nContext
 from aiogram_i18n import L
 
 from domain.handlers.admin.ban import ban, unban, ban_list
-from domain.states.bun.BanSystemState import BanSystemState
+from domain.states.admin.bun.BanSystemState import BanSystemState
 from presentation.keyboards.admin.ban.kb_ban_system import kb_ban_menu, BanSystemBack
 
 router = Router()

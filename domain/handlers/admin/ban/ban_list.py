@@ -4,7 +4,7 @@ from aiogram.types import CallbackQuery
 from aiogram_i18n import I18nContext
 
 from data.repository.users import UserRepository
-from domain.states.bun.BanSystemState import BanSystemState
+from domain.states.admin.bun.BanSystemState import BanSystemState
 from presentation.keyboards.admin.ban.kb_ban_list import kb_ban_list_nav, text_ban_list, BanListNavigation
 from presentation.keyboards.admin.ban.kb_ban_system import ListBannedUsersCallback
 

@@ -4,7 +4,7 @@ from aiogram.types import CallbackQuery, Message
 from aiogram_i18n import I18nContext
 
 from data.repository.users import UserRepository
-from domain.states.bun.BanSystemState import BanSystemState
+from domain.states.admin.bun.BanSystemState import BanSystemState
 from presentation.keyboards.admin.ban.kb_ban import kb_ban_user_next, BanOneMoreCallback
 from presentation.keyboards.admin.ban.kb_ban_system import BanUserCallback, kb_ban_system_back
 router = Router()

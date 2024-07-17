@@ -5,7 +5,7 @@ from aiogram_i18n import I18nContext, L
 
 from data.repository.orders import OrderRepository
 from data.repository.users import UserRepository
-from domain.states.orders.ListOrdersState import ListOrdersState
+from domain.states.admin.orders.ListOrdersState import ListOrdersState
 from presentation.keyboards.admin.orders.kb_orders_list import kb_orders_choice, ChoiceOrderItem, OrderItemNavigation, \
     kb_order_back, OrderItemBack
 

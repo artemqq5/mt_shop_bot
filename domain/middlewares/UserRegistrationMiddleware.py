@@ -5,7 +5,7 @@ from aiogram.types import TelegramObject, ReplyKeyboardRemove
 
 from data.repository.users import UserRepository
 from domain.notification.NotificationAdmin import NotificationAdmin
-from presentation.keyboards.client._default import keyboard_subsribe
+from presentation.keyboards.client._default import kb_subsribe
 from private_cfg import CHANNEL_ID
 
 
@@ -38,7 +38,7 @@ class UserRegistrationMiddleware(BaseMiddleware):
             return None
 
         if not await is_user_subscribed(tg_user.id, event.bot):
-            await message.answer(text=data['i18n'].SUBSCRIBE_CHANNEL(), reply_markup=keyboard_subsribe)
+            await message.answer(text=data['i18n'].SUBSCRIBE_CHANNEL(), reply_markup=kb_subsribe)
             return None
 
         return await handler(event, data)

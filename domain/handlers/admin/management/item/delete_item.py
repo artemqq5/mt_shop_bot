@@ -7,7 +7,7 @@ from presentation.keyboards.admin.management.kb_management_item import ItemManag
 from aiogram.fsm.context import FSMContext
 from aiogram.types import CallbackQuery
 from aiogram_i18n import I18nContext
-from domain.states.management.ManagementItemState import ManagementItemState
+from domain.states.admin.management.ManagementItemState import ManagementItemState
 
 router = Router()
 

@@ -8,7 +8,7 @@ from data.repository.items import ItemRepository
 
 from domain.handlers.admin.management.category import visibility_category, add_category, delete_category
 from domain.handlers.admin.management.item import choice_item
-from domain.states.management.ManageCategoryState import ManagementCategoryState
+from domain.states.admin.management.ManageCategoryState import ManagementCategoryState
 from presentation.keyboards.admin.management.kb_managment import kb_category_management, kb_choice_category, CategoryNavigation, \
     CategoryChoice, ManagementBack, ChoiceCategoryBack
 

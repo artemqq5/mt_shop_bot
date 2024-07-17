@@ -5,7 +5,7 @@ from aiogram_i18n import I18nContext
 
 from data.repository.items import ItemRepository
 from domain.handlers.admin.management.item import add_item, delete_item, visibility_item
-from domain.states.management.ManagementItemState import ManagementItemState
+from domain.states.admin.management.ManagementItemState import ManagementItemState
 from presentation.keyboards.admin.management.kb_management_item import kb_choice_item, ItemChoice, \
     ItemNavigation, kb_item_management, ChoiceItemBack, ManagementItemBack
 from presentation.keyboards.admin.management.kb_managment import CategoryManagementItemList

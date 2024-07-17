@@ -17,10 +17,6 @@ from domain.handlers.client import main_client
 from domain.middlewares.UserRegistrationMiddleware import UserRegistrationMiddleware
 from domain.middlewares.LocaleManager import LocaleManager
 
-# from domain.routers.admin import admin_handler
-# from domain.routers.common_route_ import localization_
-# from domain.routers.client import user_handler
-# from domain.routers.user_no_team import user_no_team_handler
 
 storage = MemoryStorage()
 dp = Dispatcher(storage=storage)
@@ -28,12 +24,7 @@ dp = Dispatcher(storage=storage)
 dp.include_routers(
     main_client.router,
     main_admin.router,
-    #     admin_handler.router,
-    #     user_handler.router,
-    #     user_no_team_handler.router,
-    #     localization_.route
 )
-
 
 async def main():
     logging.basicConfig(level=logging.INFO)

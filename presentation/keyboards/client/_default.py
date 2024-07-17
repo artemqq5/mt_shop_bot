@@ -9,7 +9,7 @@ kb_subsribe = InlineKeyboardMarkup(inline_keyboard=[
 ])
 
 kb_menu_client = ReplyKeyboardMarkup(keyboard=[
-    [KeyboardButton(text=L.ADMIN.ORDERS()), KeyboardButton(text=L.ADMIN.MANAGEMENT())],
-    [KeyboardButton(text=L.ADMIN.MESSAGING()), KeyboardButton(text=L.ADMIN.BAN())],
+    [KeyboardButton(text=L.CLIENT.BUY()), KeyboardButton(text=L.CLIENT.AVAILABILITY())],
+    [KeyboardButton(text=L.CLIENT.PROFILE())],
+    [KeyboardButton(text=L.CLIENT.SUPPORT())]
 ], resize_keyboard=True)
-

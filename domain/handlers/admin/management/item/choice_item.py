@@ -22,7 +22,7 @@ router.include_routers(
 @router.callback_query(CategoryManagementItemList.filter())
 async def item_list(callback: CallbackQuery, state: FSMContext, i18n: I18nContext):
     data = await state.get_data()
-    items = ItemRepository().items_by_category(data['category'])
+    items = ItemRepository().items_by_category_all(data['category'])
 
     await state.set_state(ManagementItemState.SetItem)
 
@@ -33,10 +33,10 @@ async def item_list(callback: CallbackQuery, state: FSMContext, i18n: I18nContex
 
 
 @router.callback_query(ItemNavigation.filter(), ManagementItemState.SetItem)
-async def choice_category_nav(callback: CallbackQuery, state: FSMContext, i18n: I18nContext):
+async def choice_item_nav(callback: CallbackQuery, state: FSMContext, i18n: I18nContext):
     page = callback.data.split(":")[1]
     data = await state.get_data()
-    items = ItemRepository().items_by_category(data['category'])
+    items = ItemRepository().items_by_category_all(data['category'])
 
     await callback.message.edit_reply_markup(reply_markup=kb_choice_item(items, data['category'], int(page)))
 

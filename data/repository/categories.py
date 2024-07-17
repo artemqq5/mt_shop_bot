@@ -8,6 +8,10 @@ class CategoryRepository(MyDataBase):
         return self._select_one(query, (name,))
 
     def categories(self):
+        query = "SELECT * FROM `categories` WHERE `visibility` = '1' ORDER BY `date` DESC;"
+        return self._select(query)
+
+    def categories_all(self):
         query = "SELECT * FROM `categories` ORDER BY `date` DESC;"
         return self._select(query)
 

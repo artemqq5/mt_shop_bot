@@ -16,6 +16,10 @@ class ItemRepository(MyDataBase):
         return self._delete(query, (item_id,))
 
     def items_by_category(self, category):
+        query = "SELECT * FROM `items` WHERE `category` = %s AND `visibility` = '1' ORDER BY `id` DESC;"
+        return self._select(query, (category,))
+
+    def items_by_category_all(self, category):
         query = "SELECT * FROM `items` WHERE `category` = %s ORDER BY `id` DESC;"
         return self._select(query, (category,))
 

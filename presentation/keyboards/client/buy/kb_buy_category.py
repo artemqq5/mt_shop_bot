@@ -4,9 +4,12 @@ from aiogram.filters.callback_data import CallbackData
 from aiogram_i18n import L
 from aiogram_i18n.types import InlineKeyboardMarkup, InlineKeyboardButton
 
+from data.repository.items import ItemRepository
+
 
 class BuyCategoryChoice(CallbackData, prefix="BuyCategoryChoice"):
     name: str
+    page: int
 
 
 class BuyCategoryNavigation(CallbackData, prefix="BuyCategoryNavigation"):
@@ -14,7 +17,6 @@ class BuyCategoryNavigation(CallbackData, prefix="BuyCategoryNavigation"):
 
 
 def kb_buy_category_choice(categories, current_page=1):
-    # create new category
     inline_kb = []
 
     total_pages = math.ceil(len(categories) / 5)
@@ -23,10 +25,12 @@ def kb_buy_category_choice(categories, current_page=1):
 
     # load from db
     for i in range(start_index, end_index):
+        items = ItemRepository().items_by_category(categories[i]['name'])
+        count = f" | {len(items)}" if len(items) else ""
         inline_kb.append(
             [InlineKeyboardButton(
-                text=categories[i]['name'],
-                callback_data=BuyCategoryChoice(name=categories[i]['name']).pack()
+                text=f"{categories[i]['name']}{count}",
+                callback_data=BuyCategoryChoice(name=categories[i]['name'], page=current_page).pack()
             )]
         )
 
@@ -60,6 +64,7 @@ def kb_buy_category_choice(categories, current_page=1):
     inline_kb.append(nav)
 
     return InlineKeyboardMarkup(inline_keyboard=inline_kb)
+
 
 #
 # class CategoryManagementAddItem(CallbackData, prefix="Category*Management*AddItem"):

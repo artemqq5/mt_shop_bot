@@ -25,14 +25,14 @@ router.include_routers(
 async def manage(message: types.Message, state: FSMContext, i18n: I18nContext):
     await state.set_state(ManagementCategoryState.SetCategory)
 
-    categories = CategoryRepository().categories()
+    categories = CategoryRepository().categories_all()
     await message.answer(i18n.ADMIN.CHOICE_CATEGORY(), reply_markup=kb_choice_category(categories, 1))
 
 
 @router.callback_query(CategoryNavigation.filter(), ManagementCategoryState.SetCategory)
 async def choice_category_nav(callback: CallbackQuery, state: FSMContext, i18n: I18nContext):
     page = callback.data.split(":")[1]
-    categories = CategoryRepository().categories()
+    categories = CategoryRepository().categories_all()
 
     await callback.message.edit_reply_markup(reply_markup=kb_choice_category(categories, int(page)))
 
@@ -55,7 +55,7 @@ async def choice_category(callback: CallbackQuery, state: FSMContext, i18n: I18n
 async def choice_category_back(callback: CallbackQuery, state: FSMContext, i18n: I18nContext):
     await state.set_state(ManagementCategoryState.SetCategory)
 
-    categories = CategoryRepository().categories()
+    categories = CategoryRepository().categories_all()
     await callback.message.edit_text(i18n.ADMIN.CHOICE_CATEGORY(), reply_markup=kb_choice_category(categories, 1))
 
 

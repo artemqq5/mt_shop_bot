@@ -4,6 +4,8 @@ from aiogram.filters.callback_data import CallbackData
 from aiogram_i18n import L
 from aiogram_i18n.types import InlineKeyboardMarkup, InlineKeyboardButton
 
+from data.repository.items import ItemRepository
+
 
 class CategoryChoice(CallbackData, prefix="Category*Choice"):
     name: str
@@ -30,9 +32,11 @@ def kb_choice_category(categories, current_page: int = 1):
 
     # load from db
     for i in range(start_index, end_index):
+        items = ItemRepository().items_by_category_all(categories[i]['name'])
+        count = f" | {len(items)}" if len(items) else ""
         inline_kb.append(
             [InlineKeyboardButton(
-                text=categories[i]['name'],
+                text=f"{categories[i]['name']}{count}",
                 callback_data=CategoryChoice(name=categories[i]['name']).pack()
             )]
         )

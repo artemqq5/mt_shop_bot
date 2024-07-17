@@ -2,7 +2,7 @@
 ADMIN-ORDERS = Замовлення
 ADMIN-MANAGEMENT = Управління
 ADMIN-MESSAGING = Розсилка
-ADMIN-BAN_SYSTEM = Заблокувати
+ADMIN-BAN = Заблокувати
 
 
 # MANAGMENT CATEGORY
@@ -87,6 +87,8 @@ ADMIN-RESULT_NOTIFICATION = <b>-Результат розсилки-</b>
 
 
 # BAN SYSTEM
+ADMIN-BAN_SYSTEM = Система банів
+
 ADMIN-BAN_USER = Заблокувати користувача
 ADMIN-UNBAN_USER = Розблокувати користувача
 ADMIN-BAN_LIST = Список заблокованих
@@ -110,27 +112,26 @@ ADMIN-NO_BANNED_USERS = Немає заблокованих користувач
 
 
 # ORDERS
-ADMIN-ORDER_STATUS_COMPLETED = Готово
-ADMIN-ORDER_STATUS_REVIEW = В обробці
+ADMIN-ORDERS_HISTORY = Історія замовлень
 ADMIN-USERNAME_HAVNT = Відстутній юзернейм
 
 ADMIN-ORDER_LIST_TEMPLATE = #{$id} {$category} ({$count} шт.) =${$price}
-ADMIN-ORDER_ITEM_TEMPLATE = #{$id} {$category} ({$count} шт.) =${$price}
+ADMIN-ORDER_ITEM_TEMPLATE = 🛒 <b>Замовлення #{$id}</b>
     ===================
-    Номер: <b>#{$id}</b>
-    Дата: <b>{$date}</b>
-    Статус: <b>{$status}</b>
+    📄 Номер: <b>{$id}</b>
+    📅 Дата: <b>{$date}</b>
 
-    Категорія: <b>{$category}</b>
-    Кількість: <b>{$count}</b> шт.
-    Загальна Ціна: <b>{$price}$</b>
+    📦 Категорія: <b>{$category}</b>
+    🔢 Кількість: <b>{$count} шт.</b>
+    💵 Загальна Ціна: <b>{$price}$</b>
 
-    <b>Опис:</b>
+    📝 <b>Опис:</b>
     {$desc}
 
-    <b>Користувач:</b>
-    Телеграм ID: {$user_id}
-    Юзернейм: {$username}
+    👤 <b>Користувач:</b>
+    🆔 Телеграм ID: <code>{$user_id}</code>
+    🔗 Юзернейм: {$username}
+
 
 
 

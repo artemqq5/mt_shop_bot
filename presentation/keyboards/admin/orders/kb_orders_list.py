@@ -17,9 +17,9 @@ class OrderItemNavigation(CallbackData, prefix="OrderItemNavigation"):
 def kb_orders_choice(orders, current_page=1):
     inline_kb = []
 
-    total_pages = math.ceil(len(orders) / 5)
-    start_index = (current_page - 1) * 5
-    end_index = min(start_index + 5, len(orders))
+    total_pages = math.ceil(len(orders) / 7)
+    start_index = (current_page - 1) * 7
+    end_index = min(start_index + 7, len(orders))
 
     # load from db
     for i in range(start_index, end_index):

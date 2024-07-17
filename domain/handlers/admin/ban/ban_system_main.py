@@ -18,7 +18,7 @@ router.include_routers(
 )
 
 
-@router.message(F.text == L.ADMIN.BAN_SYSTEM())
+@router.message(F.text == L.ADMIN.BAN())
 async def ban_menu(message: Message, state: FSMContext, i18n: I18nContext):
     await state.set_state(BanSystemState.ChoiceOperation)
     await message.answer(i18n.ADMIN.BAN_SYSTEM(), reply_markup=kb_ban_menu)

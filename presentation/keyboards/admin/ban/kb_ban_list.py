@@ -64,4 +64,7 @@ def text_ban_list(ban_users, i18n, current_page: int = 1):
         )
         message += "\n\n"
 
+    if not len(message):
+        message = i18n.ADMIN.NO_BANNED_USERS()
+
     return message

@@ -106,3 +106,4 @@ ADMIN-UNBAN_ERROR = Помилка при розблокуванні
 ADMIN-BAN_LIST_TEMPLATE = Юзернейм: @{$username}
     Телеграм ID: <code>{$id}</code>
     Мова користувача: <b>{$lang}</b>
+ADMIN-NO_BANNED_USERS = Немає заблокованих користувачів

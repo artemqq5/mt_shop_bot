@@ -26,7 +26,7 @@ class NotificationAdmin:
                 except Exception as e:
                     print(f"user_activate_bot: {e}")
 
-        print(f"messaging {counter}/{len(admins)}")
+        print(f"messaging user_activate_bot {counter}/{len(admins)}")
 
     @staticmethod
     async def new_order(identify, bot: Bot, i18n: I18nContext):
@@ -58,4 +58,4 @@ class NotificationAdmin:
         except Exception as e:
             print(f"new_order: {e}")
 
-        print(f"messaging {counter}/{len(admins)}")
+        print(f"messaging new_order {counter}/{len(admins)}")

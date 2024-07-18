@@ -6,6 +6,7 @@ from aiogram_i18n import I18nContext
 
 from data.default_constants import CLIENT
 from domain.filters.IsAdminFilter import IsAdminFilter
+from domain.handlers.client.availability import main_availability
 from domain.handlers.client.buy import choice_item
 from domain.handlers.client.buy import choice_category_main
 from domain.middlewares.IsRoleMiddleware import IsRoleMiddleware
@@ -15,6 +16,7 @@ router = Router()
 
 router.include_routers(
     choice_category_main.router,
+    main_availability.router
 )
 
 router.message.middleware(IsRoleMiddleware(CLIENT))

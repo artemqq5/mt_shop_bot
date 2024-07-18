@@ -38,8 +38,10 @@ async def choice_buy_item(callback: CallbackQuery, state: FSMContext, i18n: I18n
     )
 
 
-@router.callback_query(BuyChoiceItemBack.filter(), BuyItemState.Item)
+@router.callback_query(BuyChoiceItemBack.filter())
 async def item_buy_back(callback: CallbackQuery, state: FSMContext, i18n: I18nContext):
+    await state.set_state(BuyItemState.Item)
+
     data = await state.get_data()
     items = ItemRepository().items_by_category(data['category'])
 

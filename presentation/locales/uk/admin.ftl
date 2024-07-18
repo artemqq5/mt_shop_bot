@@ -118,7 +118,7 @@ ADMIN-USERNAME_HAVNT = Відстутній юзернейм
 
 ADMIN-ORDER_LIST_TEMPLATE = #{$id} {$category} ({$count} шт.) =${$price}
 ADMIN-ORDER_ITEM_TEMPLATE = 🛒 <b>Замовлення #{$id}</b>
-    ===================
+    ━━━━━━━━━━━━━━━━
     📄 Номер: <b>{$id}</b>
     📅 Дата: <b>{$date}</b>
 

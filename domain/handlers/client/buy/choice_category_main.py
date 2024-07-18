@@ -38,7 +38,7 @@ async def choice_buy_category_nav(callback: CallbackQuery, state: FSMContext, i1
     await callback.message.edit_reply_markup(reply_markup=kb_buy_category_choice(categories, int(page)))
 
 
-@router.callback_query(BuyCategoryChoice.filter(), BuyItemState.Category)
+@router.callback_query(BuyCategoryChoice.filter())
 async def choice_buy_category(callback: CallbackQuery, state: FSMContext, i18n: I18nContext):
     category = callback.data.split(":")[1]
 

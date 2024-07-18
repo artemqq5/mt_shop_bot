@@ -114,9 +114,9 @@ async def buy_order_send(callback: CallbackQuery, state: FSMContext, i18n: I18nC
     await callback.message.answer(i18n.CLIENT.BUY.SEND_SUCCESS())
 
     from domain.handlers.client.buy.choice_item import item_buy_back
-    await item_buy_back()
+    await item_buy_back(callback, state, i18n)
 
 
 @router.callback_query(BuyOrderItemRestart.filter(), BuyItemState.BuyItemPreview)
 async def buy_order_restart(callback: CallbackQuery, state: FSMContext, i18n: I18nContext):
-    await buy_item_callback(callback=callback, state=state, i18n=i18n)
+    await buy_item_callback(callback, state, i18n)

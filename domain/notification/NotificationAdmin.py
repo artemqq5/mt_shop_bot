@@ -35,6 +35,8 @@ class NotificationAdmin:
         order = OrderRepository().order_by_identify(identify)
         user = UserRepository().user(order['user_id'])
 
+        username = f"@{user['username']}" if user['username'] else i18n.ADMIN.USERNAME_HAVNT()
+
         try:
             for admin in admins:
                 with i18n.use_locale(user['lang']):
@@ -48,7 +50,7 @@ class NotificationAdmin:
                             price=order['total_cost'],
                             desc=order['desc'],
                             user_id=user['user_id'],
-                            username=user['username']
+                            username=username
                         )
                     )
                     counter += 1

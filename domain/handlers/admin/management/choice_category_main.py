@@ -5,11 +5,11 @@ from aiogram_i18n import I18nContext, L
 
 from data.repository.categories import CategoryRepository
 from data.repository.items import ItemRepository
-
 from domain.handlers.admin.management.category import visibility_category, add_category, delete_category
 from domain.handlers.admin.management.item import choice_item
 from domain.states.admin.management.ManageCategoryState import ManagementCategoryState
-from presentation.keyboards.admin.management.kb_managment import kb_category_management, kb_choice_category, CategoryNavigation, \
+from presentation.keyboards.admin.management.category.kb_managment import kb_category_management, kb_choice_category, \
+    CategoryNavigation, \
     CategoryChoice, ManagementBack, ChoiceCategoryBack
 
 router = Router()
@@ -23,6 +23,7 @@ router.include_routers(
 
 @router.message(F.text == L.ADMIN.MANAGEMENT())
 async def manage(message: types.Message, state: FSMContext, i18n: I18nContext):
+    await state.clear()
     await state.set_state(ManagementCategoryState.SetCategory)
 
     categories = CategoryRepository().categories_all()
@@ -34,13 +35,16 @@ async def choice_category_nav(callback: CallbackQuery, state: FSMContext, i18n: 
     page = callback.data.split(":")[1]
     categories = CategoryRepository().categories_all()
 
+    await state.update_data(last_page_category_manage=int(page))
+
     await callback.message.edit_reply_markup(reply_markup=kb_choice_category(categories, int(page)))
 
 
 @router.callback_query(CategoryChoice.filter(), ManagementCategoryState.SetCategory)
 async def choice_category(callback: CallbackQuery, state: FSMContext, i18n: I18nContext):
     category = callback.data.split(":")[1]
-    category_model = CategoryRepository().category(category)
+
+    category_model = CategoryRepository().category_all(category)
     items_count = len(ItemRepository().items_by_category(category))
 
     await state.update_data(category=category)
@@ -54,9 +58,13 @@ async def choice_category(callback: CallbackQuery, state: FSMContext, i18n: I18n
 @router.callback_query(ChoiceCategoryBack.filter())
 async def choice_category_back(callback: CallbackQuery, state: FSMContext, i18n: I18nContext):
     await state.set_state(ManagementCategoryState.SetCategory)
+    data = await state.get_data()
 
     categories = CategoryRepository().categories_all()
-    await callback.message.edit_text(i18n.ADMIN.CHOICE_CATEGORY(), reply_markup=kb_choice_category(categories, 1))
+    await callback.message.edit_text(
+        i18n.ADMIN.CHOICE_CATEGORY(),
+        reply_markup=kb_choice_category(categories, data.get('last_page_category_manage', 1))
+    )
 
 
 @router.callback_query(ManagementBack.filter())

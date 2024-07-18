@@ -1,8 +1,8 @@
 from aiogram import Router
 
 from data.repository.items import ItemRepository
-from presentation.keyboards.admin.management.kb_delete_item import kb_item_delete, ItemApproveDelete
-from presentation.keyboards.admin.management.kb_management_item import ItemManagementDelete, kb_back_item_choice
+from presentation.keyboards.admin.management.item.kb_delete_item import kb_item_delete, ItemApproveDelete
+from presentation.keyboards.admin.management.item.kb_management_item import ItemManagementDelete, kb_back_item_choice
 
 from aiogram.fsm.context import FSMContext
 from aiogram.types import CallbackQuery
@@ -15,7 +15,7 @@ router = Router()
 @router.callback_query(ItemManagementDelete.filter())
 async def delete_item(callback: CallbackQuery, state: FSMContext, i18n: I18nContext):
     item_id = callback.data.split(":")[1]
-    item = ItemRepository().item(item_id)
+    item = ItemRepository().item_all(item_id)
 
     await state.set_state(ManagementItemState.DeleteItem)
     await callback.message.edit_text(

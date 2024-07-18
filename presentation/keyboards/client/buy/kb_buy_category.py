@@ -9,7 +9,6 @@ from data.repository.items import ItemRepository
 
 class BuyCategoryChoice(CallbackData, prefix="BuyCategoryChoice"):
     name: str
-    page: int
 
 
 class BuyCategoryNavigation(CallbackData, prefix="BuyCategoryNavigation"):
@@ -30,7 +29,7 @@ def kb_buy_category_choice(categories, current_page=1):
         inline_kb.append(
             [InlineKeyboardButton(
                 text=f"{categories[i]['name']}{count}",
-                callback_data=BuyCategoryChoice(name=categories[i]['name'], page=current_page).pack()
+                callback_data=BuyCategoryChoice(name=categories[i]['name']).pack()
             )]
         )
 
@@ -66,74 +65,3 @@ def kb_buy_category_choice(categories, current_page=1):
     return InlineKeyboardMarkup(inline_keyboard=inline_kb)
 
 
-#
-# class CategoryManagementAddItem(CallbackData, prefix="Category*Management*AddItem"):
-#     pass
-#
-#
-# class CategoryManagementItemList(CallbackData, prefix="Category*Management*ItemList"):
-#     pass
-#
-#
-# class CategoryManagementVisibility(CallbackData, prefix="Category*Management*Visibility"):
-#     visibility: bool
-#
-#
-# class CategoryManagementDelete(CallbackData, prefix="Category*Management*Delete"):
-#     pass
-#
-#
-# class ChoiceCategoryBack(CallbackData, prefix="Choice*Category*Back"):
-#     pass
-#
-#
-# class ManagementBack(CallbackData, prefix="Management*Back"):
-#     category: str
-#
-#
-# def kb_category_management(category):
-#     inline_kb = [
-#         [InlineKeyboardButton(
-#             text=L.ADMIN.ADD_ITEM(),
-#             callback_data=CategoryManagementAddItem().pack()
-#         )],
-#         [InlineKeyboardButton(
-#             text=L.ADMIN.SHOW_ITEMS(),
-#             callback_data=CategoryManagementItemList().pack()
-#         )]
-#     ]
-#
-#     if category['visibility'] == 1:
-#         inline_kb.append([InlineKeyboardButton(
-#             text=L.ADMIN.HIDE(),
-#             callback_data=CategoryManagementVisibility(visibility=False).pack()
-#         )])
-#     else:
-#         inline_kb.append([InlineKeyboardButton(
-#             text=L.ADMIN.OPEN(),
-#             callback_data=CategoryManagementVisibility(visibility=True).pack()
-#         )])
-#
-#     inline_kb.append([
-#         InlineKeyboardButton(
-#             text=L.ADMIN.DELETE(),
-#             callback_data=CategoryManagementDelete().pack()
-#         )
-#     ])
-#
-#     inline_kb.append([
-#         InlineKeyboardButton(text=L.BACK(), callback_data=ChoiceCategoryBack().pack())
-#     ])
-#
-#     return InlineKeyboardMarkup(inline_keyboard=inline_kb)
-#
-#
-# def kb_back_category_management(category):
-#     return InlineKeyboardMarkup(inline_keyboard=[
-#         [InlineKeyboardButton(text=L.BACK(), callback_data=ManagementBack(category=category).pack())]
-#     ])
-#
-#
-# kb_back_category_choice = InlineKeyboardMarkup(inline_keyboard=[
-#     [InlineKeyboardButton(text=L.BACK(), callback_data=ChoiceCategoryBack().pack())]
-# ])

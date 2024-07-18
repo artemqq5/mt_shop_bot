@@ -6,8 +6,8 @@ from aiogram_i18n import I18nContext
 from data.repository.items import ItemRepository
 from domain.states.admin.management.AddItemState import AddItemState
 from domain.states.admin.management.ManageCategoryState import ManagementCategoryState
-from presentation.keyboards.admin.management.kb_add_item import kb_preview_add_item, PreviewItemPublish, kb_publish_onemore
-from presentation.keyboards.admin.management.kb_managment import kb_back_category_management, CategoryManagementAddItem
+from presentation.keyboards.admin.management.item.kb_add_item import kb_preview_add_item, PreviewItemPublish, kb_publish_onemore
+from presentation.keyboards.admin.management.category.kb_managment import kb_back_category_management, CategoryManagementAddItem
 
 router = Router()
 

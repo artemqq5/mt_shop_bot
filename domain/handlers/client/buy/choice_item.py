@@ -18,20 +18,22 @@ async def choice_buy_item_nav(callback: CallbackQuery, state: FSMContext, i18n: 
     data = await state.get_data()
     items = ItemRepository().items_by_category(data['category'])
 
+    await state.update_data(last_page_item_buy=int(page))
+
     await callback.message.edit_reply_markup(reply_markup=kb_buy_item_choice(items, int(page)))
 
 
 @router.callback_query(BuyItemChoice.filter(), BuyItemState.Item)
 async def choice_buy_item(callback: CallbackQuery, state: FSMContext, i18n: I18nContext):
     item_id = callback.data.split(":")[1]
-    page = callback.data.split(":")[2]
-
     item = ItemRepository().item(item_id)
-    await state.update_data(last_page_item=int(page))
-    # await state.set_state(BuyItemState.BuySetCount)
+
+    if not item:
+        await callback.answer(i18n.CLIENT.BUY.NOT_EXIST(), show_alert=True)
+        return
 
     await callback.message.edit_text(
-        i18n.CLIENT.BUY_ITEM_TEMPLATE(title=item['title'], category=item['category'], cost=item['cost'], desc=item['desc']),
+        i18n.CLIENT.BUY.ITEM_TEMPLATE(title=item['title'], category=item['category'], cost=item['cost'], desc=item['desc']),
         reply_markup=kb_item_buy(item_id)
     )
 
@@ -42,6 +44,6 @@ async def item_buy_back(callback: CallbackQuery, state: FSMContext, i18n: I18nCo
     items = ItemRepository().items_by_category(data['category'])
 
     await callback.message.edit_text(
-        text=i18n.CLIENT.BUY_CHOICE_ITEM(category=data['category']),
-        reply_markup=kb_buy_item_choice(items, data['last_page_item'])
+        text=i18n.CLIENT.BUY.CHOICE_ITEM(category=data['category']),
+        reply_markup=kb_buy_item_choice(items, data.get('last_page_item_buy', 1))
     )

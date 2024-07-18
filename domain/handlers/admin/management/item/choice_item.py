@@ -6,9 +6,9 @@ from aiogram_i18n import I18nContext
 from data.repository.items import ItemRepository
 from domain.handlers.admin.management.item import add_item, delete_item, visibility_item
 from domain.states.admin.management.ManagementItemState import ManagementItemState
-from presentation.keyboards.admin.management.kb_management_item import kb_choice_item, ItemChoice, \
+from presentation.keyboards.admin.management.item.kb_management_item import kb_choice_item, ItemChoice, \
     ItemNavigation, kb_item_management, ChoiceItemBack, ManagementItemBack
-from presentation.keyboards.admin.management.kb_managment import CategoryManagementItemList
+from presentation.keyboards.admin.management.category.kb_managment import CategoryManagementItemList
 
 router = Router()
 
@@ -28,7 +28,7 @@ async def item_list(callback: CallbackQuery, state: FSMContext, i18n: I18nContex
 
     await callback.message.edit_text(
         i18n.ADMIN.ITEMS_GROUP_INFO(category=data['category']),
-        reply_markup=kb_choice_item(items, data['category'], 1)
+        reply_markup=kb_choice_item(items, data['category'], data.get('last_page_item_manage', 1))
     )
 
 
@@ -37,6 +37,8 @@ async def choice_item_nav(callback: CallbackQuery, state: FSMContext, i18n: I18n
     page = callback.data.split(":")[1]
     data = await state.get_data()
     items = ItemRepository().items_by_category_all(data['category'])
+
+    await state.update_data(last_page_item_manage=page)
 
     await callback.message.edit_reply_markup(reply_markup=kb_choice_item(items, data['category'], int(page)))
 

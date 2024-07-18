@@ -113,6 +113,7 @@ ADMIN-NO_BANNED_USERS = Немає заблокованих користувач
 
 # ORDERS
 ADMIN-ORDERS_HISTORY = Історія замовлень
+ADMIN-ORDERS_HISTORY_EMPTY = Немає замовлень
 ADMIN-USERNAME_HAVNT = Відстутній юзернейм
 
 ADMIN-ORDER_LIST_TEMPLATE = #{$id} {$category} ({$count} шт.) =${$price}

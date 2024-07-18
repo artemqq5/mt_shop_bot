@@ -13,10 +13,11 @@ router = Router()
 
 
 @router.message(F.text == L.ADMIN.ORDERS())
-async def order_list_main(message: types.Message, state: FSMContext, i18n: I18nContext):
+async def order_list_main(message: types.Message, state: FSMContext, i18n: I18nContext, bot: Bot):
+    await state.clear()
     await state.set_state(ListOrdersState.ListOrders)
-    orders = OrderRepository().orders()
 
+    orders = OrderRepository().orders()
     await message.answer(i18n.ADMIN.ORDERS_HISTORY(), reply_markup=kb_orders_choice(orders))
 
 

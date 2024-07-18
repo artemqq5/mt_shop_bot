@@ -4,7 +4,7 @@ from aiogram.types import CallbackQuery
 from aiogram_i18n import I18nContext
 
 from data.repository.categories import CategoryRepository
-from presentation.keyboards.admin.management.kb_managment import CategoryManagementVisibility, ManagementBack
+from presentation.keyboards.admin.management.category.kb_managment import CategoryManagementVisibility, ManagementBack
 
 router = Router()
 

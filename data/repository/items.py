@@ -4,6 +4,10 @@ from data.database import MyDataBase
 class ItemRepository(MyDataBase):
 
     def item(self, item_id):
+        query = "SELECT * FROM `items` WHERE `id` = %s AND `visibility` = '1';"
+        return self._select_one(query, (item_id,))
+
+    def item_all(self, item_id):
         query = "SELECT * FROM `items` WHERE `id` = %s;"
         return self._select_one(query, (item_id,))
 

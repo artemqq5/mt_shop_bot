@@ -7,7 +7,6 @@ from aiogram_i18n.types import InlineKeyboardMarkup, InlineKeyboardButton
 
 class BuyItemChoice(CallbackData, prefix="BuyItemChoice"):
     item_id: int
-    page: int
 
 
 class BuyItemNavigation(CallbackData, prefix="BuyItemNavigation"):
@@ -29,8 +28,8 @@ def kb_buy_item_choice(items, current_page=1):
     for i in range(start_index, end_index):
         inline_kb.append(
             [InlineKeyboardButton(
-                text=L.CLIENT.BUY_ITEM_LIST_TEMPLATE(title=items[i]['title'], cost=items[i]['cost']),
-                callback_data=BuyItemChoice(item_id=items[i]['id'], page=current_page).pack()
+                text=L.CLIENT.BUY.ITEM_LIST_TEMPLATE(title=items[i]['title'], cost=items[i]['cost']),
+                callback_data=BuyItemChoice(item_id=items[i]['id']).pack()
             )]
         )
 
@@ -73,8 +72,13 @@ class BuyChoiceItemBack(CallbackData, prefix="BuyChoiceItemBack"):
     pass
 
 
+class BuyItemCallback(CallbackData, prefix="BuyItemCallback"):
+    item_id: int
+
+
 def kb_item_buy(item_id):
     return InlineKeyboardMarkup(inline_keyboard=[
-        [InlineKeyboardButton(text=L.CLIENT.BUY(), callback_data="None")],
+        [InlineKeyboardButton(text=L.CLIENT.BUY(), callback_data=BuyItemCallback(item_id=item_id).pack())],
         [InlineKeyboardButton(text=L.BACK(), callback_data=BuyChoiceItemBack().pack())],
     ])
+

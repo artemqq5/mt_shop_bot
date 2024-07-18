@@ -15,7 +15,6 @@ router = Router()
 
 router.include_routers(
     choice_category_main.router,
-    choice_item.router
 )
 
 router.message.middleware(IsRoleMiddleware(CLIENT))

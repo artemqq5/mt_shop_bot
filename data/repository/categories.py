@@ -4,6 +4,10 @@ from data.database import MyDataBase
 class CategoryRepository(MyDataBase):
 
     def category(self, name):
+        query = "SELECT * FROM `categories` WHERE `name` = %s AND `visibility` = '1';"
+        return self._select_one(query, (name,))
+
+    def category_all(self, name):
         query = "SELECT * FROM `categories` WHERE `name` = %s;"
         return self._select_one(query, (name,))
 

@@ -4,7 +4,7 @@ from aiogram.types import CallbackQuery
 from aiogram_i18n import I18nContext
 
 from data.repository.items import ItemRepository
-from presentation.keyboards.admin.management.kb_management_item import ItemManagementVisibility
+from presentation.keyboards.admin.management.item.kb_management_item import ItemManagementVisibility
 
 router = Router()
 

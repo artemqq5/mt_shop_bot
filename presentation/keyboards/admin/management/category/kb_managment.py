@@ -16,7 +16,7 @@ class CategoryNavigation(CallbackData, prefix="Category*Navigation"):
 
 
 class CreateNewCategory(CallbackData, prefix="Create*New*Category"):
-    key: str = "CreateNewCategory"
+    pass
 
 
 def kb_choice_category(categories, current_page: int = 1):

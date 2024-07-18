@@ -1,3 +1,5 @@
+import uuid
+
 from aiogram import Router, types, Bot
 from aiogram.fsm.context import FSMContext
 from aiogram.types import CallbackQuery
@@ -92,12 +94,15 @@ async def set_buy_desc(message: types.Message, state: FSMContext, i18n: I18nCont
 async def buy_order_send(callback: CallbackQuery, state: FSMContext, i18n: I18nContext, bot: Bot):
     data = await state.get_data()
 
+    identify = str(uuid.uuid4())
+
     if not OrderRepository().add(
             user_id=data['user_id'],
             category=data['item']['category'],
             desc=data['desc'],
             count=data['count'],
-            total_cost=data['total_cost']
+            total_cost=data['total_cost'],
+            identify=identify
     ):
         await callback.message.edit_text(
             i18n.CLIENT.BUY.SEND_ERROR(),
@@ -105,7 +110,7 @@ async def buy_order_send(callback: CallbackQuery, state: FSMContext, i18n: I18nC
         )
         return
 
-    await NotificationAdmin.new_order(data, bot, i18n)
+    await NotificationAdmin.new_order(identify, bot, i18n)
     await callback.message.answer(i18n.CLIENT.BUY.SEND_SUCCESS())
 
     from domain.handlers.client.buy.choice_item import item_buy_back

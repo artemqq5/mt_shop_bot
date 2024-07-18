@@ -79,7 +79,7 @@ async def set_buy_desc(message: types.Message, state: FSMContext, i18n: I18nCont
 
     data = await state.get_data()
 
-    await message.edit_text(
+    await message.answer(
         i18n.CLIENT.BUY.PREVIEW(
             title=data['item']['title'],
             count=data['count'],

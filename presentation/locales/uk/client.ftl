@@ -4,8 +4,8 @@ CLIENT-PROFILE = 👤 Профіль
 CLIENT-SUPPORT = 💬 Підтримка
 
 # OTHERR
-CLIENT-SUPPORT_CONTACT = Написати Менеджеру
-
+CLIENT-CONNECTION_WITH_SUPPORT = Щоб за'язатися з підтримкою натисніть на кнопку нижче ⬇️
+CLIENT-SUPPORT_CONTACT = Написати Менеджеру 📪
 
 # BUY MENU
 CLIENT-BUY-EMPTY_ITEMS = В категорії зараз відсутні товари
@@ -47,3 +47,16 @@ CLIENT-AVAILABILITY-CATEGORY = 📲 <b>{$category}</b>
     ━━━━━━━━━━━━━━━━
 CLIENT-AVAILABILITY-NO_ITEMS = <b>Немає товарів в наявності, але скоро ми поповнимось!</b>
 
+# POFILE
+CLIENT-PROFILE-MAIN_PAGE = Мій профіль
+    ━━━━━━━━━━━━━━━━
+    👤 <b>Телеграм ID:</b> <code>{$telegram_id}</code>
+    🛍️ Замовлень зроблено: <b>{$order_count}</b>
+
+    🌐 Мова користувача: <b>{$lang}</b>
+    📅 Дата реєстрації: <b>{$date}</b>
+    ⏳ Ти з нами вже: <b>{$days}</b> днів!
+
+
+
+CLIENT-PROFILE-ORDERS = 📋 Мої замовлення

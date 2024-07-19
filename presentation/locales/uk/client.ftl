@@ -60,3 +60,15 @@ CLIENT-PROFILE-MAIN_PAGE = Мій профіль
 
 
 CLIENT-PROFILE-ORDERS = 📋 Мої замовлення
+CLIENT-PROFILE-ORDER_LIST_TEMPLATE = {$title} | {$count} шт. | ={$price}$
+CLIENT-PROFILE-ORDER_TEMPLATE = <b>Замовлення #{$id}</b>
+    ━━━━━━━━━━━━━━━━
+    🛒 <b>Товар:</b> {$title}
+    📍 <b>Кількість:</b> {$count} шт.
+    💵 <b>Загальна ціна:</b> {$cost}$
+
+    💌 <b>Ваш коментар:</b>
+    {$desc}
+
+    <b>Дата замовлення:</b> {$date}
+CLIENT-PROFILE-EMPTY_ORDERS = ️ У вас поки немає замовлень 🤷‍♂️, щоб виправити це можете обрати категорію "{$buy_category_bot}" та зробити своє перше замовлення! 🚀

@@ -40,7 +40,7 @@ async def choice_item_nav(callback: CallbackQuery, state: FSMContext, i18n: I18n
     data = await state.get_data()
     items = ItemRepository().items_by_category_all(data['category'])
 
-    await state.update_data(last_page_item_manage=page)
+    await state.update_data(last_page_item_manage=int(page))
 
     await callback.message.edit_reply_markup(reply_markup=kb_choice_item(items, data['category'], int(page)))
 

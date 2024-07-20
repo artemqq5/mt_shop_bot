@@ -22,6 +22,7 @@ router.include_routers(
 )
 
 router.message.middleware(IsRoleMiddleware(CLIENT))
+router.callback_query.middleware(IsRoleMiddleware(CLIENT))
 
 
 @router.message(Command("start"), IsAdminFilter(False))

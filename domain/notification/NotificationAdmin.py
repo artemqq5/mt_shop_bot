@@ -18,8 +18,10 @@ class NotificationAdmin:
                 try:
                     await bot.send_message(
                         chat_id=admin['user_id'],
-                        text=i18n.NOTIFICATION.NEW_ORDER(
-
+                        text=i18n.NOTIFICATION.NEW_USER(
+                            username=user['username'],
+                            user_id=user['user_id'],
+                            join_at=user['join_at']
                         )
                     )
                     counter += 1

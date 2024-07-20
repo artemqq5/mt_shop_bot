@@ -22,13 +22,15 @@ router.include_routers(
 @router.callback_query(CategoryManagementItemList.filter())
 async def item_list(callback: CallbackQuery, state: FSMContext, i18n: I18nContext):
     data = await state.get_data()
+
     items = ItemRepository().items_by_category_all(data['category'])
+    page = data.get('last_page_item_manage', 1) if len(items) > 5 else 1
 
     await state.set_state(ManagementItemState.SetItem)
 
     await callback.message.edit_text(
         i18n.ADMIN.ITEMS_GROUP_INFO(category=data['category']),
-        reply_markup=kb_choice_item(items, data['category'], data.get('last_page_item_manage', 1))
+        reply_markup=kb_choice_item(items, data['category'], page)
     )
 
 

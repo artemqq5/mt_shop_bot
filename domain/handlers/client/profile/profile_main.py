@@ -49,7 +49,7 @@ async def profile_orders(callback: CallbackQuery, state: FSMContext, i18n: I18nC
         return
 
     data = await state.get_data()
-    page = data.get("last_orders_page_profile", 1)
+    page = data.get("last_orders_page_profile", 1) if len(orders) > 5 else 1
 
     await state.set_state(ProfileState.Orders)
     await callback.message.edit_text(i18n.CLIENT.PROFILE.ORDERS(), reply_markup=kb_profile_orders(orders, page))

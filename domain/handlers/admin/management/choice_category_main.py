@@ -61,9 +61,11 @@ async def choice_category_back(callback: CallbackQuery, state: FSMContext, i18n:
     data = await state.get_data()
 
     categories = CategoryRepository().categories_all()
+    page = data.get('last_page_category_manage', 1) if len(categories) > 5 else 1
+
     await callback.message.edit_text(
         i18n.ADMIN.CHOICE_CATEGORY(),
-        reply_markup=kb_choice_category(categories, data.get('last_page_category_manage', 1))
+        reply_markup=kb_choice_category(categories, page)
     )
 
 

@@ -44,8 +44,9 @@ async def item_buy_back(callback: CallbackQuery, state: FSMContext, i18n: I18nCo
 
     data = await state.get_data()
     items = ItemRepository().items_by_category(data['category'])
+    page = data.get('last_page_item_buy', 1) if len(items) > 5 else 1
 
     await callback.message.edit_text(
         text=i18n.CLIENT.BUY.CHOICE_ITEM(category=data['category']),
-        reply_markup=kb_buy_item_choice(items, data.get('last_page_item_buy', 1))
+        reply_markup=kb_buy_item_choice(items, page)
     )

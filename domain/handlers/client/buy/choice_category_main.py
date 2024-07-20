@@ -67,8 +67,9 @@ async def choice_buy_category_back(callback: CallbackQuery, state: FSMContext, i
     await state.set_state(BuyItemState.Category)
 
     categories = CategoryRepository().categories()
+    page = data.get('last_page_category_buy', 1) if len(categories) > 5 else 1
 
     await callback.message.edit_text(
         i18n.CLIENT.BUY.CHOICE_CATEGORY(),
-        reply_markup=kb_buy_category_choice(categories, data.get('last_page_category_buy', 1))
+        reply_markup=kb_buy_category_choice(categories, page)
     )

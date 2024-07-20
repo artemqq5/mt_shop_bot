@@ -48,7 +48,7 @@ async def choice_item_nav(callback: CallbackQuery, state: FSMContext, i18n: I18n
 @router.callback_query(ItemChoice.filter(), ManagementItemState.SetItem)
 async def choice_item(callback: CallbackQuery, state: FSMContext, i18n: I18nContext):
     item_id = callback.data.split(":")[1]
-    item = ItemRepository().item(item_id)
+    item = ItemRepository().item_all(item_id)
     await callback.message.edit_text(
         i18n.ADMIN.PREVIEW_ITEM(title=item['title'], category=item['category'], cost=item['cost'], desc=item['desc']),
         reply_markup=kb_item_management(item)

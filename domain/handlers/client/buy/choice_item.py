@@ -26,7 +26,7 @@ async def choice_buy_item_nav(callback: CallbackQuery, state: FSMContext, i18n: 
 @router.callback_query(BuyItemChoice.filter(), BuyItemState.Item)
 async def choice_buy_item(callback: CallbackQuery, state: FSMContext, i18n: I18nContext):
     item_id = callback.data.split(":")[1]
-    item = ItemRepository().item(item_id)
+    item = ItemRepository().item_all(item_id)
 
     if not item:
         await callback.answer(i18n.CLIENT.BUY.NOT_EXIST(), show_alert=True)

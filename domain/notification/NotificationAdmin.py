@@ -13,8 +13,8 @@ class NotificationAdmin:
         admins = UserRepository().admins()
         user = UserRepository().user(user_id)
 
-        with i18n.use_locale(user['lang']):
-            for admin in admins:
+        for admin in admins:
+            with i18n.use_locale(admin['lang']):
                 try:
                     await bot.send_message(
                         chat_id=admin['user_id'],

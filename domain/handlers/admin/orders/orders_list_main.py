@@ -3,6 +3,7 @@ from aiogram.fsm.context import FSMContext
 from aiogram.types import CallbackQuery
 from aiogram_i18n import I18nContext, L
 
+from data.repository.items import ItemRepository
 from data.repository.orders import OrderRepository
 from data.repository.users import UserRepository
 from domain.states.admin.orders.ListOrdersState import ListOrdersState
@@ -37,6 +38,7 @@ async def choice_order_item(callback: CallbackQuery, state: FSMContext, i18n: I1
     await state.set_state(ListOrdersState.OrderView)
 
     order = OrderRepository().order(order_id)
+    item = ItemRepository().item_all(order['item_id'])
     user = UserRepository().user(order['user_id'])
 
     username = f"@{user['username']}" if user['username'] else i18n.ADMIN.USERNAME_HAVNT()
@@ -45,6 +47,7 @@ async def choice_order_item(callback: CallbackQuery, state: FSMContext, i18n: I1
         i18n.ADMIN.ORDER_ITEM_TEMPLATE(
             id=order['id'],
             date=order['date'],
+            name=item['title'],
             category=order['category'],
             count=order['count'],
             price=order['total_cost'],

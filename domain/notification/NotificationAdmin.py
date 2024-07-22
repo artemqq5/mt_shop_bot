@@ -1,6 +1,7 @@
 from aiogram import Bot
 from aiogram_i18n import I18nContext
 
+from data.repository.items import ItemRepository
 from data.repository.orders import OrderRepository
 from data.repository.users import UserRepository
 
@@ -14,7 +15,7 @@ class NotificationAdmin:
         user = UserRepository().user(user_id)
 
         for admin in admins:
-            with i18n.use_locale(admin['lang']):
+            with i18n.use_locale(admin.get('lang', 'en')):
                 try:
                     await bot.send_message(
                         chat_id=admin['user_id'],
@@ -36,17 +37,19 @@ class NotificationAdmin:
         admins = UserRepository().admins()
         order = OrderRepository().order_by_identify(identify)
         user = UserRepository().user(order['user_id'])
+        item = ItemRepository().item(order['item_id'])
 
         username = f"@{user['username']}" if user['username'] else i18n.ADMIN.USERNAME_HAVNT()
 
         try:
             for admin in admins:
-                with i18n.use_locale(user['lang']):
+                with i18n.use_locale(admin.get('lang', 'en')):
                     await bot.send_message(
                         chat_id=admin['user_id'],
                         text=i18n.NOTIFICATION.NEW_ORDER(
                             id=order['id'],
                             date=order['date'],
+                            name=item['title'],
                             category=order['category'],
                             count=order['count'],
                             price=order['total_cost'],

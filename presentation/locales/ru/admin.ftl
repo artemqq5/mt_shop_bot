@@ -122,6 +122,7 @@ ADMIN-ORDER_ITEM_TEMPLATE = 🛒 <b>Заказ #{$id}</b>
     📄 Номер заказа: <b>{$id}</b>
     📅 Дата: <b>{$date}</b>
 
+    📍 Название: <b>{$name}</b>
     📦 Категория: <b>{$category}</b>
     🔢 Количество: <b>{$count} шт.</b>
     💵 Общая цена: <b>{$price}$</b>

@@ -9,6 +9,7 @@ NOTIFICATION-NEW_ORDER = 🛒 <b>New order #{$id}</b>
     📄 Order number: <b>{$id}</b>
     📅 Date: <b>{$date}</b>
 
+    📍 Name: <b>{$name}</b>
     📦 Category: <b>{$category}</b>
     🔢 Quantity: <b>{$count} pcs.</b>
     💵 Total price: <b>{$price}$</b>

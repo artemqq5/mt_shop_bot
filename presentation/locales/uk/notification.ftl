@@ -9,6 +9,7 @@ NOTIFICATION-NEW_ORDER = 🛒 <b>Нове замовлення #{$id}</b>
     📄 Номер: <b>{$id}</b>
     📅 Дата: <b>{$date}</b>
 
+    📍 Назва: <b>{$name}</b>
     📦 Категорія: <b>{$category}</b>
     🔢 Кількість: <b>{$count} шт.</b>
     💵 Загальна Ціна: <b>{$price}$</b>

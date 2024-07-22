@@ -100,6 +100,7 @@ async def buy_order_send(callback: CallbackQuery, state: FSMContext, i18n: I18nC
             user_id=data['user_id'],
             category=data['item']['category'],
             item_id=data['item']['id'],
+            item_title=data['item']['title'],
             desc=data['desc'],
             count=data['count'],
             total_cost=data['total_cost'],

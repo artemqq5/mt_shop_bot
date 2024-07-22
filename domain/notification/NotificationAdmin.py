@@ -37,7 +37,6 @@ class NotificationAdmin:
         admins = UserRepository().admins()
         order = OrderRepository().order_by_identify(identify)
         user = UserRepository().user(order['user_id'])
-        item = ItemRepository().item(order['item_id'])
 
         username = f"@{user['username']}" if user['username'] else i18n.ADMIN.USERNAME_HAVNT()
 
@@ -49,7 +48,7 @@ class NotificationAdmin:
                         text=i18n.NOTIFICATION.NEW_ORDER(
                             id=order['id'],
                             date=order['date'],
-                            name=item['title'],
+                            name=order['item_title'],
                             category=order['category'],
                             count=order['count'],
                             price=order['total_cost'],

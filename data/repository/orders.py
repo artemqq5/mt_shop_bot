@@ -19,9 +19,9 @@ class OrderRepository(MyDataBase):
         query = "SELECT * FROM `orders` WHERE `identify` = %s;"
         return self._select_one(query, (identify,))
 
-    def add(self, user_id, category, item_id, desc, count, total_cost, identify):
-        query = "INSERT INTO `orders` (`user_id`, `category`, `item_id`, `desc`, `count`, `total_cost`, `identify`) VALUES (%s, %s, %s, %s, %s, %s, %s);"
-        return self._insert(query, (user_id, category, item_id, desc, count, total_cost, identify))
+    def add(self, user_id, category, item_id, item_title, desc, count, total_cost, identify):
+        query = "INSERT INTO `orders` (`user_id`, `category`, `item_id`, `item_title`, `desc`, `count`, `total_cost`, `identify`) VALUES (%s, %s, %s, %s, %s, %s, %s, %s);"
+        return self._insert(query, (user_id, category, item_id, item_title, desc, count, total_cost, identify))
 
     def last_order_id(self):
         query = "SELECT LAST_INSERT_ID() AS last_id;"

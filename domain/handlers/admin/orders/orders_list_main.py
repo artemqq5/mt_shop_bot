@@ -38,7 +38,6 @@ async def choice_order_item(callback: CallbackQuery, state: FSMContext, i18n: I1
     await state.set_state(ListOrdersState.OrderView)
 
     order = OrderRepository().order(order_id)
-    item = ItemRepository().item_all(order['item_id'])
     user = UserRepository().user(order['user_id'])
 
     username = f"@{user['username']}" if user['username'] else i18n.ADMIN.USERNAME_HAVNT()
@@ -47,7 +46,7 @@ async def choice_order_item(callback: CallbackQuery, state: FSMContext, i18n: I1
         i18n.ADMIN.ORDER_ITEM_TEMPLATE(
             id=order['id'],
             date=order['date'],
-            name=item['title'],
+            name=order['item_title'],
             category=order['category'],
             count=order['count'],
             price=order['total_cost'],

@@ -92,12 +92,11 @@ async def profile_back(callback: CallbackQuery, state: FSMContext, i18n: I18nCon
 async def profile_detail_order(callback: CallbackQuery, state: FSMContext, i18n: I18nContext):
     order_id = callback.data.split(":")[1]
     order = OrderRepository().order(order_id)
-    item = ItemRepository().item(order['item_id'])
 
     await callback.message.edit_text(
         i18n.CLIENT.PROFILE.ORDER_TEMPLATE(
             id=order['id'],
-            title=item['title'],
+            title=order['item_title'],
             count=order['count'],
             cost=order['total_cost'],
             desc=order['desc'],

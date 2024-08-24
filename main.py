@@ -1,22 +1,18 @@
 import asyncio
 import logging
 
-from aiogram import Bot, Dispatcher, types
+from aiogram import Bot, Dispatcher
 from aiogram.client.default import DefaultBotProperties
 from aiogram.enums import ParseMode
-from aiogram.filters import Command
 from aiogram.fsm.storage.memory import MemoryStorage
-from aiogram.types import Message
-from aiogram_i18n import I18nMiddleware, I18nContext
+from aiogram_i18n import I18nMiddleware
 from aiogram_i18n.cores import FluentRuntimeCore
 
 import private_cfg as config
-from data.repository.users import UserRepository
 from domain.handlers.admin import main_admin
 from domain.handlers.client import main_client
-from domain.middlewares.UserRegistrationMiddleware import UserRegistrationMiddleware
 from domain.middlewares.LocaleManager import LocaleManager
-
+from domain.middlewares.UserRegistrationMiddleware import UserRegistrationMiddleware
 
 storage = MemoryStorage()
 dp = Dispatcher(storage=storage)
@@ -25,6 +21,7 @@ dp.include_routers(
     main_client.router,
     main_admin.router,
 )
+
 
 async def main():
     logging.basicConfig(level=logging.DEBUG)

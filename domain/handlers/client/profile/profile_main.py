@@ -15,31 +15,6 @@ from presentation.keyboards.client.profile.kb_profile import kb_profile_orders, 
 router = Router()
 
 
-@router.message(F.text == L.CLIENT.PROFILE())
-async def profile_menu(message: types.Message, state: FSMContext, i18n: I18nContext):
-    await state.clear()
-    await state.set_state(ProfileState.ProfileView)
-
-    user = UserRepository().user(message.from_user.id)
-
-    date_format = '%Y-%m-%d %H:%M:%S'
-    start_date = datetime.strptime(str(user['join_at']), date_format)
-    days_passed = (datetime.now() - start_date).days
-
-    order_count = len(OrderRepository().orders_by_user_id(user['user_id']))
-
-    await message.answer(
-        i18n.CLIENT.PROFILE.MAIN_PAGE(
-            telegram_id=user['user_id'],
-            order_count=order_count,
-            lang=user.get('lang', "-"),
-            date=user['join_at'],
-            days=days_passed
-
-        ), reply_markup=kb_profile
-    )
-
-
 @router.callback_query(MyOrdersProfile.filter(), ProfileState.ProfileView)
 async def profile_orders(callback: CallbackQuery, state: FSMContext, i18n: I18nContext):
     orders = OrderRepository().orders_by_user_id(callback.from_user.id)

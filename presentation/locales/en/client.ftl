@@ -70,3 +70,19 @@ CLIENT-PROFILE-ORDER_TEMPLATE = <b>Order #{$id}</b>
 
     <b>Order date:</b> {$date}
 CLIENT-PROFILE-EMPTY_ORDERS = ️ You don't have any orders yet 🤷‍♂️, to change this you can choose the "{$buy_category_bot}" category and place your first order! 🚀
+
+CLIENT-BALANCE_INSUFFICIENT = Insufficient balance ❌
+
+    Balance: {$balance}$
+    Invoice: {$invoice}$
+
+    Shortfall: {$difference}$
+CLIENT-BALANCE_REPLENISH = Replenish balance 💰
+CLIENT-BALANCE_SUM = Enter the top-up amount in USDT (min $5) 💵:
+CLIENT-BALANCE_INFO = <b>Payment Information</b> ℹ️
+    ━━━━━━━━━━━━━━━━
+    Payment ID: <code>{$id}</code>
+    Payment Amount: <b>{$sum}</b> 💰
+CLIENT-BALANCE_PAY_INVOICE = Pay the invoice 🧾
+
+

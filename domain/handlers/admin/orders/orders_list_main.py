@@ -13,15 +13,6 @@ from presentation.keyboards.admin.orders.kb_orders_list import kb_orders_choice,
 router = Router()
 
 
-@router.message(F.text == L.ADMIN.ORDERS())
-async def order_list_main(message: types.Message, state: FSMContext, i18n: I18nContext, bot: Bot):
-    await state.clear()
-    await state.set_state(ListOrdersState.ListOrders)
-
-    orders = OrderRepository().orders()
-    await message.answer(i18n.ADMIN.ORDERS_HISTORY(), reply_markup=kb_orders_choice(orders))
-
-
 @router.callback_query(OrderItemNavigation.filter(), ListOrdersState.ListOrders)
 async def choice_order_item_navigation(callback: CallbackQuery, state: FSMContext, i18n: I18nContext):
     page = callback.data.split(":")[1]

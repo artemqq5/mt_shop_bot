@@ -50,6 +50,8 @@ CLIENT-AVAILABILITY-NO_ITEMS = <b>Немає товарів в наявност�
 # POFILE
 CLIENT-PROFILE-MAIN_PAGE = Мій профіль
     ━━━━━━━━━━━━━━━━
+    💰 Баланс: <b>{$balance}$</b>
+
     👤 <b>Телеграм ID:</b> <code>{$telegram_id}</code>
     🛍️ Замовлень зроблено: <b>{$order_count}</b>
 
@@ -72,3 +74,21 @@ CLIENT-PROFILE-ORDER_TEMPLATE = <b>Замовлення #{$id}</b>
 
     <b>Дата замовлення:</b> {$date}
 CLIENT-PROFILE-EMPTY_ORDERS = ️ У вас поки немає замовлень 🤷‍♂️, щоб виправити це можете обрати категорію "{$buy_category_bot}" та зробити своє перше замовлення! 🚀
+
+CLIENT-BALANCE_INSUFFICIENT = Недостатній баланс ❌
+
+    Баланс: {$balance}$
+    Рахунок: {$invoice}$
+
+    Не вистачає: {$difference}$
+CLIENT-BALANCE_REPLENISH = Поповнити баланс 💰
+CLIENT-BALANCE_SUM = Вкажіть суму поповнення у USDT (мін 5$) 💵:
+CLIENT-BALANCE_SUM_ERROR = Це має бути число більше або рівне 5.0:
+CLIENT-BALANCE_INFO = <b>Інформація про платіж</b> ℹ️
+    ━━━━━━━━━━━━━━━━
+    ID Платежу: <code>{$id}</code>
+    Сума платежу: <b>{$sum} USDT</b> 💰
+
+    Створення платежу: <b>{$created_at}</b>
+CLIENT-BALANCE_CREATE_INVOICE_ERROR = Помилка при створенні рахунку оплати ❌, зверніться у підтримку
+CLIENT-BALANCE_PAY_INVOICE = Сплатіть рахунок 🧾

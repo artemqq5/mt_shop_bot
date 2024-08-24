@@ -40,6 +40,10 @@ class UserRepository(MyDataBase):
         query = "SELECT * FROM `users` WHERE `banned` = '1';"
         return self._select(query)
 
+    def update_balance(self, user_id, value):
+        query = "UPDATE `users` SET `balance` = %s WHERE `user_id` = %s;"
+        return self._update(query, (value, user_id))
+
     # def add_user(self, telegram_id, name, time):
     #     return self._add_user_sql(telegram_id, name, time)
     #

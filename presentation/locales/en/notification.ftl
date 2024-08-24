@@ -20,3 +20,25 @@ NOTIFICATION-NEW_ORDER = 🛒 <b>New order #{$id}</b>
     👤 <b>User:</b>
     🆔 Telegram ID: <code>{$user_id}</code>
     🔗 Username: {$username}
+
+NOTIFICATION-BALANCE_INSUFFICIENT = <b>Insufficient balance for the order!</b>
+
+    User has a balance: <b>{$balance}$</b>
+    Invoice: <b>{$invoice}$</b>
+    Shortfall for the order: <b>{$difference}$</b>
+    ━━━━━━━━━━━━━━━━
+    <b>Order Details</b>
+
+    📅 Date: <b>{$date}</b>
+
+    📍 Name: <b>{$name}</b>
+    📦 Category: <b>{$category}</b>
+    🔢 Quantity: <b>{$count} pcs</b>
+    💵 Total Price: <b>{$invoice}$</b>
+
+    📝 <b>Description:</b>
+    {$desc}
+
+    👤 <b>User:</b>
+    🆔 Telegram ID: <code>{$user_id}</code>
+    🔗 Username: {$username}

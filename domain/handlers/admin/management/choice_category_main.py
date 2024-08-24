@@ -21,15 +21,6 @@ router.include_routers(
 )
 
 
-@router.message(F.text == L.ADMIN.MANAGEMENT())
-async def manage(message: types.Message, state: FSMContext, i18n: I18nContext):
-    await state.clear()
-    await state.set_state(ManagementCategoryState.SetCategory)
-
-    categories = CategoryRepository().categories_all()
-    await message.answer(i18n.ADMIN.CHOICE_CATEGORY(), reply_markup=kb_choice_category(categories, 1))
-
-
 @router.callback_query(CategoryNavigation.filter(), ManagementCategoryState.SetCategory)
 async def choice_category_nav(callback: CallbackQuery, state: FSMContext, i18n: I18nContext):
     page = callback.data.split(":")[1]

@@ -5,6 +5,7 @@ from aiogram_i18n import L
 from aiogram_i18n.types import InlineKeyboardMarkup, InlineKeyboardButton
 
 from data.repository.items import ItemRepository
+from presentation.keyboards.client.profile.kb_balance import BalanceReplenish
 
 
 class MyOrdersProfile(CallbackData, prefix="MyOrdersProfile"):
@@ -12,7 +13,8 @@ class MyOrdersProfile(CallbackData, prefix="MyOrdersProfile"):
 
 
 kb_profile = InlineKeyboardMarkup(inline_keyboard=[
-    [InlineKeyboardButton(text=L.CLIENT.PROFILE.ORDERS(), callback_data=MyOrdersProfile().pack())]
+    [InlineKeyboardButton(text=L.CLIENT.PROFILE.ORDERS(), callback_data=MyOrdersProfile().pack())],
+    [InlineKeyboardButton(text=L.CLIENT.BALANCE_REPLENISH(), callback_data=BalanceReplenish().pack())]
 ])
 
 

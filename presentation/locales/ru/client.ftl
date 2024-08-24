@@ -70,3 +70,18 @@ CLIENT-PROFILE-ORDER_TEMPLATE = <b>Заказ #{$id}</b>
 
     <b>Дата заказа:</b> {$date}
 CLIENT-PROFILE-EMPTY_ORDERS = ️ У вас пока нет заказов 🤷‍♂️, чтобы исправить это, можете выбрать категорию "{$buy_category_bot}" и сделать свой первый заказ! 🚀
+
+CLIENT-BALANCE_INSUFFICIENT = Недостаточный баланс ❌
+
+    Баланс: {$balance}$
+    Счет: {$invoice}$
+
+    Не хватает: {$difference}$
+CLIENT-BALANCE_REPLENISH = Пополнить баланс 💰
+CLIENT-BALANCE_SUM = Укажите сумму пополнения в USDT (мин 5$) 💵:
+CLIENT-BALANCE_INFO = <b>Информация о платеже</b> ℹ️
+    ━━━━━━━━━━━━━━━━
+    ID Платежа: <code>{$id}</code>
+    Сумма платежа: <b>{$sum}</b> 💰
+CLIENT-BALANCE_PAY_INVOICE = Оплатите счет 🧾
+

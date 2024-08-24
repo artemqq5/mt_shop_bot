@@ -16,13 +16,6 @@ from presentation.keyboards.admin.messaging.kb_messaging import BackMessaging
 router = Router()
 
 
-@router.message(F.text == L.ADMIN.MESSAGING())
-async def messaging(message: types.Message, state: FSMContext, i18n: I18nContext):
-    await state.clear()
-    await message.answer(i18n.ADMIN.CHOICE_TYPE_MESSAGE(), reply_markup=kb_messaging_categories)
-    await state.set_state(MessagingState.MessagingType)
-
-
 @router.callback_query(BackMessaging.filter())
 async def messaging_back(callback: CallbackQuery, state: FSMContext, i18n: I18nContext):
     await callback.message.edit_text(i18n.ADMIN.CHOICE_TYPE_MESSAGE(), reply_markup=kb_messaging_categories)

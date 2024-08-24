@@ -11,15 +11,6 @@ from presentation.keyboards.client.availability.kb_avaibility import text_availa
 router = Router()
 
 
-@router.message(F.text == L.CLIENT.AVAILABILITY())
-async def availability_menu(message: types.Message, state: FSMContext, i18n: I18nContext):
-    await state.clear()
-    await state.set_state(AvailabilityState.Aviability)
-
-    categories = CategoryRepository().categories()
-    await message.answer(text_availability_list(categories, i18n), reply_markup=kb_availability(categories))
-
-
 @router.callback_query(AvailabilityNavigation.filter(), AvailabilityState.Aviability)
 async def availability_nav(callback: CallbackQuery, state: FSMContext, i18n: I18nContext):
     page = callback.data.split(":")[1]

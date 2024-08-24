@@ -7,11 +7,13 @@ from aiogram_i18n import I18nContext
 
 from data.repository.items import ItemRepository
 from data.repository.orders import OrderRepository
+from data.repository.users import UserRepository
 from domain.notification.NotificationAdmin import NotificationAdmin
 from domain.states.client.buy.BuyItemState import BuyItemState
 from presentation.keyboards.client.buy.kb_buy_item import BuyItemCallback
 from presentation.keyboards.client.buy.kb_order_item import kb_buy_preview_item, kb_buy_item_back, BuyOrderDescSkip, \
     BuyOrderItemSend, BuyOrderItemRestart, kb_buy_send_error, kb_buy_item_skip
+from presentation.keyboards.client.profile.kb_balance import kb_balance_replenish
 
 router = Router()
 
@@ -95,6 +97,17 @@ async def buy_order_send(callback: CallbackQuery, state: FSMContext, i18n: I18nC
     data = await state.get_data()
 
     identify = str(uuid.uuid4())
+    user = UserRepository().user(callback.from_user.id)
+
+    if user['balance'] < data['total_cost']:
+        difference = data['total_cost'] - user['balance']
+        await callback.message.edit_text(
+            i18n.CLIENT.BALANCE_INSUFFICIENT(
+                balance=user['balance'],
+                invoice=data['total_cost'],
+                difference=difference), reply_markup=kb_balance_replenish)
+        await NotificationAdmin.balance_insufficient(data, bot, i18n)
+        return
 
     if not OrderRepository().add(
             user_id=data['user_id'],
@@ -111,6 +124,9 @@ async def buy_order_send(callback: CallbackQuery, state: FSMContext, i18n: I18nC
             reply_markup=kb_buy_send_error(data['item']['id'])
         )
         return
+
+    balance_value = user['balance'] - data['total_cost']
+    UserRepository().update_balance(user['user_id'], balance_value)
 
     await NotificationAdmin.new_order(identify, bot, i18n)
     await callback.message.answer(i18n.CLIENT.BUY.SEND_SUCCESS())

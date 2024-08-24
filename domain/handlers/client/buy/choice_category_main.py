@@ -19,15 +19,6 @@ router.include_routers(
 )
 
 
-@router.message(F.text == L.CLIENT.BUY())
-async def buy_item_menu(message: types.Message, state: FSMContext, i18n: I18nContext):
-    await state.clear()
-    await state.set_state(BuyItemState.Category)
-
-    categories = CategoryRepository().categories()
-    await message.answer(i18n.CLIENT.BUY.CHOICE_CATEGORY(), reply_markup=kb_buy_category_choice(categories))
-
-
 @router.callback_query(BuyCategoryNavigation.filter(), BuyItemState.Category)
 async def choice_buy_category_nav(callback: CallbackQuery, state: FSMContext, i18n: I18nContext):
     page = callback.data.split(":")[1]

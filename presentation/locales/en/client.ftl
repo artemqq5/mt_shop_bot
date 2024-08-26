@@ -84,6 +84,9 @@ CLIENT-BALANCE_SUM = Enter the replenishment amount in USDT (min 5$) 💵:
 CLIENT-BALANCE_SUM_ERROR = It must be a number greater than or equal to 5.0:
 CLIENT-BALANCE_INFO = <b>Payment Information</b> ℹ️
     ━━━━━━━━━━━━━━━━
+    <b>⚠️Be sure to pay the exact amount indicated, including commissions⚠️
+    If you have problems, contact support, they will help you</b>
+
     Payment ID: <code>{$id}</code>
     Payment amount: <b>{$sum} USDT</b> 💰
 

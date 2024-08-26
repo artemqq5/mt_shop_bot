@@ -17,5 +17,6 @@ kb_balance_replenish = InlineKeyboardMarkup(inline_keyboard=[
 
 def kb_pay_invoice(url_invoice):
     return InlineKeyboardMarkup(inline_keyboard=[
-        [InlineKeyboardButton(text=L.CLIENT.BALANCE_PAY_INVOICE(), url=url_invoice)]
+        [InlineKeyboardButton(text=L.CLIENT.BALANCE_PAY_INVOICE(), url=url_invoice)],
+        [InlineKeyboardButton(text=L.CLIENT.SUPPORT_CONTACT(), url=SUPPORT_CONTACT)]
     ])

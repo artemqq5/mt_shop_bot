@@ -118,7 +118,7 @@ class NotificationAdmin:
                         text=i18n.NOTIFICATION.INVOICE_INIT(
                             balance=user['balance'],
                             value=invoice['value'],
-                            number=invoice['number'],
+                            number=str(int(invoice['number'])),
                             id=invoice['external_id'],
                             date=datetime.now(),
                             user_id=user['user_id'],

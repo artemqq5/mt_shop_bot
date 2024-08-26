@@ -133,8 +133,3 @@ ADMIN-ORDER_ITEM_TEMPLATE = 🛒 <b>Замовлення #{$id}</b>
     👤 <b>Користувач:</b>
     🆔 Телеграм ID: <code>{$user_id}</code>
     🔗 Юзернейм: {$username}
-
-
-
-
-

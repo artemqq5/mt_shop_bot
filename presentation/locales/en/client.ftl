@@ -1,23 +1,23 @@
 CLIENT-BUY = 📦 Buy
-CLIENT-AVAILABILITY = 🛒 Availability
+CLIENT-AVAILABILITY = 🛒 Product Availability
 CLIENT-PROFILE = 👤 Profile
 CLIENT-SUPPORT = 💬 Support
 
-# OTHERS
+# OTHER
 CLIENT-CONNECTION_WITH_SUPPORT = To contact support, click the button below ⬇️
-CLIENT-SUPPORT_CONTACT = Write to Manager 📪
+CLIENT-SUPPORT_CONTACT = Contact Manager 📪
 
 # BUY MENU
-CLIENT-BUY-EMPTY_ITEMS = There are no items in the category right now
+CLIENT-BUY-EMPTY_ITEMS = There are no items in the category at the moment
 
 CLIENT-BUY-NOT_EXIST = The item no longer exists
 
-CLIENT-BUY-CHOICE_CATEGORY = Choose an item
+CLIENT-BUY-CHOICE_CATEGORY = Choose a product
 CLIENT-BUY-CHOICE_ITEM = Current category: <b>{$category}</b>
 CLIENT-BUY-ITEM_LIST_TEMPLATE = {$title} | ${$cost}
-CLIENT-BUY-ITEM_TEMPLATE = 🎉 <b>Item offer</b>
+CLIENT-BUY-ITEM_TEMPLATE = 🎉 <b>Product Offer</b>
     ━━━━━━━━━━━━━━━━
-    🛒 <b>Title:</b> {$title}
+    🛒 <b>Name:</b> {$title}
     📁 <b>Category:</b> {$category}
     💵 <b>Price:</b> {$cost}
 
@@ -26,63 +26,67 @@ CLIENT-BUY-ITEM_TEMPLATE = 🎉 <b>Item offer</b>
 
 CLIENT-BUY-COUNT = Quantity:
 CLIENT-BUY-COUNT_ERROR = It must be an integer greater than 0:
-CLIENT-BUY-DESC = Comment on the order:
+CLIENT-BUY-DESC = Order comment:
 CLIENT-BUY-DESC_ERROR = The text is too long ({$size} characters), shorten it to at least 500 characters:
-CLIENT-BUY-PREVIEW = <b>Order preview</b>
+CLIENT-BUY-PREVIEW = <b>Order Preview</b>
     ━━━━━━━━━━━━━━━━
-    🛒 <b>Item:</b> {$title}
-    📍 <b>Quantity:</b> {$count} pcs.
-    💵 <b>Total price:</b> {$cost}$
+    🛒 <b>Product:</b> {$title}
+    📍 <b>Quantity:</b> {$count} pcs
+    💵 <b>Total Price:</b> {$cost}$
 
-    💌 <b>Your comment:</b>
+    💌 <b>Your Comment:</b>
     {$desc}
-CLIENT-BUY-SEND = Send order
-CLIENT-BUY-SEND_SUCCESS = Order successfully sent ✅
-CLIENT-BUY-SEND_ERROR = Failed to send order ⛔️, contact the manager or try again later
-CLIENT-BUY-RESTART = Start the order over
+CLIENT-BUY-SEND = Submit Order
+CLIENT-BUY-SEND_SUCCESS = Order Successfully Sent ✅
+CLIENT-BUY-SEND_ERROR = Failed to send the order ⛔️, please contact the manager or try again later
+CLIENT-BUY-RESTART = Restart Order
 
 # AVAILABILITY
 CLIENT-AVAILABILITY-ITEM = {$title} | {$cost}$
 CLIENT-AVAILABILITY-CATEGORY = 📲 <b>{$category}</b>
     ━━━━━━━━━━━━━━━━
-CLIENT-AVAILABILITY-NO_ITEMS = <b>No items in stock, but we will restock soon!</b>
+CLIENT-AVAILABILITY-NO_ITEMS = <b>No items available at the moment, but we'll restock soon!</b>
 
 # PROFILE
-CLIENT-PROFILE-MAIN_PAGE = My profile
+CLIENT-PROFILE-MAIN_PAGE = My Profile
     ━━━━━━━━━━━━━━━━
+    💰 Balance: <b>{$balance}$</b>
+
     👤 <b>Telegram ID:</b> <code>{$telegram_id}</code>
-    🛍️ Orders made: <b>{$order_count}</b>
+    🛍️ Orders placed: <b>{$order_count}</b>
 
     🌐 User language: <b>{$lang}</b>
     📅 Registration date: <b>{$date}</b>
     ⏳ You've been with us for: <b>{$days}</b> days!
 
-CLIENT-PROFILE-ORDERS = 📋 My orders
-CLIENT-PROFILE-ORDER_LIST_TEMPLATE = {$title} | {$count} pcs. | ={$price}$
+CLIENT-PROFILE-ORDERS = 📋 My Orders
+CLIENT-PROFILE-ORDER_LIST_TEMPLATE = {$title} | {$count} pcs | ={$price}$
 CLIENT-PROFILE-ORDER_TEMPLATE = <b>Order #{$id}</b>
     ━━━━━━━━━━━━━━━━
-    🛒 <b>Item:</b> {$title}
-    📍 <b>Quantity:</b> {$count} pcs.
-    💵 <b>Total price:</b> {$cost}$
+    🛒 <b>Product:</b> {$title}
+    📍 <b>Quantity:</b> {$count} pcs
+    💵 <b>Total Price:</b> {$cost}$
 
-    💌 <b>Your comment:</b>
+    💌 <b>Your Comment:</b>
     {$desc}
 
-    <b>Order date:</b> {$date}
-CLIENT-PROFILE-EMPTY_ORDERS = ️ You don't have any orders yet 🤷‍♂️, to change this you can choose the "{$buy_category_bot}" category and place your first order! 🚀
+    <b>Order Date:</b> {$date}
+CLIENT-PROFILE-EMPTY_ORDERS = ️ You don't have any orders yet 🤷‍♂️, to fix this, choose the category "{$buy_category_bot}" and place your first order! 🚀
 
 CLIENT-BALANCE_INSUFFICIENT = Insufficient balance ❌
 
     Balance: {$balance}$
     Invoice: {$invoice}$
 
-    Shortfall: {$difference}$
+    Shortage: {$difference}$
 CLIENT-BALANCE_REPLENISH = Replenish balance 💰
-CLIENT-BALANCE_SUM = Enter the top-up amount in USDT (min $5) 💵:
+CLIENT-BALANCE_SUM = Enter the replenishment amount in USDT (min 5$) 💵:
+CLIENT-BALANCE_SUM_ERROR = It must be a number greater than or equal to 5.0:
 CLIENT-BALANCE_INFO = <b>Payment Information</b> ℹ️
     ━━━━━━━━━━━━━━━━
     Payment ID: <code>{$id}</code>
-    Payment Amount: <b>{$sum}</b> 💰
+    Payment amount: <b>{$sum} USDT</b> 💰
+
+    Payment creation: <b>{$created_at}</b>
+CLIENT-BALANCE_CREATE_INVOICE_ERROR = Error creating payment invoice ❌, please contact support
 CLIENT-BALANCE_PAY_INVOICE = Pay the invoice 🧾
-
-

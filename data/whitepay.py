@@ -9,7 +9,7 @@ class WhitePayRepository:
 
     def __init__(self):
         self.__BASE_URL = "https://api.whitepay.com"
-        self.__ORDER_CREATE = f"{self.__BASE_URL}/private-api/crypto-orders/{WHITE_PAY_SLUG}"
+        self.__ORDER_CREATE = f"{self.__BASE_URL}/private-api/crypto-topups/{WHITE_PAY_SLUG}"
         self.__headers = {
             'Accept': 'application/json',
             'Content-Type': 'application/json',

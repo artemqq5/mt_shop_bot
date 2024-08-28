@@ -117,7 +117,7 @@ class NotificationAdmin:
                         chat_id=admin['user_id'],
                         text=i18n.NOTIFICATION.INVOICE_INIT(
                             balance=user['balance'],
-                            value=invoice['value'],
+                            value=invoice['expected_amount'],
                             number=str(int(invoice['number'])),
                             id=invoice['external_id'],
                             date=datetime.now(),

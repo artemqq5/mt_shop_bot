@@ -30,7 +30,9 @@ async def balance_pay_invoice(message: types.Message, state: FSMContext, i18n: I
 
     await state.clear()
 
-    invoice_response = WhitePayRepository().create_invoice(sum_invoice=num)
+    invoice_sum_with_procent = num + (num * 0.01)
+
+    invoice_response = WhitePayRepository().create_invoice(sum_invoice=invoice_sum_with_procent)
     if not invoice_response:
         await message.answer(i18n.CLIENT.BALANCE_CREATE_INVOICE_ERROR())
         return
@@ -39,6 +41,7 @@ async def balance_pay_invoice(message: types.Message, state: FSMContext, i18n: I
     if not InvoiceRepository().add(
             invoice_response['order']['id'],
             invoice_response['order']['order_number'],
+            num,
             invoice_response['order']['value'],
             message.from_user.id,
             message.from_user.username,

@@ -30,7 +30,7 @@ async def balance_pay_invoice(message: types.Message, state: FSMContext, i18n: I
 
     await state.clear()
 
-    invoice_sum_with_procent = num + (num * 0.01)
+    invoice_sum_with_procent = num + (num * 0.011)
 
     invoice_response = WhitePayRepository().create_invoice(sum_invoice=invoice_sum_with_procent)
     if not invoice_response:

@@ -37,9 +37,9 @@ class UserRegistrationMiddleware(BaseMiddleware):
             await message.answer(text=data['i18n'].BAN_MESSAGE(), reply_markup=ReplyKeyboardRemove())
             return None
 
-        if not await is_user_subscribed(tg_user.id, event.bot):
-            await message.answer(text=data['i18n'].SUBSCRIBE_CHANNEL(), reply_markup=kb_subsribe)
-            return None
+        # if not await is_user_subscribed(tg_user.id, event.bot):
+        #     await message.answer(text=data['i18n'].SUBSCRIBE_CHANNEL(), reply_markup=kb_subsribe)
+        #     return None
 
         return await handler(event, data)
 

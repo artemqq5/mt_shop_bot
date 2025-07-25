@@ -1,32 +1,28 @@
-from data.constants.admin_constants import CREO_TYPE, ACCOUNT_TYPE_FB, ACCOUNT_TYPE_GOOGLE, CARD_TYPE, \
-    CABINET_TYPE, VERIFICATION_TYPE
 from data.database import MyDataBase
 
 
-class OrdersRepository(MyDataBase):
+class OrderRepository(MyDataBase):
 
-    def get_orders(self, status=None, type_account=None):
-        return self._get_orders_sql(status, type_account)  # get orders by type and status, by default all types of orders
+    def orders(self):
+        query = "SELECT * FROM `orders` ORDER BY `date` DESC;"
+        return self._select(query)
 
-    def get_user_orders(self, status, user_id, type_account):
-        return self._get_user_orders_sql(status, user_id, type_account)  # get orders by type, status and user id, by default all types of orders
+    def orders_by_user_id(self, user_id):
+        query = "SELECT * FROM `orders` WHERE `user_id` = %s ORDER BY `date` DESC;"
+        return self._select(query, (user_id,))
 
-    def get_order(self, id_order):
-        return self._get_order_sql(id_order)
+    def order(self, order_id):
+        query = "SELECT * FROM `orders` WHERE `id` = %s;"
+        return self._select_one(query, (order_id,))
 
-    def exchange_status_order(self, id_order, new_status):
-        return self._exchange_status_order_sql(id_order, new_status)
+    def order_by_identify(self, identify):
+        query = "SELECT * FROM `orders` WHERE `identify` = %s;"
+        return self._select_one(query, (identify,))
 
-    def update_creo_order_trello(self, trello_id, trello_url, id_order):
-        return self._update_creo_order_trello_sql(trello_id, trello_url, id_order)
+    def add(self, user_id, category, item_id, item_title, desc, count, total_cost, identify):
+        query = "INSERT INTO `orders` (`user_id`, `category`, `item_id`, `item_title`, `desc`, `count`, `total_cost`, `identify`) VALUES (%s, %s, %s, %s, %s, %s, %s, %s);"
+        return self._insert(query, (user_id, category, item_id, item_title, desc, count, total_cost, identify))
 
-    def add_account_order(self, name, desc, type_account, geo, count, price, id_user, desc_from_user):
-        return self._add_account_order_sql(name, desc, type_account, geo, count, price, id_user, desc_from_user)
-
-    def get_account_order(self, id_order):
-        return self._get_account_order_sql(id_order)
-
-    def get_orders_by_user_id(self, user_id):
-        return self._get_orders_by_user_id_sql(user_id)
-
-
+    def last_order_id(self):
+        query = "SELECT LAST_INSERT_ID() AS last_id;"
+        return self._select_one(query)

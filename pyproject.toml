@@ -1,0 +1,26 @@
+[tool.black]
+target-version = ["py310",]
+line-length = 120
+force-exclude = '''
+(
+  config\.py
+  | alembic\.ini
+  | \.git
+  | \.venv
+  | build
+  | dist
+  | venv
+  | alembic
+  | \.gitignore
+  | \.flake8
+)
+'''
+
+[tool.isort]
+profile = "black"
+line_length = 88
+
+[tool.pylint]
+max-line-length = 120
+ignore = ['config.py', 'alembic', 'venv']
+disable = ["C", "R", "W"]

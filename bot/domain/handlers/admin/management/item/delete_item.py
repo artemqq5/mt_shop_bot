@@ -1,0 +1,38 @@
+from aiogram import Router
+from aiogram.fsm.context import FSMContext
+from aiogram.types import CallbackQuery
+from aiogram_i18n import I18nContext
+
+from bot.data.repository.items import ItemRepository
+from bot.domain.states.admin.management.ManagementItemState import ManagementItemState
+from bot.presentation.keyboards.admin.management.item.kb_delete_item import (
+    ItemApproveDelete,
+    kb_item_delete,
+)
+from bot.presentation.keyboards.admin.management.item.kb_management_item import (
+    ItemManagementDelete,
+    kb_back_item_choice,
+)
+
+router = Router()
+
+
+@router.callback_query(ItemManagementDelete.filter())
+async def delete_item(callback: CallbackQuery, state: FSMContext, i18n: I18nContext):
+    item_id = callback.data.split(":")[1]
+    item = ItemRepository().item_all(item_id)
+
+    await state.set_state(ManagementItemState.DeleteItem)
+    await callback.message.edit_text(
+        i18n.ADMIN.DELETE_ITEM_APPROVE(item=item["title"]), reply_markup=kb_item_delete(item)
+    )
+
+
+@router.callback_query(ItemApproveDelete.filter(), ManagementItemState.DeleteItem)
+async def delete_approve_item(callback: CallbackQuery, state: FSMContext, i18n: I18nContext):
+    item_id = callback.data.split(":")[1]
+
+    if ItemRepository().delete(item_id):
+        await callback.message.edit_text(i18n.ADMIN.DELETE_SUCCESS(), reply_markup=kb_back_item_choice)
+    else:
+        await callback.message.edit_text(i18n.ADMIN.DELETE_FAIL(), reply_markup=kb_back_item_choice)

@@ -1,0 +1,16 @@
+version: '3.8'
+services:
+  hr-control-bot:
+    image: artemqq5/mt-shop-bot:latest
+    container_name: mt-shop-bot
+    env_file: .env
+    volumes:
+      - ./logs:/app/logs
+    ports:
+      - "8006:8006"
+    restart: unless-stopped
+    logging:
+        driver: "json-file"
+        options:
+            max-size: "50m"
+            max-file: "5"

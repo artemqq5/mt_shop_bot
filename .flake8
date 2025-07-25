@@ -1,0 +1,7 @@
+[flake8]
+max-line-length = 120
+exclude = .git,__pycache__,config.py,old,build,dist,alembic,venv,alembic.ini,.gitignore,requirements.txt
+max-complexity = 10
+
+
+

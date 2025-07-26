@@ -35,6 +35,7 @@ async def on_shutdown():
 
 @app.post(config.WEBHOOK_PATH)
 async def receive_update(request: Request):
+    print(request)
     data = await request.json()
     update = Update.model_validate(data)
 

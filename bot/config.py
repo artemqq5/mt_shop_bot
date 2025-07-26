@@ -11,6 +11,7 @@ WEBHOOK_BASE_URL = os.getenv('WEBHOOK_BASE_URL')
 WEBHOOK_PATH = f"/mt-shop-bot/{BOT_TOKEN}"
 
 DB_NAME = os.getenv('DB_NAME')
+DB_HOST = os.getenv('DB_HOST')
 DB_PASSWORD = os.getenv('DB_PASSWORD')
 
 CHANNEL_ID = os.getenv('CHANNEL_ID')

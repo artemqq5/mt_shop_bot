@@ -2,13 +2,14 @@ import pymysql
 from pymysql import cursors
 
 from bot import config
+from bot.config import DB_HOST
 
 
 class MyDataBase:
 
     def __init__(self):
         self.connection = pymysql.connect(
-            host="localhost",
+            host=DB_HOST,
             user="root",
             password=config.DB_PASSWORD,
             db=config.DB_NAME,
